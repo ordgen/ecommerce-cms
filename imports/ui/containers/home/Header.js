@@ -1,27 +1,19 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { white, darkBlack } from 'material-ui/styles/colors';
-import { Tabs, Tab } from 'material-ui/Tabs';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import SearchBar from './SearchBar';
 
-const style = {
-  display: 'inline-block',
-  margin: '0 32px 16px 0',
-  width: '100%',
-};
+import './Header.css';
 
-const styles = {
-  title: {
-    cursor: 'pointer',
-  },
-  label: {
-    cursor: 'pointer',
-    paddingRight: '10px',
-  },
+const style = {
+  height: 100,
+  width: '100%',
+  margin: 20,
+  textAlign: 'center',
+  display: 'inline-block',
 };
 
 class Header extends Component {
@@ -59,32 +51,42 @@ class Header extends Component {
       );
     }
     return (
-      <AppBar
-        title="Ordgen"
-        style={{ backgroundColor: white }}
-        showMenuIconButton={false}
-      >
-        <Tabs
-          initialSelectedIndex={0}
-          tabItemContainerStyle={{ backgroundColor: white }}
-        >
-          <Tab
-            label={<span style={styles.label}>Home</span>}
-            data-route="/"
-            style={{ color: darkBlack, textTransform: 'capitalize' }}
-          />
-          <Tab
-            label={<span style={styles.label}>About</span>}
-            data-route="/about-us"
-            style={{ color: darkBlack, textTransform: 'capitalize' }}
-          />
-          <Tab
-            label={<span style={styles.label}>Contact</span>}
-            data-route="/contact-us"
-            style={{ color: darkBlack, textTransform: 'capitalize' }}
-          />
-        </Tabs>
-      </AppBar>
+      <div className="ecommerce-cms-wrapper">
+        <div className="ecommerce-cms-top-section-wrapper">
+          <header className="ecommerce-cms-top-section">
+            <div className="ecommerce-cms-top-logo-row-wrapper-wrapper">
+              <div className="ecommerce-cms-top-logo-row-wrapper">
+                <div className="ecommerce-cms-top-logo-row ecommerce-cms-full-site-width">
+                  <div className="ecommerce-cms-site-name-wrapper">
+                    <a className="ecommerce-cms-site-name-link" href="/web/">
+                      <img src="https://developers.google.com/_static/e4e8f0fba1/images/redesign-14/logo-grey.svg" className="ecommerce-cms-site-logo" alt="Web" />
+                    </a>
+                  </div>
+                  <div className="ecommerce-cms-header-upper-tabs">
+                    <nav className="ecommerce-cms-doc-set-nav ecommerce-cms-nav ecommerce-cms-overflow-tabs-scroll-wrapper">
+                      <ul className="ecommerce-cms-nav-tab-list ecommerce-cms-overflow-tabs-scroll">
+                        <li className="ecommerce-cms-nav-tab-container">
+                          <a href="/" className="ecommerce-cms-nav-tab ecommerce-cms-nav-active">
+                            Home
+                          </a>
+                        </li>
+                        <li className="ecommerce-cms-nav-tab-container">
+                          <a href="/web/tools/" className="ecommerce-cms-nav-tab">About</a>
+                        </li>
+                        <li className="ecommerce-cms-nav-tab-container">
+                          <a href="/web/updates/" className="ecommerce-cms-nav-tab">Contact</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+        </div>
+        <div>
+        </div>
+      </div>
     );
   }
 }
