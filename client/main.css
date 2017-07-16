@@ -1,0 +1,23 @@
+/* CSS declarations go here */
+body {
+  margin: 0;
+  background-color: #efefef;
+}
+.dash-menu-item button svg {
+	color: #ffffff !important;
+}
+
+* { box-sizing:border-box; }
+
+.group { 
+	position: relative; 
+	margin-bottom: 45px; 
+}
+
+.error-msg {
+	margin: .5em 0;
+  display: block;
+  color: #dd4b39;
+  line-height: 17px;
+  font-size: 14px;
+}
