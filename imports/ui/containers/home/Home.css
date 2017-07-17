@@ -1,0 +1,119 @@
+.ecommerce-cms-wrapper {
+  width: 100%;
+}
+
+.ecommerce-cms-main-content {
+  margin: 0 auto;
+  min-height: calc(100vh - 562px);
+  max-width: 1592px;
+  padding: 0 120px;
+}
+
+.ecommerce-cms-landing-page .ecommerce-cms-article {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+  position: relative;
+}
+
+.ecommerce-cms-article-inner {
+  min-height: calc(100vh - 562px);
+  float: left;
+  width: 100%;
+}
+
+.ecommerce-cms-landing-row.ecommerce-cms-background {
+  margin: 0 -10000px;
+  padding: 40px 10000px;
+}
+
+.ecommerce-cms-background-grey {
+  background-color: #f7f7f7;
+}
+
+.devsite-landing-row-item {
+  position: relative;
+} 
+
+.ecommerce-cms-footer-linkboxes-all-backup {
+  background: linear-gradient(90deg,#303c42 50%,#37424b 50%);
+}
+
+.ecommerce-cms-footer-linkboxes {
+  font: 14px/16px Roboto,sans-serif;
+}
+
+.ecommerce-cms-footer-linkboxes >.ecommerce-cms-full-site-width {
+  max-width: 1432px;
+}
+
+.ecommerce-cms-footer-linkboxes-list {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.ecommerce-cms-footer-linkbox-backup {
+  background: #303c42;
+}
+
+.ecommerce-cms-footer-linkbox {
+  background: #263238;
+  display: inline-block;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 24px 40px 40px;
+  text-align: left;
+  vertical-align: top;
+  width: 25%;
+}
+
+.ecommerce-cms-footer-linkbox-heading {
+  color: #fff;
+  font: 500 14px/16px Roboto,sans-serif;
+  margin: 0 0 16px;
+}
+
+.ecommerce-cms-footer-linkbox-list {
+  list-style-type: none !important;
+  padding-left: 0;
+}
+
+.ecommerce-cms-footer-linkbox-item {
+  margin: 16px 0;
+}
+
+.ecommerce-cms-footer-linkbox-item a {
+  color: #cfd8dc;
+  text-decoration: none;
+}
+
+.ecommerce-cms-utility-utility-footer {
+  background: #455a64;
+}
+
+.ecommerce-cms-utility-footer-nav {
+  color: #fff;
+  overflow: auto;
+  padding: 14px 24px;
+}
+
+.ecommerce-cms-utility-footer-nav-left {
+  float: left;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.ecommerce-cms-utility-footer-links {
+  font-weight: 500;
+  margin-right: 16px;
+}
+
+.ecommerce-cms-utility-footer-link, .ecommerce-cms-utility-footer-link:hover {
+  color: #fff;
+  text-decoration: none;
+}

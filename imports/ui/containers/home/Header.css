@@ -1,11 +1,3 @@
-.ecommerce-cms-wrapper {
-  width: 100%;
-}
-
-.ecommerce-cms-wrapper-mobile {
-  width: 100%;
-}
-
 .ecommerce-cms-top-section-wrapper {
   position: relative;
   z-index: 10007;
@@ -101,22 +93,18 @@
 }
 
 .ecommerce-cms-wrapper ul {
-  list-style: disc outside;
   margin: 0;
-  padding-left: 40px;
 }
 
-.ecommerce-cms-nav ul {
+.ecommerce-cms-nav-tab-list ul {
   list-style-type: none;
   padding: 0;
+  padding-left: 40px;
+  list-style: disc outside;
 }
 
 .ecommerce-cms-nav a {
   text-decoration: none;
-}
-
-.ecommerce-cms-wrapper li {
-  padding: 0;
 }
 
 .ecommerce-cms-nav-tab-container {
@@ -192,3 +180,4 @@ img {
   position: relative;
   z-index: 7777;
 }
+
