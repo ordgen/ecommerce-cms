@@ -1,7 +1,7 @@
 /* CSS declarations go here */
 body {
   margin: 0;
-  background-color: #efefef;
+  background-color: #f7f7f7;
 }
 .dash-menu-item button svg {
 	color: #ffffff !important;
@@ -20,4 +20,12 @@ body {
   color: #dd4b39;
   line-height: 17px;
   font-size: 14px;
+}
+
+.inner {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+    color: #000;
 }

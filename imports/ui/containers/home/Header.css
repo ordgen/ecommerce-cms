@@ -1,6 +1,8 @@
 .ecommerce-cms-wrapper {
-  margin-top: 48px;
-  overflow: hidden;
+  width: 100%;
+}
+
+.ecommerce-cms-wrapper-mobile {
   width: 100%;
 }
 
@@ -10,8 +12,7 @@
 }
 
 .ecommerce-cms-top-section {
-  background-color: #fff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+  background-color: #d8b827;
   position: static;
   top: 0;
   width: 100%;
@@ -19,7 +20,7 @@
 }
 
 .ecommerce-cms-top-logo-row-wrapper-wrapper {
-  border-bottom: 1px solid #bdbdbd;
+  border-bottom: 1px solid #d8b827;
   position: fixed;
   top: 0;
   transform: translateZ(0);
@@ -28,7 +29,7 @@
 }
 
 .ecommerce-cms-top-logo-row-wrapper {
-    background: #fff;
+    background: #d8b827;
 }
 
 .ecommerce-cms-top-logo-row {
@@ -80,12 +81,10 @@
 }
 
 .ecommerce-cms-nav {
-  font-size: 13px;
-}
-
-.ecommerce-cms-doc-set-nav {
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  font-size: 13px;
+  text-align: center;
 }
 
 .ecommerce-cms-overflow-tabs-scroll {
@@ -138,22 +137,58 @@
 }
 
 .ecommerce-cms-header-upper-tabs .ecommerce-cms-nav-tab {
-  color: rgba(0,0,0,.54);
+  color: #ffffff;
   font-weight: 400;
   text-transform: none;
 }
 
 .ecommerce-cms-header-upper-tabs .ecommerce-cms-nav-active {
-  border-bottom-color: #757575;
-  color: rgba(0,0,0,.87);
+  border-bottom-color: #ffffff;
+  color: #ffffff;
   font-weight: 500;
 }
 
 .ecommerce-cms-site-logo {
-    color: #fff;
-    font-size: 32px;
-    height: 32px;
-    margin: 2px 16px 2px 0;
-    min-width: 32px;
-    width: 32px;
+  color: #fff;
+  font-size: 32px;
+  height: 32px;
+  margin: 2px 16px 2px 0;
+  min-width: 32px;
+  width: 32px;
+}
+
+.ecommerce-cms-header-background {
+  position: relative;
+}
+
+.ecommerce-cms-header-billboard {
+  background: #c3a623;
+  padding: 40px 24px;
+  position: relative;
+  text-align: center;
+  z-index: 8888;
+}
+
+.ecommerce-cms-header-billboard-logo {
+  display: block;
+  max-height: 140px;
+  margin: 0 auto;
+}
+
+img {
+  border: 0;
+  max-width: 100%;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.ecommerce-cms-header-billboard-search-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  z-index: 7777;
 }
