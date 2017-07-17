@@ -4,9 +4,6 @@
 
 .ecommerce-cms-main-content {
   margin: 0 auto;
-  min-height: calc(100vh - 562px);
-  max-width: 1592px;
-  padding: 0 120px;
 }
 
 .ecommerce-cms-landing-page .ecommerce-cms-article {
