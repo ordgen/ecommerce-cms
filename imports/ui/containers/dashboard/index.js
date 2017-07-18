@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
@@ -89,4 +89,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const DashboardWithWidth = withWidth()(Dashboard);
-export default withRouter(connect(null, mapDispatchToProps)(DashboardWithWidth));
+export default connect(null, mapDispatchToProps)(DashboardWithWidth);
