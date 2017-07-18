@@ -9,6 +9,7 @@ import Dashboard from '../../ui/containers/dashboard';
 import ThemeDefault from '../../ui/theme-default';
 import Logout from '../../ui/containers/logout';
 import Authenticated from '../../ui/components/pages/Authenticated';
+import Public from '../../ui/components/pages/Public';
 
 injectTapEventPlugin();
 
@@ -18,7 +19,7 @@ const App = () => (
       <main>
         <Route exact path="/" component={Home} />
         <Route exact path="/contact-us" component={ContactUs} />
-        <Route exact path="/login" component={Login} />
+        <Public exact path="/login" component={Login} />
         <Route exact path="/logout" component={Logout} />
         <Authenticated path="/dashboard" component={Dashboard} />
       </main>

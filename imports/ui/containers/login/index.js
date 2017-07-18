@@ -50,9 +50,9 @@ class Form extends Component {
     if (this.props.loggedIn) {
       this.props.changePage('/dashboard/home');
     }
-    if (this.props.authError) {
+    if (this.props.authError && this.props.authError !== 0) {
       this.setState({
-        errorText: this.props.authError,
+        errorText: 'Wrong Credentials. Please check that your email and password is correct',
         errorClass: 'error-msg',
       });
     }
@@ -62,9 +62,9 @@ class Form extends Component {
     if (nextProps.loggedIn) {
       nextProps.changePage('/dashboard/home');
     }
-    if (nextProps.authError) {
+    if (nextProps.authError && nextProps.authError !== 0) {
       this.setState({
-        errorText: nextProps.authError,
+        errorText: 'Wrong Credentials. Please check that your email and password is correct',
         errorClass: 'error-msg',
       });
     }
@@ -145,7 +145,7 @@ class Form extends Component {
                 primary={true}
                 onClick={this.onSubmit}
                 fullWidth={true}
-                disabled={this.props.logInStarted}
+                disabled={this.props.loggingIn}
               />
             </form>
           </Paper>
@@ -156,15 +156,15 @@ class Form extends Component {
 }
 
 Form.defaultProps = {
-  authError: '',
+  authError: 0,
 };
 
 Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  logInStarted: PropTypes.bool.isRequired,
-  authError: PropTypes.string,
+  loggingIn: PropTypes.bool.isRequired,
+  authError: PropTypes.number,
 };
 
 export default Login(Form);

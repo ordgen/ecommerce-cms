@@ -17,20 +17,21 @@ export default function connectLoginForm(Form) {
     }
 
     onSubmit(...args) {
+      console.log(...args);
       this.props.login(...args);
     }
 
     render() {
       const {
         onSubmit,
-        props: { changePage, loggedIn, logInStarted, authError },
+        props: { changePage, loggedIn, loggingIn, authError },
       } = this;
       return (
         <Form
           onSubmit={onSubmit}
           loggedIn={loggedIn}
           changePage={changePage}
-          logInStarted={logInStarted}
+          loggingIn={loggingIn}
           authError={authError}
         />
       );
@@ -38,20 +39,20 @@ export default function connectLoginForm(Form) {
   }
 
   ConnectLoginForm.defaultProps = {
-    authError: '',
+    authError: 0,
   };
 
   ConnectLoginForm.propTypes = {
     login: PropTypes.func.isRequired,
     changePage: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    logInStarted: PropTypes.bool.isRequired,
-    authError: PropTypes.string,
+    loggingIn: PropTypes.bool.isRequired,
+    authError: PropTypes.number,
   };
 
   const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn,
-    logInStarted: state.auth.logInStarted,
+    loggingIn: state.auth.loggingIn,
     authError: state.auth.error,
   });
 

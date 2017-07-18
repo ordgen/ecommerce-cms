@@ -10,8 +10,8 @@ class Logout extends Component {
   componentWillMount() {
     Meteor.logout((err) => {
       if (!err) {
-        this.props.setAuthState(false, {});
-        this.props.changePage('/');
+        this.props.setAuthState(false, 0);
+        this.props.changePage('/login');
       }
     });
   }

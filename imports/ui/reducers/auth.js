@@ -6,7 +6,7 @@ import {
 
 const loggingIn = Meteor.loggingIn();
 
-const INITIAL_STATE = { loggedIn: !loggingIn && !!Meteor.userId(), loggingIn, error: '' };
+const INITIAL_STATE = { loggedIn: !loggingIn && !!Meteor.userId(), loggingIn, error: 0 };
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {

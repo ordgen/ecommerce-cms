@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import { spacing, typography } from 'material-ui/styles';
-import { white, green600 } from 'material-ui/styles/colors';
+import { white } from 'material-ui/styles/colors';
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
+import ThemeDefault from '../theme-default';
+import SiteConfig from '../site-config';
 
 const LeftDrawer = (props) => {
   const { navDrawerOpen } = props;
@@ -17,7 +19,7 @@ const LeftDrawer = (props) => {
       color: typography.textFullWhite,
       lineHeight: `${spacing.desktopKeylineIncrement}px`,
       fontWeight: typography.fontWeightLight,
-      backgroundColor: green600,
+      backgroundColor: ThemeDefault.palette.primary1Color,
       paddingLeft: 40,
       height: 56,
     },
@@ -28,7 +30,7 @@ const LeftDrawer = (props) => {
     avatar: {
       div: {
         padding: '15px 0 20px 15px',
-        backgroundImage: `url(${require('../images/material_bg.png')})`, // eslint-disable-line global-require
+        backgroundImage: "url('/images/material_bg.png')",
         height: 80,
       },
       icon: {
@@ -53,7 +55,7 @@ const LeftDrawer = (props) => {
       open={navDrawerOpen}
     >
       <div style={styles.logo}>
-        OrdgenLabs
+        {SiteConfig.name}
       </div>
       <div style={styles.avatar.div}>
         <Avatar

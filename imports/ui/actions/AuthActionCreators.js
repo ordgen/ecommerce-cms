@@ -34,7 +34,7 @@ export function login(email, password) {
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         dispatch(loginRequestStarted(false));
-        dispatch(setAuthState(true, err.reason));
+        dispatch(setAuthState(false, err.error));
       } else {
         dispatch(loginRequestStarted(false));
         dispatch(setAuthState(true, ''));
