@@ -3,6 +3,8 @@ import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/C
 import FlatButton from 'material-ui/FlatButton';
 import Header from './Header';
 import { Products } from '../../site-config';
+import PrimaryFooter from '../../components/footer/PrimaryFooter';
+import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './Home.css';
 
 class Home extends Component {
@@ -44,6 +46,8 @@ class Home extends Component {
             </article>
           </article>
         </div>
+        <PrimaryFooter />
+        <SecondaryFooter />
       </div>
     );
   }

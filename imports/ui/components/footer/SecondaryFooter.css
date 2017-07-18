@@ -1,0 +1,26 @@
+.ecommerce-cms-utility-utility-footer {
+  background: #455a64;
+}
+
+.ecommerce-cms-utility-footer-nav {
+  color: #fff;
+  overflow: auto;
+  padding: 14px 24px;
+}
+
+.ecommerce-cms-utility-footer-nav-left {
+  float: left;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.ecommerce-cms-utility-footer-links {
+  font-weight: 500;
+  margin-right: 16px;
+}
+
+.ecommerce-cms-utility-footer-link, .ecommerce-cms-utility-footer-link:hover {
+  color: #fff;
+  text-decoration: none;
+}

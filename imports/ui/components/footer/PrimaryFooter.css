@@ -1,0 +1,67 @@
+.ecommerce-cms-footer-linkboxes-all-backup {
+  background: linear-gradient(90deg,#303c42 50%,#37424b 50%);
+}
+
+.ecommerce-cms-footer-linkboxes {
+  font: 14px/16px Roboto,sans-serif;
+}
+
+.ecommerce-cms-footer-linkboxes >.ecommerce-cms-full-site-width {
+  max-width: 1432px;
+}
+
+.ecommerce-cms-footer-linkboxes-list {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.ecommerce-cms-footer-linkbox-backup {
+  background: #303c42;
+}
+
+.ecommerce-cms-footer-linkbox {
+  background: #263238;
+  display: inline-block;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 24px 40px 40px;
+  text-align: left;
+  vertical-align: top;
+  width: 25%;
+}
+
+.ecommerce-cms-footer-linkbox-heading {
+  color: #fff;
+  font: 500 14px/16px Roboto,sans-serif;
+  margin: 0 0 16px;
+}
+
+.ecommerce-cms-footer-linkbox-list {
+  list-style-type: none !important;
+  padding-left: 0;
+}
+
+.ecommerce-cms-footer-linkbox-item {
+  margin: 16px 0;
+}
+
+.ecommerce-cms-footer-linkbox-item a {
+  color: #cfd8dc;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 720px) {
+  .ecommerce-cms-footer-linkbox {
+      padding: 24px 16px 24px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .ecommerce-cms-footer-linkbox {
+      width: 50%;
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import './SecondaryFooter.css';
 
 export default function SecondaryFooter() {
   return (
