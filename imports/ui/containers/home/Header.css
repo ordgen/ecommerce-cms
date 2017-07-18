@@ -151,7 +151,7 @@
 
 .ecommerce-cms-header-billboard {
   background: #c3a623;
-  padding: 40px 24px;
+  padding: 24px;
   position: relative;
   text-align: center;
   z-index: 8888;
@@ -159,8 +159,7 @@
 
 .ecommerce-cms-header-billboard-logo {
   display: block;
-  max-height: 140px;
-  margin: 0 auto;
+  max-height: 110px;
 }
 
 img {
@@ -180,4 +179,3 @@ img {
   position: relative;
   z-index: 7777;
 }
-

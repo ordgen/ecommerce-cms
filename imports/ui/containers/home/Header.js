@@ -1,18 +1,41 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import { white, darkBlack } from 'material-ui/styles/colors';
+import { white, darkBlack, lime700 } from 'material-ui/styles/colors';
 import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import RaisedButton from 'material-ui/RaisedButton';
+import SearchBar from 'material-ui-search-bar';
+import FontIcon from 'material-ui/FontIcon';
+import ActionSearch from 'material-ui/svg-icons/action/search';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
 import { PrimaryMenus } from '../../site-config';
 
 import './Header.css';
+
+const styles = {
+  cartCount: {
+    borderRadius: '3px',
+    backgroundColor: 'rgba(0, 0, 0, .1)',
+    height: '20px',
+    padding: '3px 6px',
+    fontWeight: 500,
+    display: 'inline-block',
+    color: '#fff',
+    lineHeight: '12px',
+  },
+  centerColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+};
 
 class Header extends Component {
   constructor(props) {
@@ -62,7 +85,42 @@ class Header extends Component {
             <div className="ecommerce-cms-header-background ecommerce-cms-full-site-width">
               <div className="ecommerce-cms-collapsible-section-wrapper">
                 <div className="ecommerce-cms-header-billboard">
-                  <img className="ecommerce-cms-header-billboard-logo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
+                  <div className="container">
+                    <div className="row">
+                      <div
+                        className="col-md-2 col-lg-2"
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <img className="ecommerce-cms-header-billboard-logo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
+                      </div>
+                      <div
+                        className="col-md-8 col-lg-8"
+                        style={styles.centerColumn}
+                      >
+                        <SearchBar
+                          onChange={() => console.log('onChange')}
+                          onRequestSearch={() => console.log('onRequestSearch')}
+                          closeIcon={<NavigationClose color={lime700} />}
+                          searchIcon={<ActionSearch color={lime700} />}
+                        />
+                      </div>
+                      <div
+                        className="col-md-2 col-lg-2"
+                        style={styles.centerColumn}
+                      >
+                        <RaisedButton
+                          containerElement={<Link to="/confirm-order" />}
+                          label="CART"
+                          primary={true}
+                          labelPosition="before"
+                          labelStyle={{ fontWeight: 600 }}
+                          icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
+                        >
+                          <span style={styles.cartCount}>0</span>
+                        </RaisedButton>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

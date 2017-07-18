@@ -1,5 +1,6 @@
 .ecommerce-cms-wrapper {
   width: 100%;
+  overflow: hidden;
 }
 
 .ecommerce-cms-main-content {
@@ -113,4 +114,16 @@
 .ecommerce-cms-utility-footer-link, .ecommerce-cms-utility-footer-link:hover {
   color: #fff;
   text-decoration: none;
+}
+
+@media screen and (max-width: 720px) {
+  .ecommerce-cms-footer-linkbox {
+      padding: 24px 16px 24px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .ecommerce-cms-footer-linkbox {
+      width: 50%;
+  }
 }
