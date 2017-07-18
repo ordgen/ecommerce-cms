@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
-import Header from '../../components/DashboardHeader';
-import LeftDrawer from '../../components/LeftDrawer';
-import { Menus } from '../../site-config';
+import Header from './DashboardHeader';
+import LeftDrawer from './LeftDrawer';
+import { DashboardMenus } from '../../site-config';
 import DashboardHome from '../../components/pages/dashboard/DashboardHome';
 import ProductsList from '../../components/pages/ProductsList';
 
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
         />
         <LeftDrawer
           navDrawerOpen={navDrawerOpen}
-          menus={Menus}
+          menus={DashboardMenus}
           username="User Admin"
         />
         <div style={styles.container}>
@@ -89,4 +89,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const DashboardWithWidth = withWidth()(Dashboard);
-export default connect(null, mapDispatchToProps)(DashboardWithWidth);
+export default withRouter(connect(null, mapDispatchToProps)(DashboardWithWidth));

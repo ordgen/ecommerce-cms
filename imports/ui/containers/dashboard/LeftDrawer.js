@@ -6,8 +6,8 @@ import { white } from 'material-ui/styles/colors';
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
-import ThemeDefault from '../theme-default';
-import SiteConfig from '../site-config';
+import ThemeDefault from '../../theme-default';
+import SiteConfig from '../../site-config';
 
 const LeftDrawer = (props) => {
   const { navDrawerOpen } = props;

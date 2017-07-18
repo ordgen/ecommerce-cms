@@ -28,4 +28,12 @@ const mapStateToProps = state => ({
   loggingIn: state.auth.loggingIn,
 });
 
+/* const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    loggedIn: state.auth.loggedIn,
+    loggingIn: false,
+  };
+};*/
+
 export default withRouter(connect(mapStateToProps, null)(Public));

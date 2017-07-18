@@ -17,7 +17,6 @@ export default function connectLoginForm(Form) {
     }
 
     onSubmit(...args) {
-      console.log(...args);
       this.props.login(...args);
     }
 

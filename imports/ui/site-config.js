@@ -7,7 +7,7 @@ const SiteConfig = {
   name: 'Ordgen',
 };
 
-const Menus = [
+const DashboardMenus = [
   {
     text: 'DashBoard',
     icon: <Assessment />,
@@ -144,6 +144,6 @@ const Products = [
 ];
 
 export default SiteConfig;
-export { Menus };
+export { DashboardMenus };
 export { PrimaryMenus };
 export { Products };

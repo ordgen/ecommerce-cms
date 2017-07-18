@@ -84,13 +84,13 @@ class Form extends Component {
     const { email, password } = this.state;
     if (email && password) {
       const emailIsValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-      const passwordIsValid = password.length >= 8;
+      const passwordIsValid = password.length >= 6;
       if (!emailIsValid) {
         this.setState(prevState => ({ ...prevState, errors: { ...prevState.errors, emailField: 'Email is not valid' } }));
         return;
       }
       if (!passwordIsValid) {
-        this.setState(prevState => ({ ...prevState, errors: { ...prevState.errors, passwordField: 'Password must be atleast 8 characters long' } }));
+        this.setState(prevState => ({ ...prevState, errors: { ...prevState.errors, passwordField: 'Password must be atleast 6 characters long' } }));
         return;
       }
       this.props.onSubmit(email, password);

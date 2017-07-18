@@ -37,7 +37,7 @@ export function login(email, password) {
         dispatch(setAuthState(false, err.error));
       } else {
         dispatch(loginRequestStarted(false));
-        dispatch(setAuthState(true, ''));
+        dispatch(setAuthState(true, 0));
       }
     });
   };
