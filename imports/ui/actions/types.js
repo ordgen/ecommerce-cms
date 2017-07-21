@@ -1,2 +1,7 @@
-export const LOGIN_IN = 'loggingIn';
-export const SET_AUTH = 'set_auth';
+export const LOGIN_IN = 'LOGIN_IN';
+export const SET_AUTH = 'SET_AUTH';
+export const CREATE_PRODUCT_CATEGORY = 'CREATE_PRODUCT_CATEGORY';
+export const REMOVE_PRODUCT_CATEGORY = 'REMOVE_PRODUCT_CATEGORY';
+export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const ADD_PRODUCT_TO_CATEGORY = 'ADD_PRODUCT_TO_CATEGORY';
+export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';

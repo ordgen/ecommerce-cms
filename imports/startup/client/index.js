@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import store, { history } from './store';
-import App from './App';
+import store, { history } from '../../ui/store';
+import App from '../../ui/App';
 
 
 Meteor.startup(() => {

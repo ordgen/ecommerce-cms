@@ -2,14 +2,14 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Route } from 'react-router-dom';
-import Home from '../../ui/containers/home';
-import ContactUs from '../../ui/containers/contact-us';
-import Login from '../../ui/containers/login';
-import Dashboard from '../../ui/containers/dashboard';
-import ThemeDefault from '../../ui/theme-default';
-import Logout from '../../ui/containers/logout';
-import Authenticated from '../../ui/components/pages/Authenticated';
-import Public from '../../ui/components/pages/Public';
+import Home from './containers/home';
+import ContactUs from './containers/contact-us';
+import Login from './containers/login';
+import Dashboard from './containers/dashboard';
+import ThemeDefault from './theme-default';
+import Logout from './containers/logout';
+import Authenticated from './components/pages/Authenticated';
+import Public from './components/pages/Public';
 
 injectTapEventPlugin();
 
