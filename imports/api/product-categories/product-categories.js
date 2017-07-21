@@ -27,11 +27,11 @@ ProductCategories.schema = new SimpleSchema([
       label: 'Banner Picture',
       optional: true,
     },
-    child: {
+    children: {
       type: [Object],
       optional: true,
     },
-    'child.$.productCategoryId': {
+    'children.$.productCategoryId': {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
       optional: true,
