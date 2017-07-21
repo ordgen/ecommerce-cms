@@ -17,6 +17,8 @@ export default class Product extends ValidatingModel {
     return `Product: ${this.name}`;
   }
   static reducer(action, Product) {
+    // Applying Updates to the Database
+    // Product  = product session
     const { payload, type } = action;
     switch (type) {
       case CREATE_PRODUCT:
