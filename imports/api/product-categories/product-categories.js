@@ -25,6 +25,7 @@ ProductCategories.schema = new SimpleSchema([
     picture: {
       type: String,
       label: 'Banner Picture',
+      optional: true,
     },
     child: {
       type: [Object],

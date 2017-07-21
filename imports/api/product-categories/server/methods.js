@@ -10,6 +10,7 @@ export const createProductCategory = new ValidatedMethod({
     },
     picture: {
       type: String,
+      optional: true,
     },
   }).validator(),
 
