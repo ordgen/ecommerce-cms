@@ -20,6 +20,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-orm": "^0.9.4",
+    "redux-orm-proptypes": "^0.1.0",
     "redux-thunk": "^2.2.0",
     "selectn": "^1.1.2"
   },
