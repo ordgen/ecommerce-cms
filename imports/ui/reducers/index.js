@@ -6,9 +6,6 @@ import ormReducer from './orm';
 export default combineReducers({
   auth: authReducer,
   router: routerReducer,
-  // Insert the auto-generated Redux-ORM reducer.  This will
-  // initialize our model "tables", and hook up the reducer
-  // logic we defined on each Model subclass
   entities: ormReducer,
 });
 

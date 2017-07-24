@@ -18,6 +18,7 @@ export default class ProductCategory extends ValidatingModel {
         ProductCategory.create(payload);
         break;
       case REMOVE_PRODUCT_CATEGORY:
+        ProductCategory.withId(action.payload.id).delete();
         break;
       default:
         break;
