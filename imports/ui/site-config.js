@@ -40,55 +40,6 @@ const DashboardMenus = [
   },
 ];
 
-const PrimaryMenus = [
-  {
-    name: 'Pillows',
-    id: '212215454',
-    children: [
-      {
-        name: 'Throw Pillows',
-        id: '212122222',
-        children: [],
-      },
-      {
-        name: 'Arm Rest Pillow',
-        id: '444551111',
-        children: [],
-      },
-    ],
-  },
-  {
-    name: 'Sensor Bins',
-    id: '24333333',
-    children: [],
-  },
-  {
-    name: 'Furniture',
-    id: '22122111',
-    children: [
-      {
-        name: 'Sofa',
-        id: '33t3yt113',
-        children: [],
-      },
-      {
-        name: 'Living Room Set',
-        id: '373371113',
-        children: [],
-      },
-      {
-        name: 'Dinning Room Set ',
-        id: '6276476',
-      },
-      {
-        name: 'Arm Rest Pillow',
-        id: '444551111',
-        children: [],
-      },
-    ],
-  },
-];
-
 const Products = [
   {
     name: ' Art for gifting ',
@@ -157,5 +108,4 @@ const Products = [
 
 export default SiteConfig;
 export { DashboardMenus };
-export { PrimaryMenus };
 export { Products };

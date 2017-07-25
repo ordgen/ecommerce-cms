@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { connect } from 'react-redux';
+import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors';
 import Header from './Header';
 import { Products } from '../../site-config';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
@@ -8,10 +11,37 @@ import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './Home.css';
 
 class Home extends Component {
+  static propTypes = {
+    productCategories: PropTypes.array.isRequired,
+    getProductCategoryChildren: PropTypes.func.isRequired,
+    appState: PropTypes.object.isRequired,
+  }
+
+  getChildren(state, category) {
+    const children = this.props.getProductCategoryChildren(state, category);
+    const productCategory = {
+      ...category,
+      children: children.map(child => this.getChildren(state, child)),
+    };
+    return productCategory;
+  }
+
+  productCategoriesWithChildren() {
+    const allCategories = this.props.productCategories;
+    return allCategories.filter(c => !c.parent).map((category) => {
+      const children = this.props.getProductCategoryChildren(category);
+      const productCategory = {
+        ...category,
+        children: children.map(child => this.getChildren(this.props.appState, child)),
+      };
+      return productCategory;
+    });
+  }
+
   render() {
     return (
       <div className="ecommerce-cms-wrapper">
-        <Header />
+        <Header menuItems={this.productCategoriesWithChildren()} />
         <div className="ecommerce-cms-main-content clearfix">
           <article className="ecommerce-cms-article">
             <article className="ecommerce-cms-article-inner">
@@ -53,4 +83,11 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+  productCategories: ProductCategoriesSelector(state),
+  getProductCategoryChildren: category => ProductCategoryChildrenSelector(state, category),
+  appState: state,
+});
+
+export default connect(mapStateToProps, null)(Home);
+

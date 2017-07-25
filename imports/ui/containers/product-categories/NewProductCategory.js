@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
-import Paper from 'material-ui/Paper';
 import { ProductCategoriesSelector } from '../../models/selectors';
+import Paper from 'material-ui/Paper';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import { createProductCategory } from '../../actions/ProductCategoryActionCreators';
 
@@ -92,6 +92,7 @@ class NewProductCategory extends Component {
 
   render() {
     const { match, productCategories } = this.props;
+    console.log();
     const { parentValue } = this.state;
     return (
       <div>

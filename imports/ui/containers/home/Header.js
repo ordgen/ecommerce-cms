@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
+import PropTypes from 'prop-types';
 import { white, darkBlack, lime700 } from 'material-ui/styles/colors';
 import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
@@ -15,8 +16,6 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
-import { PrimaryMenus } from '../../site-config';
-
 import './Header.css';
 
 const styles = {
@@ -38,6 +37,9 @@ const styles = {
 };
 
 class Header extends Component {
+  static propTypes = {
+    menuItems: PropTypes.array.isRequired,
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -158,7 +160,7 @@ class Header extends Component {
                     onRequestClose={this.handleRequestClose}
                   >
                     <Menu>
-                      {PrimaryMenus.map(menu => (
+                      {this.props.menuItems.map(menu => (
                         <MenuItem
                           key={menu.id}
                           primaryText={menu.name}
