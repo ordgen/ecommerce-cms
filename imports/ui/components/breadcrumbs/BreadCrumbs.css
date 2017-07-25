@@ -1,0 +1,30 @@
+.breadcrumbs-title {
+  font-size: 1.5rem;
+  line-height: 1.804rem;
+  margin: 18px 0 0;
+}
+
+.breadcrumbs {
+  padding: 0;
+  margin: 15px 0;
+  list-style: none;
+}
+
+.breadcrumbs>li {
+  display: inline-block;
+}
+
+.breadcrumbs>li+li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
+}
+
+.breadcrumbs .active {
+  font-weight: normal;
+  color: #999;
+}
+
+.breadcrumbs-wrapper {
+  background: #f3f3f3;
+}

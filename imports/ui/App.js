@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import Home from './containers/home';
 import ContactUs from './containers/contact-us';
 import Login from './containers/login';
-import Dashboard from './containers/dashboard';
+import Dashboard from './containers/dashboard/Dashboard';
 import ThemeDefault from './theme-default';
 import Logout from './containers/logout';
 import Authenticated from './components/pages/Authenticated';

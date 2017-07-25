@@ -1,8 +1,7 @@
 import { Model } from 'redux-orm';
-import propTypesMixin from 'redux-orm-proptypes';
 
-const ValidatingModel = propTypesMixin(Model);
-
-export default class User extends ValidatingModel {}
-User.modelName = 'User';
-
+export default class User extends Model {
+  static get modelName() {
+    return 'User';
+  }
+}

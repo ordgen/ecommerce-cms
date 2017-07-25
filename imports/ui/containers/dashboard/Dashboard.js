@@ -10,6 +10,8 @@ import LeftDrawer from './LeftDrawer';
 import { DashboardMenus } from '../../site-config';
 import DashboardHome from '../../components/pages/dashboard/DashboardHome';
 import ProductsList from '../../components/pages/ProductsList';
+import NewProductCategory from '../product-categories/NewProductCategory';
+import ProductCategories from '../product-categories/ProductCategories';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -69,8 +71,18 @@ class Dashboard extends React.Component {
             component={DashboardHome}
           />
           <Route
-            path={`${match.url}/products/list`}
+            path={`${match.url}/products`}
             component={ProductsList}
+          />
+          <Route
+            exact
+            path={`${match.url}/product-categories/new`}
+            component={NewProductCategory}
+          />
+          <Route
+            exact
+            path={`${match.url}/product-categories`}
+            component={ProductCategories}
           />
         </div>
       </div>

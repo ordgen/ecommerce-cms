@@ -1,48 +1,34 @@
-/* eslint-disable no-shadow */
 import { Model, many, fk, attr } from 'redux-orm';
 import { PropTypes } from 'prop-types';
-import propTypesMixin from 'redux-orm-proptypes';
 import User from './User';
-import {
-  CREATE_PRODUCT_CATEGORY,
-  REMOVE_PRODUCT_CATEGORY,
-} from '../actions/types';
 
-const ValidatingModel = propTypesMixin(Model);
+export default class ProductCategory extends Model {
+  static get fields() {
+    return {
+      id: attr(),
+      name: attr(),
+      products: many('Product', 'productCategories'),
+      user: fk('User', 'productCategories'),
+    };
+  }
+  static get modelName() {
+    return 'ProductCategory';
+  }
 
-export default class ProductCategory extends ValidatingModel {
-  static reducer(state, action, ProductCategory) {
-    const { payload, type } = action;
-    switch (type) {
-      case CREATE_PRODUCT_CATEGORY:
-        ProductCategory.create(payload);
-        break;
-      case REMOVE_PRODUCT_CATEGORY:
-        ProductCategory.withId(action.payload.id).delete();
-        break;
-      default:
-        break;
-    }
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    picture: PropTypes.string,
+    user: PropTypes.oneOfType([
+      PropTypes.instanceOf(User),
+      PropTypes.string,
+    ]).isRequired,
+  }
+
+  static defaultProps = {
+    picture: '',
+  }
+  toString() {
+    return `ProductCategory: ${this.name}`;
   }
 }
 
-ProductCategory.modelName = 'ProductCategory';
-ProductCategory.fields = {
-  id: attr(),
-  name: attr(),
-  products: many('Product', 'productCategories'),
-  user: fk('User', 'productCategories'),
-};
-
-ProductCategory.propTypes = {
-  name: PropTypes.string.isRequired,
-  picture: PropTypes.string,
-  user: PropTypes.oneOfType([
-    PropTypes.instanceOf(User),
-    PropTypes.string,
-  ]).isRequired,
-};
-
-ProductCategory.defaultProps = {
-  picture: '',
-};

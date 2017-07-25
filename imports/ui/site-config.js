@@ -22,7 +22,19 @@ const DashboardMenus = [
       {
         text: 'All Products',
         icon: <ActionAssignment />,
-        link: '/dashboard/products/list',
+        link: '/dashboard/products',
+      },
+    ],
+  },
+  {
+    text: 'Product Categories',
+    icon: <ActionToc />,
+    link: '',
+    children: [
+      {
+        text: 'All Categories',
+        icon: <ActionAssignment />,
+        link: '/dashboard/product-categories',
       },
     ],
   },
