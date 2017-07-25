@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow*/
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Meteor } from 'meteor/meteor';
 import Formsy from 'formsy-react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -50,16 +49,10 @@ class NewProductCategory extends Component {
   }
 
   onSubmit(data) {
-    Meteor.call('ProductCategories.methods.createProductCategory',
-      data,
-      (err, res) => {
-        if (!err) {
-          console.log(this.props.userSelector);
-          this.props.createProductCategory({
-            id: res,
-            name: data.name,
-            user: this.props.user,
-          });
+    const args = { ...data, user: this.props.user };
+    this.props.createProductCategory(args).then(
+      (res) => {
+        if (res) {
           setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000);
         }
       });
@@ -123,12 +116,10 @@ NewProductCategory.propTypes = {
   changePage: PropTypes.func.isRequired,
   createProductCategory: PropTypes.func.isRequired,
   user: PropTypes.string.isRequired,
-  userSelector: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
   user: state.auth.currentUser,
-  userSelector: userSelector(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
