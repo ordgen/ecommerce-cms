@@ -9,17 +9,19 @@ export function createProductCategory(data) {
     Meteor.call('ProductCategories.methods.createProductCategory',
       {
         name: data.name,
+        parent: data.parent,
       },
       (err, res) => {
         if (!err) {
           const payload = {
+            ...data,
             id: res,
-            name: data.name,
-            user: data.user,
           };
           dispatch({ type: CREATE_PRODUCT_CATEGORY, payload });
+          resolve({ success: res });
+        } else {
+          resolve({ error: err });
         }
-        resolve(res);
       },
     );
   });

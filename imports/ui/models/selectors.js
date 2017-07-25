@@ -7,4 +7,11 @@ const userSelector = createSelector(
   session => session.User.all().toRefArray(),
 );
 
+const ProductCategoriesSelector = createSelector(
+  orm,
+  state => state.entities,
+  session => session.ProductCategory.all().toRefArray(),
+);
+
 export { userSelector };
+export { ProductCategoriesSelector };

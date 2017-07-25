@@ -27,15 +27,10 @@ ProductCategories.schema = new SimpleSchema([
       label: 'Banner Picture',
       optional: true,
     },
-    children: {
-      type: [Object],
-      optional: true,
-    },
-    'children.$.productCategoryId': {
+    parent: {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
       optional: true,
-      index: 1,
     },
   },
 ]);

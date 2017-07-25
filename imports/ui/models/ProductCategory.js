@@ -18,6 +18,7 @@ export default class ProductCategory extends Model {
   static propTypes = {
     name: PropTypes.string.isRequired,
     picture: PropTypes.string,
+    parent: PropTypes.string,
     user: PropTypes.oneOfType([
       PropTypes.instanceOf(User),
       PropTypes.string,
@@ -26,6 +27,7 @@ export default class ProductCategory extends Model {
 
   static defaultProps = {
     picture: '',
+    parent: '',
   }
   toString() {
     return `ProductCategory: ${this.name}`;

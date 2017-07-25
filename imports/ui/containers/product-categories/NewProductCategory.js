@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { userSelector } from '../../models/selectors';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
-// import MenuItem from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
+import { ProductCategoriesSelector } from '../../models/selectors';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import { createProductCategory } from '../../actions/ProductCategoryActionCreators';
 
@@ -33,14 +33,28 @@ const styles = {
 };
 
 class NewProductCategory extends Component {
+  static ParentMenuItems(values, parentItems) {
+    return parentItems.map(parentItem => (
+      <MenuItem
+        key={parentItem.id}
+        insetChildren={true}
+        checked={values && values.indexOf(parentItem.id) > -1}
+        value={parentItem.id}
+        primaryText={parentItem.name}
+      />
+    ));
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       canSubmit: false,
+      parentValue: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
+    this.handleParentChange = this.handleParentChange.bind(this);
     this.errorMessages = {
       wordsError: 'Please only use letters',
       numericError: 'Please provide a number',
@@ -52,8 +66,10 @@ class NewProductCategory extends Component {
     const args = { ...data, user: this.props.user };
     this.props.createProductCategory(args).then(
       (res) => {
-        if (res) {
+        if (res.success) {
           setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000);
+        } else {
+          console.log(res.error);
         }
       });
   }
@@ -69,8 +85,14 @@ class NewProductCategory extends Component {
       canSubmit: false,
     });
   }
+
+  handleParentChange(event, value) {
+    this.setState({ parentValue: value });
+  }
+
   render() {
-    const { match } = this.props;
+    const { match, productCategories } = this.props;
+    const { parentValue } = this.state;
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Case" />
@@ -85,6 +107,15 @@ class NewProductCategory extends Component {
                       onValid={this.enableSubmitButton}
                       onInvalid={this.disableSubmitButton}
                     >
+                      <FormsySelect
+                        name="parent"
+                        hintText="Select the parent of this category (optional)"
+                        style={styles.formElement}
+                        onChange={this.handleParentChange}
+                        value={parentValue}
+                      >
+                        {NewProductCategory.ParentMenuItems([parentValue], productCategories)}
+                      </FormsySelect>
                       <FormsyText
                         name="name"
                         required
@@ -116,10 +147,12 @@ NewProductCategory.propTypes = {
   changePage: PropTypes.func.isRequired,
   createProductCategory: PropTypes.func.isRequired,
   user: PropTypes.string.isRequired,
+  productCategories: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
   user: state.auth.currentUser,
+  productCategories: ProductCategoriesSelector(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

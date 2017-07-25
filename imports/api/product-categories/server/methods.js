@@ -8,6 +8,11 @@ const CreateProductCategory = new ValidatedMethod({
     name: {
       type: String,
     },
+    parent: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
+    },
     picture: {
       type: String,
       optional: true,
