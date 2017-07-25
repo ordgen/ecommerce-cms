@@ -26,7 +26,7 @@ export default class Product extends Model {
       PropTypes.instanceOf(User),
       PropTypes.string,
     ]).isRequired,
-    productCategory: PropTypes.oneOfType([
+    category: PropTypes.oneOfType([
       PropTypes.instanceOf(ProductCategory),
       PropTypes.string,
     ]).isRequired,

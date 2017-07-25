@@ -11,7 +11,7 @@ import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
 import { ProductCategoriesSelector } from '../../models/selectors/productCategorySelectors';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import { createProductCategory } from '../../actions/ProductCategoryActionCreators';
+import { createProduct } from '../../actions/ProductActionCreators';
 
 const styles = {
   paperStyle: {
@@ -32,15 +32,15 @@ const styles = {
   },
 };
 
-class NewProductCategory extends Component {
-  static ParentMenuItems(values, parentItems) {
-    return parentItems.map(parentItem => (
+class NewProduct extends Component {
+  static ProductCategoryMenuItems(values, categoryItems) {
+    return categoryItems.map(categoryItem => (
       <MenuItem
-        key={parentItem.id}
+        key={categoryItem.id}
         insetChildren={true}
-        checked={values && values.indexOf(parentItem.id) > -1}
-        value={parentItem.id}
-        primaryText={parentItem.name}
+        checked={values && values.indexOf(categoryItem.id) > -1}
+        value={categoryItem.id}
+        primaryText={categoryItem.name}
       />
     ));
   }
@@ -49,12 +49,12 @@ class NewProductCategory extends Component {
     super(props);
     this.state = {
       canSubmit: false,
-      parentValue: null,
+      categoryValue: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
-    this.handleParentChange = this.handleParentChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.errorMessages = {
       wordsError: 'Please only use letters',
       numericError: 'Please provide a number',
@@ -63,11 +63,11 @@ class NewProductCategory extends Component {
   }
 
   onSubmit(data) {
-    const args = { ...data, user: this.props.user };
-    this.props.createProductCategory(args).then(
+    const args = { ...data, pictures: [data.pictures], user: this.props.user };
+    this.props.createProduct(args).then(
       (res) => {
         if (res.success) {
-          setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000);
+          setTimeout(() => this.props.changePage('/dashboard/products'), 3000);
         } else {
           console.log(res.error);
         }
@@ -86,16 +86,17 @@ class NewProductCategory extends Component {
     });
   }
 
-  handleParentChange(event, value) {
-    this.setState({ parentValue: value });
+  handleCategoryChange(event, value) {
+    this.setState({ categoryValue: value });
   }
 
   render() {
     const { match, productCategories } = this.props;
-    const { parentValue } = this.state;
+    const { categoryValue } = this.state;
+    const { numericError } = this.errorMessages;
     return (
       <div>
-        <BreadCrumbs match={match} pageTitle="New Category" />
+        <BreadCrumbs match={match} pageTitle="New Product" />
         <div className="container">
           <div className="row">
             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -108,19 +109,41 @@ class NewProductCategory extends Component {
                       onInvalid={this.disableSubmitButton}
                     >
                       <FormsySelect
-                        name="parent"
-                        hintText="Select the parent of this category (optional)"
+                        name="category"
+                        hintText="Select product category"
                         style={styles.formElement}
-                        onChange={this.handleParentChange}
-                        value={parentValue}
+                        onChange={this.handleCategoryChange}
+                        value={categoryValue}
+                        required
                       >
-                        {NewProductCategory.ParentMenuItems([parentValue], productCategories)}
+                        {NewProduct.ProductCategoryMenuItems([categoryValue], productCategories)}
                       </FormsySelect>
                       <FormsyText
                         name="name"
                         required
-                        hintText="What is the name of the category?"
-                        floatingLabelText="Name of Category"
+                        hintText="What is the name of the product?"
+                        floatingLabelText="Name of Product"
+                        style={styles.formElement}
+                      />
+                      <FormsyText
+                        name="price"
+                        validations="isNumeric"
+                        validationError={numericError}
+                        hintText="How much does the product cost?"
+                        floatingLabelText="Price of Product"
+                        required
+                        style={styles.formElement}
+                      />
+                      <FormsyText
+                        name="description"
+                        floatingLabelText="Product Description"
+                        hintText="Do you want to describe your product?"
+                        style={styles.formElement}
+                      />
+                      <FormsyText
+                        name="pictures"
+                        floatingLabelText="Pictures"
+                        required
                         style={styles.formElement}
                       />
                       <RaisedButton
@@ -142,12 +165,12 @@ class NewProductCategory extends Component {
   }
 }
 
-NewProductCategory.propTypes = {
+NewProduct.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
-  createProductCategory: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
+  createProduct: PropTypes.func.isRequired,
   productCategories: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -156,8 +179,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  createProductCategory,
+  createProduct,
   changePage: path => push(path),
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewProductCategory);
+export default connect(mapStateToProps, mapDispatchToProps)(NewProduct);

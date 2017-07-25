@@ -137,6 +137,14 @@ class Header extends Component {
               <ul className="ecommerce-cms-nav-tab-list ecommerce-cms-overflow-tabs-scroll">
                 <li className="ecommerce-cms-nav-tab-container">
                   <FlatButton
+                    label="HOME"
+                    primary={true}
+                    style={{ color: white, display: 'inline' }}
+                    containerElement={<Link to="/" />}
+                  />
+                </li>
+                <li className="ecommerce-cms-nav-tab-container">
+                  <FlatButton
                     label="ABOUT US"
                     primary={true}
                     style={{ color: white, display: 'inline' }}
@@ -187,12 +195,10 @@ class Header extends Component {
                 </li>
                 <li className="ecommerce-cms-nav-tab-container">
                   <FlatButton
-                    label="OUR WORKS"
-                    labelPosition="before"
+                    label="CONTACT US"
                     primary={true}
-                    icon={<NavigationExpandMore color={white} />}
-                    onTouchTap={this.handleOpenMenu}
-                    style={{ color: white }}
+                    style={{ color: white, display: 'inline' }}
+                    containerElement={<Link to="/contact-us" />}
                   />
                 </li>
               </ul>

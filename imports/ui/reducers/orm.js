@@ -31,6 +31,7 @@ export default function ormReducer(dbState = initialState, action) {
       Product.create(payload);
       break;
     case ADD_PRODUCT_TO_CATEGORY:
+      ProductCategory.withId(action.payload.categoryId).products.add(action.payload.productId);
       break;
     case REMOVE_PRODUCT:
       Product.withId(payload.id).delete();

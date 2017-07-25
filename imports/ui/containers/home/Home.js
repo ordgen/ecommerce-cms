@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategorySelectors';
+import { ProductsSelector } from '../../models/selectors/productSelectors';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
+import './Home.css';
 
-class ContactUs extends Component {
+class Home extends Component {
   static propTypes = {
     productCategories: PropTypes.array.isRequired,
+    products: PropTypes.array.isRequired,
     getProductCategoryChildren: PropTypes.func.isRequired,
     appState: PropTypes.object.isRequired,
   }
@@ -35,6 +40,7 @@ class ContactUs extends Component {
   }
 
   render() {
+    const { products } = this.props;
     return (
       <div className="ecommerce-cms-wrapper">
         <Header menuItems={this.productCategoriesWithChildren()} />
@@ -42,17 +48,30 @@ class ContactUs extends Component {
           <article className="ecommerce-cms-article">
             <article className="ecommerce-cms-article-inner">
               <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
-                <div
-                  className="container"
-                  style={{ minHeight: 400 }}
-                >
+                <div className="container">
                   <div className="row">
-                    <div
-                      className="col-md-6 col-lg-6 col-xs-12 col-sm-12"
-                      style={{ marginBottom: 20, margin: '0 auto' }}
-                    >
-                      <img className="ecommerce-cms-about-logo img-fluid" src="https://s3.amazonaws.com/loystar/contact.jpg" alt="logo" />
-                    </div>
+                    {products.map(product => (
+                      <div
+                        className="col-md-4 col-lg-4 col-xs-12 col-sm-6"
+                        key={product.id}
+                      >
+                        <Card
+                          style={{ marginBottom: 30 }}
+                        >
+                          <CardMedia>
+                            <img src={product.pictures[0]} alt="" />
+                          </CardMedia>
+                          <CardTitle title={product.category} subtitle={product.name} />
+                          <CardText>
+                            {product.description}
+                          </CardText>
+                          <CardActions>
+                            <FlatButton label="View" />
+                          </CardActions>
+                        </Card>
+                      </div>
+                    ))
+                    }
                   </div>
                 </div>
               </section>
@@ -66,11 +85,12 @@ class ContactUs extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   productCategories: ProductCategoriesSelector(state),
+  products: ProductsSelector(state),
   getProductCategoryChildren: category => ProductCategoryChildrenSelector(state, category),
   appState: state,
 });
 
-export default connect(mapStateToProps, null)(ContactUs);
+export default connect(mapStateToProps, null)(Home);
+

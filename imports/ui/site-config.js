@@ -11,7 +11,7 @@ const DashboardMenus = [
   {
     text: 'DashBoard',
     icon: <Assessment />,
-    link: '/dashboard/home',
+    link: '/dashboard',
     children: [],
   },
   {

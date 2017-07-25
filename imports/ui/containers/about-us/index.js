@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors';
-import Header from './Header';
-import { Products } from '../../site-config';
+import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategorySelectors';
+import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
-import './Home.css';
 
-class Home extends Component {
+class AboutUs extends Component {
   static propTypes = {
     productCategories: PropTypes.array.isRequired,
     getProductCategoryChildren: PropTypes.func.isRequired,
@@ -48,28 +44,26 @@ class Home extends Component {
               <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
                 <div className="container">
                   <div className="row">
-                    {Products.map(product => (
-                      <div
-                        className="col-md-4 col-lg-4 col-xs-12 col-sm-6"
-                        key={product.id}
-                      >
-                        <Card
-                          style={{ marginBottom: 30 }}
-                        >
-                          <CardMedia>
-                            <img src={product.image} alt="" />
-                          </CardMedia>
-                          <CardTitle title={product.category} subtitle={product.name} />
-                          <CardText>
-                            {product.description}
-                          </CardText>
-                          <CardActions>
-                            <FlatButton label="View" />
-                          </CardActions>
-                        </Card>
-                      </div>
-                    ))
-                    }
+                    <div
+                      className="col-md-6 col-lg-6 col-xs-12 col-sm-12"
+                      style={{ marginBottom: 20 }}
+                    >
+                      <img className="ecommerce-cms-about-logo img-fluid" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
+                    </div>
+                    <div
+                      className="col-md-6 col-lg-6 visible-md visible-lg col-xs-12 col-sm-12"
+                      style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}
+                    >
+                      <p>
+                        Welcome to Wallvilledecor, a contemporary interior decor company. Serving our customers unique and elegant decorative pieces sourced from all corners of the globe. We pride ourselves with giving our customers (wallvillers) a  tailor made and yet affordable designs to suit their taste.
+
+                        Our buying teams circle the globe to bring you a wide choice of inspirational furniture, homewares and all interior accessories.
+
+                        Our easy-to-use website allows you to shop by style or department and search by colour, material, or product. The more you shop, the more we'll get to know you and can improve your shopping experience by handpicking products we think you may also like.
+
+                        This is evolution...This is unique styling... This is Wallvilledecor.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -83,11 +77,11 @@ class Home extends Component {
   }
 }
 
+
 const mapStateToProps = state => ({
   productCategories: ProductCategoriesSelector(state),
   getProductCategoryChildren: category => ProductCategoryChildrenSelector(state, category),
   appState: state,
 });
 
-export default connect(mapStateToProps, null)(Home);
-
+export default connect(mapStateToProps, null)(AboutUs);

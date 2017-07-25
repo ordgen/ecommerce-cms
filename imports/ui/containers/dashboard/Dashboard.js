@@ -8,8 +8,9 @@ import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
 import Header from './DashboardHeader';
 import LeftDrawer from './LeftDrawer';
 import { DashboardMenus } from '../../site-config';
-import DashboardHome from '../../components/pages/dashboard/DashboardHome';
-import ProductsList from '../../components/pages/ProductsList';
+// import DashboardHome from '../../components/pages/dashboard/DashboardHome';
+import Products from '../products/Products';
+import NewProduct from '../products/NewProduct';
 import NewProductCategory from '../product-categories/NewProductCategory';
 import ProductCategories from '../product-categories/ProductCategories';
 
@@ -22,9 +23,9 @@ class Dashboard extends React.Component {
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     this.props.changePage(`${this.props.match.url}/home`);
-  }
+  }*/
 
   componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {
@@ -40,9 +41,8 @@ class Dashboard extends React.Component {
 
   render() {
     const { navDrawerOpen } = this.state;
-    const { match } = this.props;
+    const { match, location: { pathname } } = this.props; // eslint-disable-line react/prop-types
     const paddingLeftDrawerOpen = 236;
-
     const styles = {
       header: {
         paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
@@ -66,13 +66,22 @@ class Dashboard extends React.Component {
           username="User Admin"
         />
         <div style={styles.container}>
+          {(pathname === '/dashboard') &&
+            <div className="row">
+              <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <h1>Hello</h1>
+              </div>
+            </div>
+          }
           <Route
-            path={`${match.url}/home`}
-            component={DashboardHome}
+            exact
+            path={`${match.url}/products`}
+            component={Products}
           />
           <Route
-            path={`${match.url}/products`}
-            component={ProductsList}
+            exact
+            path={`${match.url}/products/new`}
+            component={NewProduct}
           />
           <Route
             exact
