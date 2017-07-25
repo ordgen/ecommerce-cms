@@ -8,7 +8,6 @@ import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
 import Header from './DashboardHeader';
 import LeftDrawer from './LeftDrawer';
 import { DashboardMenus } from '../../site-config';
-// import DashboardHome from '../../components/pages/dashboard/DashboardHome';
 import Products from '../products/Products';
 import NewProduct from '../products/NewProduct';
 import NewProductCategory from '../product-categories/NewProductCategory';
@@ -22,10 +21,6 @@ class Dashboard extends React.Component {
     };
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
   }
-
-  /*componentDidMount() {
-    this.props.changePage(`${this.props.match.url}/home`);
-  }*/
 
   componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {

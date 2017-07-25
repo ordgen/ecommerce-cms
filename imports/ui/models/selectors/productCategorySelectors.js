@@ -27,6 +27,15 @@ const ProductCategorySelector = createSelector(
   },
 );
 
+const ProductCategoryProductSelector = createSelector(
+  orm,
+  stateSelector,
+  (state, productCategory) => productCategory,
+  (session, productCategory) => session.Product.all().toRefArray().filter(
+    p => p.category === productCategory.id,
+  ),
+);
+
 const ProductCategoryChildrenSelector = createSelector(
   orm,
   stateSelector,
@@ -40,4 +49,5 @@ export { userSelector };
 export { ProductCategoriesSelector };
 export { ProductCategorySelector };
 export { ProductCategoryChildrenSelector };
+export { ProductCategoryProductSelector };
 

@@ -25,18 +25,13 @@ export default function PrimaryFooter() {
             <h3 className="ecommerce-cms-footer-linkbox-heading">Links</h3>
             <ul className="ecommerce-cms-footer-linkbox-list">
               <li className="ecommerce-cms-footer-linkbox-item">
-                <a href="//googledevelopers.blogspot.com">
+                <a href="/about/us">
                   About
                 </a>
               </li>
               <li className="ecommerce-cms-footer-linkbox-item">
-                <a href="//www.facebook.com/Google-Developers-967415219957038/">
+                <a href="/contact-us">
                   Contact Us
-                </a>
-              </li>
-              <li className="ecommerce-cms-footer-linkbox-item">
-                <a href="//www.facebook.com/Google-Developers-967415219957038/">
-                  Products
                 </a>
               </li>
             </ul>

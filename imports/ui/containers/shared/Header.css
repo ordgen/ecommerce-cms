@@ -145,6 +145,14 @@
   width: 32px;
 }
 
+.ecommerce-cms-site-mobilelogo {
+  max-height: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 3px;
+}
+
 .ecommerce-cms-header-background {
   position: relative;
 }
