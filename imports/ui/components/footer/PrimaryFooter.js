@@ -25,7 +25,7 @@ export default function PrimaryFooter() {
             <h3 className="ecommerce-cms-footer-linkbox-heading">Links</h3>
             <ul className="ecommerce-cms-footer-linkbox-list">
               <li className="ecommerce-cms-footer-linkbox-item">
-                <a href="/about/us">
+                <a href="/about-us">
                   About
                 </a>
               </li>
