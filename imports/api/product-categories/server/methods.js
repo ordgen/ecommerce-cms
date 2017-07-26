@@ -2,7 +2,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import ProductCategories from '../product-categories';
 
-const CreateProductCategory = new ValidatedMethod({
+export const createProductCategory = new ValidatedMethod({
   name: 'ProductCategories.methods.createProductCategory',
   validate: new SimpleSchema({
     name: {
@@ -24,4 +24,11 @@ const CreateProductCategory = new ValidatedMethod({
   },
 });
 
-export default CreateProductCategory;
+export const getAllProductCategories = new ValidatedMethod({
+  name: 'ProductCategories.methods.getAllProductCategories',
+  validate: null,
+
+  async run() {
+    return ProductCategories.find({}).fetch();
+  },
+});

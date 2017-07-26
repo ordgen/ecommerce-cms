@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import AppBar from 'material-ui/AppBar';
 import PropTypes from 'prop-types';
 import { white, darkBlack, lime700 } from 'material-ui/styles/colors';
 import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
-import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
 import FlatButton from 'material-ui/FlatButton';
+import { connect } from 'react-redux';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -18,6 +18,7 @@ import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
 import MobileDrawer from './MobileDrawer';
+import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategorySelectors';
 import './Header.css';
 
 const styles = {
@@ -38,9 +39,11 @@ const styles = {
   },
 };
 
-class Header extends Component {
+class Header extends PureComponent {
   static propTypes = {
-    menuItems: PropTypes.array.isRequired,
+    productCategories: PropTypes.array.isRequired,
+    getProductCategoryChildren: PropTypes.func.isRequired,
+    appState: PropTypes.object.isRequired,
   }
   constructor(props) {
     super(props);
@@ -61,6 +64,15 @@ class Header extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  getChildren(state, category) {
+    const children = this.props.getProductCategoryChildren(state, category);
+    const productCategory = {
+      ...category,
+      children: children.map(child => this.getChildren(state, child)),
+    };
+    return productCategory;
   }
 
   handleWindowSizeChange() {
@@ -87,7 +99,20 @@ class Header extends Component {
     });
   }
 
+  productCategoriesWithChildren() {
+    const allCategories = this.props.productCategories;
+    return allCategories.filter(c => !c.parent).map((category) => {
+      const children = this.props.getProductCategoryChildren(category);
+      const productCategory = {
+        ...category,
+        children: children.map(child => this.getChildren(this.props.appState, child)),
+      };
+      return productCategory;
+    });
+  }
+
   render() {
+    const menuItems = this.productCategoriesWithChildren();
     const { width, navDrawerOpen } = this.state;
     const isMobile = width <= 500;
     const paddingLeftDrawerOpen = 236;
@@ -148,7 +173,7 @@ class Header extends Component {
             </div>
             <MobileDrawer
               navDrawerOpen={navDrawerOpen}
-              menus={this.props.menuItems}
+              menus={menuItems}
             />
           </div>
           : <div className="ecommerce-cms-top-section-wrapper">
@@ -233,7 +258,7 @@ class Header extends Component {
                       onRequestClose={this.handleRequestClose}
                     >
                       <Menu>
-                        {this.props.menuItems.map(menu => (
+                        {menuItems.map(menu => (
                           <MenuItem
                             key={menu.id}
                             primaryText={menu.name}
@@ -276,4 +301,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  productCategories: ProductCategoriesSelector(state),
+  getProductCategoryChildren: category => ProductCategoryChildrenSelector(state, category),
+  appState: state,
+});
+
+export default connect(mapStateToProps, null)(Header);

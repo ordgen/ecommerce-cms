@@ -4,12 +4,13 @@ import {
   LOGIN_IN,
 } from '../actions/types';
 
+const user = Meteor.userId();
 
 const INITIAL_STATE = {
-  loggedIn: !!Meteor.userId(),
+  loggedIn: !!user,
   loggingIn: false,
   error: 0,
-  currentUser: Meteor.userId(),
+  currentUser: user,
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -19,7 +20,7 @@ export default function (state = INITIAL_STATE, action) {
         ...state,
         loggedIn: action.newState,
         error: action.error,
-        currentUser: Meteor.userId(),
+        currentUser: user,
       };
     case LOGIN_IN:
       return { ...state, loggingIn: action.loggingIn };

@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from './reducers';
@@ -17,9 +16,7 @@ const middleware = [
 const store = createStore(
   rootReducer,
   initialState,
-  composeWithDevTools(applyMiddleware(...middleware), autoRehydrate()),
+  composeWithDevTools(applyMiddleware(...middleware)),
 );
-
-persistStore(store);
 
 export default store;

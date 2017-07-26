@@ -33,3 +33,12 @@ export const createProduct = new ValidatedMethod({
     return Products.insert(...args);
   },
 });
+
+export const getAllProducts = new ValidatedMethod({
+  name: 'Products.methods.getAllProducts',
+  validate: null,
+
+  async run() {
+    return Products.find({}).fetch();
+  },
+});

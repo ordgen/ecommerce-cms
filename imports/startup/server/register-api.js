@@ -5,4 +5,3 @@ import '../../api/products/server/publications';
 import '../../api/products/server/methods';
 import '../../api/product-categories/server/publications';
 import '../../api/product-categories/server/methods';
-

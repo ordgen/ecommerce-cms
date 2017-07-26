@@ -11,7 +11,7 @@ const Public = function Public({ loggedIn, loggingIn, component, ...rest }) {
         if (loggingIn) return <div />;
         return !loggedIn
           ? (React.createElement(component, { ...props, loggedIn, loggingIn }))
-          : (<Redirect to="/dashboard/home" />);
+          : (<Redirect to="/dashboard" />);
       }}
     />
   );
