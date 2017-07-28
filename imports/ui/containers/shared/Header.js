@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import AppBar from 'material-ui/AppBar';
 import PropTypes from 'prop-types';
-import { white, darkBlack, lime700 } from 'material-ui/styles/colors';
+import { white, darkBlack, lime900, lime800 } from 'material-ui/styles/colors';
 import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
@@ -148,7 +148,10 @@ class Header extends PureComponent {
                 <div className="ecommerce-cms-collapsible-section">
                   <div className="ecommerce-cms-header-background ecommerce-cms-full-site-width">
                     <div className="ecommerce-cms-collapsible-section-wrapper">
-                      <div className="ecommerce-cms-header-billboard">
+                      <div
+                        className="ecommerce-cms-header-billboard"
+                        style={{ backgroundColor: lime900 }}
+                      >
                         <div className="container">
                           <div className="row">
                             <div
@@ -158,8 +161,8 @@ class Header extends PureComponent {
                               <SearchBar
                                 onChange={() => console.log('onChange')}
                                 onRequestSearch={() => console.log('onRequestSearch')}
-                                closeIcon={<NavigationClose color={lime700} />}
-                                searchIcon={<ActionSearch color={lime700} />}
+                                closeIcon={<NavigationClose color={lime800} />}
+                                searchIcon={<ActionSearch color={lime800} />}
                                 hintText={navDrawerOpen ? '' : 'Search Products'}
                               />
                             </div>
@@ -181,7 +184,10 @@ class Header extends PureComponent {
               <div className="ecommerce-cms-collapsible-section">
                 <div className="ecommerce-cms-header-background ecommerce-cms-full-site-width">
                   <div className="ecommerce-cms-collapsible-section-wrapper">
-                    <div className="ecommerce-cms-header-billboard">
+                    <div
+                      className="ecommerce-cms-header-billboard"
+                      style={{ backgroundColor: lime900 }}
+                    >
                       <div className="container">
                         <div className="row">
                           <div
@@ -197,8 +203,8 @@ class Header extends PureComponent {
                             <SearchBar
                               onChange={() => console.log('onChange')}
                               onRequestSearch={() => console.log('onRequestSearch')}
-                              closeIcon={<NavigationClose color={lime700} />}
-                              searchIcon={<ActionSearch color={lime700} />}
+                              closeIcon={<NavigationClose color={lime800} />}
+                              searchIcon={<ActionSearch color={lime800} />}
                               hintText="Search Products"
                             />
                           </div>

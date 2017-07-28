@@ -1,12 +1,11 @@
-import { lime700, lime500, lime400, lime200, grey900, brown900, darkBlack, white } from 'material-ui/styles/colors';
+import { lime600, lime700, pinkA400, grey900, darkBlack, white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const themeDefault = getMuiTheme({
   palette: {
-    primary1Color: lime500,
+    primary1Color: lime600,
     primary2Color: lime700,
-    primary3Color: lime400,
-    accent1Color: lime200,
+    accent1Color: pinkA400,
   },
   textColor: darkBlack,
   alternateTextColor: white,

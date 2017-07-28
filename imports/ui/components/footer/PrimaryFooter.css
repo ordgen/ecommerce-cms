@@ -1,7 +1,3 @@
-.ecommerce-cms-footer-linkboxes-all-backup {
-  background: linear-gradient(90deg,#303c42 50%,#37424b 50%);
-}
-
 .ecommerce-cms-footer-linkboxes {
   font: 14px/16px Roboto,sans-serif;
 }
@@ -18,12 +14,7 @@
   padding: 0;
 }
 
-.ecommerce-cms-footer-linkbox-backup {
-  background: #303c42;
-}
-
 .ecommerce-cms-footer-linkbox {
-  background: #263238;
   display: inline-block;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
