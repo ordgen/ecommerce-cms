@@ -9,9 +9,9 @@ import { push } from 'react-router-redux';
 import Paper from 'material-ui/Paper';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
-import { ProductCategoriesSelector } from '../../models/selectors/productCategorySelectors';
+import { ProductCategoriesSelector } from '../../models/selectors/products';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import { createProduct } from '../../actions/ProductActionCreators';
+import { createProduct } from '../../actions/action-creators/Products';
 
 const styles = {
   paperStyle: {
@@ -50,6 +50,7 @@ class NewProduct extends Component {
     this.state = {
       canSubmit: false,
       categoryValue: null,
+      formError: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
@@ -64,14 +65,11 @@ class NewProduct extends Component {
 
   onSubmit(data) {
     const args = { ...data, pictures: [data.pictures], user: this.props.user };
-    this.props.createProduct(args).then(
-      (res) => {
-        if (res.success) {
-          setTimeout(() => this.props.changePage('/dashboard/products'), 3000);
-        } else {
-          console.log(res.error);
-        }
-      });
+    this.props.createProduct(
+      args,
+    ).then(
+      () => setTimeout(() => this.props.changePage('/dashboard/products'), 3000),
+    ).catch(reason => this.setState({ formError: reason }));
   }
 
   enableSubmitButton() {

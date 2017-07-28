@@ -3,19 +3,19 @@ import orm from '../orm';
 
 const stateSelector = state => state.entities;
 
-const userSelector = createSelector(
+export const userSelector = createSelector(
   orm,
   stateSelector,
   session => session.User.all().toRefArray(),
 );
 
-const ProductCategoriesSelector = createSelector(
+export const ProductCategoriesSelector = createSelector(
   orm,
   stateSelector,
   session => session.ProductCategory.all().toRefArray(),
 );
 
-const ProductCategorySelector = createSelector(
+export const ProductCategorySelector = createSelector(
   orm,
   stateSelector,
   (state, productCategoryId) => productCategoryId,
@@ -27,7 +27,7 @@ const ProductCategorySelector = createSelector(
   },
 );
 
-const ProductCategoryProductSelector = createSelector(
+export const ProductCategoryProductSelector = createSelector(
   orm,
   stateSelector,
   (state, productCategory) => productCategory,
@@ -36,7 +36,7 @@ const ProductCategoryProductSelector = createSelector(
   ),
 );
 
-const ProductCategoryChildrenSelector = createSelector(
+export const ProductCategoryChildrenSelector = createSelector(
   orm,
   stateSelector,
   (state, productCategory) => productCategory,
@@ -44,10 +44,3 @@ const ProductCategoryChildrenSelector = createSelector(
     c => c.parent === productCategory.id,
   ),
 );
-
-export { userSelector };
-export { ProductCategoriesSelector };
-export { ProductCategorySelector };
-export { ProductCategoryChildrenSelector };
-export { ProductCategoryProductSelector };
-

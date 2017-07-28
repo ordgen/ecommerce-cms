@@ -5,7 +5,6 @@ import { Accounts } from 'meteor/accounts-base';
   validate new user account creation
 */
 Accounts.validateNewUser((user) => {
-  console.log(`validating new user ${user.email}`);
   new SimpleSchema({
     _id: { type: String },
     emails: { type: Array },

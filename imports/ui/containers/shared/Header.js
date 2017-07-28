@@ -18,7 +18,7 @@ import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
 import MobileDrawer from './MobileDrawer';
-import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategorySelectors';
+import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategories';
 import './Header.css';
 
 const styles = {

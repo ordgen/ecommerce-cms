@@ -3,7 +3,7 @@ import orm from '../orm';
 
 const stateSelector = state => state.entities;
 
-const ProductsSelector = createSelector(
+export const ProductsSelector = createSelector(
   orm,
   stateSelector,
   session => session.Product.all().toRefArray().map(
@@ -12,5 +12,3 @@ const ProductsSelector = createSelector(
       category: session.ProductCategory.hasId(product.category) ? session.ProductCategory.withId(product.category).ref.name : '' }), // eslint-disable-line max-len
   ),
 );
-
-export { ProductsSelector };

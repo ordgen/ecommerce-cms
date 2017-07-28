@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import { ProductsSelector } from '../../models/selectors/productSelectors';
+import { ProductsSelector } from '../../models/selectors/products';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';

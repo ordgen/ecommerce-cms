@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { login } from '../../actions/AuthActionCreators';
+import { login } from '../../actions/action-creators/Auth';
 
 export default function connectLoginForm(Form) {
   class ConnectLoginForm extends Component {

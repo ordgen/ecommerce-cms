@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import {
-  CREATE_PRODUCT,
+  ADD_PRODUCT,
   ADD_PRODUCT_TO_CATEGORY,
   REMOVE_PRODUCT,
-  CREATE_PRODUCT_CATEGORY,
+  ADD_PRODUCT_CATEGORY,
   REMOVE_PRODUCT_CATEGORY,
 } from '../actions/types';
 import orm from '../models/orm';
@@ -27,7 +27,7 @@ export default function ormReducer(dbState = initialState, action) {
   const { Product, ProductCategory } = sess;
   const { payload, type } = action;
   switch (type) {
-    case CREATE_PRODUCT:
+    case ADD_PRODUCT:
       Product.create(payload);
       break;
     case ADD_PRODUCT_TO_CATEGORY:
@@ -36,7 +36,7 @@ export default function ormReducer(dbState = initialState, action) {
     case REMOVE_PRODUCT:
       Product.withId(payload.id).delete();
       break;
-    case CREATE_PRODUCT_CATEGORY:
+    case ADD_PRODUCT_CATEGORY:
       ProductCategory.create(payload);
       break;
     case REMOVE_PRODUCT_CATEGORY:

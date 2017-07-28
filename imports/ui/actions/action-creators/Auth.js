@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import {
   SET_AUTH,
   LOGIN_IN,
-} from './types';
+} from '../types';
 
 /**
  * Sets the loggingIn state, which displays a loading indicator during requests
