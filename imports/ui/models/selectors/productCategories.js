@@ -28,7 +28,7 @@ export const ProductCategorySelector = createSelector(
   },
 );
 
-export const ProductCategoryProductSelector = createSelector(
+export const ProductCategoryProductsSelector = createSelector(
   orm,
   stateSelector,
   (state, productCategory) => productCategory,

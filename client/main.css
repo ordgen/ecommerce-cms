@@ -29,3 +29,34 @@ body {
   margin: auto;
   color: #000;
 }
+
+.ecommerce-cms-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ecommerce-cms-main-content {
+  margin: 0 auto;
+}
+
+.ecommerce-cms-landing-page .ecommerce-cms-article {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+  position: relative;
+}
+
+.ecommerce-cms-article-inner {
+  min-height: calc(100vh - 562px);
+  float: left;
+  width: 100%;
+}
+
+.ecommerce-cms-landing-row.ecommerce-cms-background {
+  margin: 0 -10000px;
+  padding: 40px 10000px;
+}
+
+.ecommerce-cms-background-grey {
+  background-color: #f7f7f7;
+}

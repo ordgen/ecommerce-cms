@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { ProductCategoriesWithProductSelector } from '../../models/selectors/productCategories';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
@@ -35,7 +36,10 @@ const Home = function Home({ categoriesWithProduct }) {
                           {category.description}
                         </CardText>
                         <CardActions>
-                          <FlatButton label="View" />
+                          <FlatButton
+                            label="View"
+                            containerElement={<Link to={`/category/${category.id}/products`} />}
+                          />
                         </CardActions>
                       </Card>
                     </div>

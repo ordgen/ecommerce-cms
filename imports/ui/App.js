@@ -10,6 +10,7 @@ import Dashboard from './containers/dashboard/Dashboard';
 import ThemeDefault from './theme-default';
 import Logout from './containers/logout';
 import Authenticated from './components/pages/Authenticated';
+import CategoryWithProducts from './containers/product-categories/CategoryWithProducts';
 import Public from './components/pages/Public';
 
 injectTapEventPlugin();
@@ -20,6 +21,7 @@ const App = () => (
       <main>
         <Route exact path="/" component={Home} />
         <Route exact path="/contact-us" component={ContactUs} />
+        <Route exact path="/category/:categoryId/products" component={CategoryWithProducts} />
         <Route exact path="/about-us" component={AboutUs} />
         <Public exact path="/login" component={Login} />
         <Route exact path="/logout" component={Logout} />
