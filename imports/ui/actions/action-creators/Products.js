@@ -73,6 +73,7 @@ export function fetchAndCreateProducts() {
               price: product.price,
               pictures: product.pictures,
               category: product.productCategoryId,
+              description: product.description,
             };
             const payload2 = {
               categoryId: product.productCategoryId,

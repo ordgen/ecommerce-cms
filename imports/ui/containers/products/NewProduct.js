@@ -9,7 +9,7 @@ import { push } from 'react-router-redux';
 import Paper from 'material-ui/Paper';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
-import { ProductCategoriesSelector } from '../../models/selectors/products';
+import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import { createProduct } from '../../actions/action-creators/Products';
 
@@ -135,7 +135,7 @@ class NewProduct extends Component {
                       <FormsyText
                         name="description"
                         floatingLabelText="Product Description"
-                        hintText="Do you want to describe your product?"
+                        hintText="What is this product about?"
                         style={styles.formElement}
                       />
                       <FormsyText

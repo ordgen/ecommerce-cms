@@ -1,4 +1,5 @@
 import { createSelector } from 'redux-orm';
+import _ from 'underscore';
 import orm from '../orm';
 
 const stateSelector = state => state.entities;
@@ -43,4 +44,18 @@ export const ProductCategoryChildrenSelector = createSelector(
   (session, productCategory) => session.ProductCategory.all().toRefArray().filter(
     c => c.parent === productCategory.id,
   ),
+);
+
+export const ProductCategoriesWithProductSelector = createSelector(
+  orm,
+  stateSelector,
+  session => _.compact(session.ProductCategory.all().toModelArray().map((cModel) => {
+    if (cModel.products.toRefArray().length > 0) {
+      return {
+        ...cModel.ref,
+        product: cModel.products.toRefArray()[0],
+      };
+    }
+    return null;
+  })),
 );

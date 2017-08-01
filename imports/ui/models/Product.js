@@ -30,7 +30,7 @@ export default class Product extends Model {
       PropTypes.instanceOf(ProductCategory),
       PropTypes.string,
     ]).isRequired,
-    description: PropTypes.string,
+    description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     discount: PropTypes.number,
   }

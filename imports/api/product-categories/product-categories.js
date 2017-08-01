@@ -22,10 +22,9 @@ ProductCategories.schema = new SimpleSchema([
       type: String,
       label: 'Product Name',
     },
-    picture: {
+    description: {
       type: String,
-      label: 'Banner Picture',
-      optional: true,
+      label: 'Description',
     },
     parent: {
       type: String,

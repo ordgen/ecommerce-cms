@@ -7,6 +7,7 @@ export default class ProductCategory extends Model {
     return {
       id: attr(),
       name: attr(),
+      description: attr(),
       products: many('Product', 'productCategories'),
       user: fk('User', 'productCategories'),
     };
@@ -18,6 +19,7 @@ export default class ProductCategory extends Model {
   static propTypes = {
     name: PropTypes.string.isRequired,
     picture: PropTypes.string,
+    description: PropTypes.string.isRequired,
     parent: PropTypes.string,
     user: PropTypes.oneOfType([
       PropTypes.instanceOf(User),

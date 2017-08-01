@@ -24,6 +24,7 @@ export function createProductCategory(data) {
     Meteor.call('ProductCategories.methods.createProductCategory',
       {
         name: data.name,
+        description: data.description,
         parent: data.parent,
       },
       (err, res) => {
@@ -53,6 +54,7 @@ export function fetchAndCreateProductCategories() {
             const payload = {
               id: category._id, // eslint-disable-line no-underscore-dangle
               name: category.name,
+              description: category.description,
               parent: category.parent,
             };
             dispatch(addProductCategory(payload));

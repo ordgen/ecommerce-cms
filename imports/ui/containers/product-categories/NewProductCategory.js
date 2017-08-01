@@ -90,7 +90,8 @@ class NewProductCategory extends Component {
 
   render() {
     const { match, productCategories } = this.props;
-    const { parentValue } = this.state;
+    const { parentValue, formError } = this.state;
+    console.log(formError)
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Category" />
@@ -119,6 +120,13 @@ class NewProductCategory extends Component {
                         required
                         hintText="What is the name of the category?"
                         floatingLabelText="Name of Category"
+                        style={styles.formElement}
+                      />
+                      <FormsyText
+                        name="description"
+                        required
+                        hintText="What is this category about?"
+                        floatingLabelText="Description"
                         style={styles.formElement}
                       />
                       <RaisedButton

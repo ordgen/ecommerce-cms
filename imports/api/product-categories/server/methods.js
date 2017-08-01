@@ -13,9 +13,8 @@ export const createProductCategory = new ValidatedMethod({
       regEx: SimpleSchema.RegEx.Id,
       optional: true,
     },
-    picture: {
+    description: {
       type: String,
-      optional: true,
     },
   }).validator(),
 

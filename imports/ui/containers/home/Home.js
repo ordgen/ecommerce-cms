@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import { ProductsSelector } from '../../models/selectors/products';
+import { ProductCategoriesWithProductSelector } from '../../models/selectors/productCategories';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './Home.css';
 
-const Home = function Home({ products }) {
+const Home = function Home({ categoriesWithProduct }) {
   return (
     <div className="ecommerce-cms-wrapper">
       <Header />
@@ -19,20 +19,20 @@ const Home = function Home({ products }) {
             <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
               <div className="container">
                 <div className="row">
-                  {products.map(product => (
+                  {categoriesWithProduct.map(category => (
                     <div
                       className="col-md-4 col-lg-4 col-xs-12 col-sm-6"
-                      key={product.id}
+                      key={category.id}
                     >
                       <Card
                         style={{ marginBottom: 30 }}
                       >
                         <CardMedia>
-                          <img src={product.pictures[0]} alt="" />
+                          <img src={category.product.pictures[0]} alt="" />
                         </CardMedia>
-                        <CardTitle title={product.category} subtitle={product.name} />
+                        <CardTitle title={category.name} subtitle={category.product.name} />
                         <CardText>
-                          {product.description}
+                          {category.description}
                         </CardText>
                         <CardActions>
                           <FlatButton label="View" />
@@ -54,11 +54,11 @@ const Home = function Home({ products }) {
 };
 
 Home.propTypes = {
-  products: PropTypes.array.isRequired,
+  categoriesWithProduct: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
-  products: ProductsSelector(state),
+  categoriesWithProduct: ProductCategoriesWithProductSelector(state),
 });
 
 export default connect(mapStateToProps, null)(Home);

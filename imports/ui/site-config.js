@@ -56,6 +56,13 @@ const Products = [
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
   },
   {
+    name: 'Exy Sofa',
+    id: '224444',
+    image: 'http://static.achica.com/Media/Promo/Banner/0717_31_midnight-tones-furniture_580.jpg?i10c=img.resize(width:460,height:310)?i10c=img.resize(width:460,height:310)',
+    category: 'Sofa',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
+  },
+  {
     name: 'Mattress',
     id: 'hdhhd63663',
     image: 'http://static.achica.com/Media/Promo/Banner/0717_17_eve-mattresses_580.jpg?i10c=img.resize(width:300,height:200)',
@@ -102,6 +109,13 @@ const Products = [
     id: 'adadda111',
     image: 'http://static.achica.com/Media/Promo/Banner/0717_16_orla-kiely-cushions_580.jpg?i10c=img.resize(width:300,height:200)',
     category: 'Throw Pillows',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
+  },
+  {
+    name: 'Framed Prints',
+    id: 'hsjds633637',
+    image: 'http://static.achica.com/Media/Promo/Banner/0717_28_vettriano-framed-prints_580.jpg?i10c=img.resize(width:460,height:310)?i10c=img.resize(width:460,height:310)',
+    category: 'Wall Art',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
   },
 ];
