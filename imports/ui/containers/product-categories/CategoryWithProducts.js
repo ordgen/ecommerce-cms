@@ -27,11 +27,23 @@ const CategoryWithProducts = function CategoryWithProducts({ getCategory, getCat
                     <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                       <div className="row">
                         <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                          <p
-                            style={{ fontSize: 11, color: '#878787' }}
-                          >
-                            {productCategory.name}
-                          </p>
+                          {productCategory.parent
+                            ? <p
+                              style={{ fontSize: 11, color: '#878787', display: 'inline-block' }}
+                            >
+                              <Link
+                                to={`/category/${productCategory.parent.id}/products`}
+                                style={{ color: '#878787' }}
+                              >
+                                {productCategory.parent.name}
+                              </Link>  / {productCategory.name}
+                            </p>
+                            : <p
+                              style={{ fontSize: 11, color: '#878787' }}
+                            >
+                              {productCategory.name}
+                            </p>
+                          }
                         </div>
                       </div>
                       <div className="row">
@@ -59,7 +71,7 @@ const CategoryWithProducts = function CategoryWithProducts({ getCategory, getCat
                             key={product.id}
                           >
                             <Link
-                              to="#"
+                              to={`/product/${product.id}`}
                             >
                               <Card
                                 style={{ marginBottom: 30 }}

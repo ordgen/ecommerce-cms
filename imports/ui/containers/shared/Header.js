@@ -268,7 +268,7 @@ class Header extends PureComponent {
                           <MenuItem
                             key={menu.id}
                             primaryText={menu.name}
-                            containerElement={menu.link ? <Link to={menu.link} /> : 'span'}
+                            containerElement={menu.children && menu.children.length > 0 ? 'span' : <Link to={`/category/${menu.id}/products`} />}
                             rightIcon={
                               menu.children.length > 0
                                 ? <ArrowDropRight />
@@ -279,7 +279,7 @@ class Header extends PureComponent {
                                 <MenuItem
                                   key={menu2.id}
                                   primaryText={menu2.name}
-                                  containerElement={menu2.link ? <Link to={menu2.link} /> : 'span'}
+                                  containerElement={<Link to={`/category/${menu2.id}/products`} />}
                                 />
                               ))
                               : []

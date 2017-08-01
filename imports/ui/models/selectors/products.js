@@ -12,3 +12,19 @@ export const ProductsSelector = createSelector(
       category: session.ProductCategory.hasId(product.category) ? session.ProductCategory.withId(product.category).ref.name : '' }), // eslint-disable-line max-len
   ),
 );
+
+export const ProductSelector = createSelector(
+  orm,
+  stateSelector,
+  (state, productId) => productId,
+  (session, productId) => {
+    if (session.Product.hasId(productId)) {
+      const product = session.Product.withId(productId).ref;
+      return {
+        ...product,
+        category: session.ProductCategory.withId(product.category),
+      };
+    }
+    return null;
+  },
+);

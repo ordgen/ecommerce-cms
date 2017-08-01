@@ -22,7 +22,11 @@ export const ProductCategorySelector = createSelector(
   (state, productCategoryId) => productCategoryId,
   (session, productCategoryId) => {
     if (session.ProductCategory.hasId(productCategoryId)) {
-      return session.ProductCategory.withId(productCategoryId).ref;
+      const category = session.ProductCategory.withId(productCategoryId).ref;
+      return {
+        ...category,
+        parent: category.parent ? session.ProductCategory.withId(category.parent).ref : null,
+      };
     }
     return null;
   },

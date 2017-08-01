@@ -12,6 +12,7 @@ export default class Product extends Model {
       description: attr(),
       price: attr(),
       discount: attr(),
+      category: attr(),
     };
   }
 
