@@ -60,3 +60,7 @@ body {
 .ecommerce-cms-background-grey {
   background-color: #f7f7f7;
 }
+
+.ecommerce-cms-landing-row .product-card a {
+  text-decoration: none;
+}

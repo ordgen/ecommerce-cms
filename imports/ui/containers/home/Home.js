@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ProductCategoriesWithProductSelector } from '../../models/selectors/productCategories';
@@ -22,26 +21,24 @@ const Home = function Home({ categoriesWithProduct }) {
                 <div className="row">
                   {categoriesWithProduct.map(category => (
                     <div
-                      className="col-md-4 col-lg-4 col-xs-12 col-sm-6"
+                      className="col-md-4 col-lg-4 col-xs-12 col-sm-6 product-card"
                       key={category.id}
                     >
-                      <Card
-                        style={{ marginBottom: 30 }}
+                      <Link
+                        to={`/category/${category.id}/products`}
                       >
-                        <CardMedia>
-                          <img src={category.product.pictures[0]} alt="" />
-                        </CardMedia>
-                        <CardTitle title={category.name} subtitle={category.product.name} />
-                        <CardText>
-                          {category.description}
-                        </CardText>
-                        <CardActions>
-                          <FlatButton
-                            label="View"
-                            containerElement={<Link to={`/category/${category.id}/products`} />}
-                          />
-                        </CardActions>
-                      </Card>
+                        <Card
+                          style={{ marginBottom: 30 }}
+                        >
+                          <CardMedia>
+                            <img src={category.product.pictures[0]} alt="" />
+                          </CardMedia>
+                          <CardTitle title={category.name} subtitle={category.product.name} />
+                          <CardText>
+                            {category.description}
+                          </CardText>
+                        </Card>
+                      </Link>
                     </div>
                   ))
                   }

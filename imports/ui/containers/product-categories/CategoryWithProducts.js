@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
-import FlatButton from 'material-ui/FlatButton';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
@@ -55,23 +55,24 @@ const CategoryWithProducts = function CategoryWithProducts({ getCategory, getCat
                       >
                         {products.map(product => (
                           <div
-                            className="col-md-4 col-lg-4 col-xs-12 col-sm-6"
+                            className="col-md-4 col-lg-4 col-xs-12 col-sm-6 product-card"
                             key={product.id}
                           >
-                            <Card
-                              style={{ marginBottom: 30 }}
+                            <Link
+                              to="#"
                             >
-                              <CardMedia>
-                                <img src={product.pictures[0]} alt="" />
-                              </CardMedia>
-                              <CardTitle title={product.name} subtitle={`$${product.price}`} />
-                              <CardText>
-                                {product.description}
-                              </CardText>
-                              <CardActions>
-                                <FlatButton label="View" />
-                              </CardActions>
-                            </Card>
+                              <Card
+                                style={{ marginBottom: 30 }}
+                              >
+                                <CardMedia>
+                                  <img src={product.pictures[0]} alt="" />
+                                </CardMedia>
+                                <CardTitle title={product.name} subtitle={`$${product.price}`} />
+                                <CardText>
+                                  {product.description}
+                                </CardText>
+                              </Card>
+                            </Link>
                           </div>
                         ))
                         }
