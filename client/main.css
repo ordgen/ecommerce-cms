@@ -37,6 +37,7 @@ body {
 
 .ecommerce-cms-main-content {
   margin: 0 auto;
+  margin-top: 30px;
 }
 
 .ecommerce-cms-landing-page .ecommerce-cms-article {
@@ -64,3 +65,120 @@ body {
 .ecommerce-cms-landing-row .product-card a {
   text-decoration: none;
 }
+
+
+/* Glide start */
+.glide--dots .active-dot {
+  color: rgb(130, 119, 23);
+}
+
+.glide--container{
+  height: 100%;
+}
+
+.glide--item > span > * {
+  position: absolute;
+  width: 100%;
+  z-index: 9;
+}
+
+.glide--container button {
+  top: 45%;
+  position: absolute;
+  z-index: 10;
+}
+
+.glide--next-btn {
+  right:0;
+  color: hsl(190, 95%, 80%);
+  background-color: hsl(190, 10%, 10%);
+  height: 60px;
+  width: 35px;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.glide--prev-btn {
+  left: 0;
+  color: hsl(190, 95%, 80%);
+  background-color: hsl(190, 10%, 10%);
+  height: 60px;
+  width: 35px;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.glide--dots {
+  position: absolute;
+  top: 85%;
+  right: 43%;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.glide--dots li {
+  list-style: none;
+  display: inline-flex;
+  font-size: 64px;
+}
+
+.glide--dots .active-dot {
+  color: hsl(190, 95%, 80%);;
+}
+
+
+/*
+* classnames and settings for <ReactCSSTransitionGroup />
+*/
+
+.current-enter {
+  opacity: 0.01;
+}
+
+.current-enter.current-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.current-appear {
+  opacity: 0.01;
+}
+
+.current-appear.current-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.current-exit {
+  opacity: 1;
+}
+
+.current-exit.current-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+@media (max-width:961px)  {
+  .glide--prev-btn, .glide--next-btn {
+    height: 25px;
+    width: 25px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width:481px)  {
+
+  .glide--prev-btn, .glide--next-btn {
+    height: 20px;
+    width: 20px;
+    font-size: 10px;
+  }
+}
+
+/* Glide End */

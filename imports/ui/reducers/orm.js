@@ -5,6 +5,9 @@ import {
   REMOVE_PRODUCT,
   ADD_PRODUCT_CATEGORY,
   REMOVE_PRODUCT_CATEGORY,
+  ADD_SLIDER_IMAGE,
+  REMOVE_SLIDER_IMAGE,
+  UPDATE_SLIDER_IMAGE,
 } from '../actions/types';
 import orm from '../models/orm';
 
@@ -24,7 +27,7 @@ export default function ormReducer(dbState = initialState, action) {
 
   /* Session-specific Models are available
   as properties on the Session instance. */
-  const { Product, ProductCategory } = sess;
+  const { Product, ProductCategory, SliderImage } = sess;
   const { payload, type } = action;
   switch (type) {
     case ADD_PRODUCT:
@@ -41,6 +44,15 @@ export default function ormReducer(dbState = initialState, action) {
       break;
     case REMOVE_PRODUCT_CATEGORY:
       ProductCategory.withId(payload.id).delete();
+      break;
+    case ADD_SLIDER_IMAGE:
+      SliderImage.create(payload);
+      break;
+    case REMOVE_SLIDER_IMAGE:
+      SliderImage.withId(payload.id).delete();
+      break;
+    case UPDATE_SLIDER_IMAGE:
+      SliderImage.withId(payload.id).update(payload);
       break;
     default:
       break;

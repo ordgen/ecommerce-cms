@@ -7,11 +7,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Paper from 'material-ui/Paper';
-import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
-import MenuItem from 'material-ui/MenuItem';
-import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
+import { FormsyText } from 'formsy-material-ui/lib';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import { createProductCategory } from '../../actions/action-creators/ProductCategories';
+import { createSliderImage } from '../../actions/action-creators/SliderImages';
 
 const styles = {
   paperStyle: {
@@ -32,43 +30,26 @@ const styles = {
   },
 };
 
-class NewProductCategory extends Component {
-  static ParentMenuItems(values, parentItems) {
-    return parentItems.map(parentItem => (
-      <MenuItem
-        key={parentItem.id}
-        insetChildren={true}
-        checked={values && values.indexOf(parentItem.id) > -1}
-        value={parentItem.id}
-        primaryText={parentItem.name}
-      />
-    ));
-  }
-
+class NewSliderImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       canSubmit: false,
-      parentValue: null,
       formError: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
-    this.handleParentChange = this.handleParentChange.bind(this);
     this.errorMessages = {
       wordsError: 'Please only use letters',
-      numericError: 'Please provide a number',
-      urlError: 'Please provide a valid URL',
     };
   }
 
   onSubmit(data) {
-    const args = { ...data, user: this.props.user };
-    this.props.createProductCategory(
-      args,
+    this.props.createSliderImage(
+      data,
     ).then(
-      () => setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000),
+      () => setTimeout(() => this.props.changePage('/dashboard/slider-images'), 3000),
     ).catch(reason => this.setState({ formError: reason }));
   }
 
@@ -86,14 +67,14 @@ class NewProductCategory extends Component {
 
   handleParentChange(event, value) {
     this.setState({ parentValue: value });
+    console.log(this.state.formError)
   }
 
   render() {
-    const { match, productCategories } = this.props;
-    const { parentValue } = this.state;
+    const { match } = this.props;
     return (
       <div>
-        <BreadCrumbs match={match} pageTitle="New Category" />
+        <BreadCrumbs match={match} pageTitle="New Slider Image" />
         <div className="container">
           <div className="row">
             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -105,27 +86,17 @@ class NewProductCategory extends Component {
                       onValid={this.enableSubmitButton}
                       onInvalid={this.disableSubmitButton}
                     >
-                      <FormsySelect
-                        name="parent"
-                        hintText="Select the parent of this category (optional)"
-                        style={styles.formElement}
-                        onChange={this.handleParentChange}
-                        value={parentValue}
-                      >
-                        {NewProductCategory.ParentMenuItems([parentValue], productCategories)}
-                      </FormsySelect>
                       <FormsyText
-                        name="name"
+                        name="image"
                         required
-                        hintText="What is the name of the category?"
-                        floatingLabelText="Name of Category"
+                        hintText="Image"
+                        floatingLabelText="Image"
                         style={styles.formElement}
                       />
                       <FormsyText
-                        name="description"
-                        required
-                        hintText="What is this category about?"
-                        floatingLabelText="Description"
+                        name="link"
+                        hintText="Does this image link to a page?"
+                        floatingLabelText="Page Link"
                         style={styles.formElement}
                       />
                       <RaisedButton
@@ -147,22 +118,15 @@ class NewProductCategory extends Component {
   }
 }
 
-NewProductCategory.propTypes = {
+NewSliderImage.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
-  createProductCategory: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
-  productCategories: PropTypes.array.isRequired,
+  createSliderImage: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: state.auth.currentUser,
-  productCategories: ProductCategoriesSelector(state),
-});
-
 const mapDispatchToProps = dispatch => bindActionCreators({
-  createProductCategory,
+  createSliderImage,
   changePage: path => push(path),
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewProductCategory);
+export default connect(null, mapDispatchToProps)(NewSliderImage);

@@ -51,14 +51,14 @@ const MobileDrawer = (props) => {
               key={menu.id}
               style={styles.menuItem}
               primaryText={menu.name}
-              containerElement={menu.link ? <Link to={menu.link} /> : 'span'}
+              containerElement={menu.children && menu.children.length > 0 ? 'span' : <Link to={`/category/${menu.id}/products`} />}
               nestedItems={(menu.children && menu.children.length > 0)
                 ? menu.children.map(m => (
                   <ListItem
                     key={m.id}
                     style={styles.menuItem}
                     primaryText={m.name}
-                    containerElement={m.link ? <Link to={m.link} /> : 'span'}
+                    containerElement={<Link to={`/category/${m.id}/products`} />}
                   />
                 ))
                 : []

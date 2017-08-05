@@ -2,17 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
+import Glide from 'react-glide';
 import { Link } from 'react-router-dom';
 import { ProductCategoriesWithProductSelector } from '../../models/selectors/productCategories';
+import { AllSliderImagesSelector } from '../../models/selectors/sliderImages';
 import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './Home.css';
 
-const Home = function Home({ categoriesWithProduct }) {
+const Home = function Home({ categoriesWithProduct, sliderImages }) {
   return (
     <div className="ecommerce-cms-wrapper">
       <Header />
+      {(sliderImages && sliderImages.length > 0) &&
+        <Glide
+          autoPlay
+          autoPlaySpeed={5000}
+        >
+          {sliderImages.map(sliderImage => (
+            <Link
+              key={sliderImage.id}
+              to={sliderImage.link ? sliderImage.link : '#'}
+            >
+              <img
+                src={sliderImage.image}
+                alt=""
+                className="img-fluid"
+              />
+            </Link>
+          ))}
+        </Glide>
+      }
       <div className="ecommerce-cms-main-content clearfix">
         <article className="ecommerce-cms-article">
           <article className="ecommerce-cms-article-inner">
@@ -56,10 +77,12 @@ const Home = function Home({ categoriesWithProduct }) {
 
 Home.propTypes = {
   categoriesWithProduct: PropTypes.array.isRequired,
+  sliderImages: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
   categoriesWithProduct: ProductCategoriesWithProductSelector(state),
+  sliderImages: AllSliderImagesSelector(state),
 });
 
 export default connect(mapStateToProps, null)(Home);

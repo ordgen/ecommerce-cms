@@ -12,6 +12,8 @@ import Products from '../products/Products';
 import NewProduct from '../products/NewProduct';
 import NewProductCategory from '../product-categories/NewProductCategory';
 import ProductCategories from '../product-categories/ProductCategories';
+import NewSliderImage from '../slider-images/NewSliderImage';
+import SliderImages from '../slider-images/SliderImages';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -87,6 +89,16 @@ class Dashboard extends React.Component {
             exact
             path={`${match.url}/product-categories`}
             component={ProductCategories}
+          />
+          <Route
+            exact
+            path={`${match.url}/slider-images`}
+            component={SliderImages}
+          />
+          <Route
+            exact
+            path={`${match.url}/slider-images/new`}
+            component={NewSliderImage}
           />
         </div>
       </div>

@@ -16,27 +16,21 @@ const DashboardMenus = [
   },
   {
     text: 'Products',
-    icon: <ActionToc />,
-    link: '',
-    children: [
-      {
-        text: 'All Products',
-        icon: <ActionAssignment />,
-        link: '/dashboard/products',
-      },
-    ],
+    icon: <ActionAssignment />,
+    link: '/dashboard/products',
+    children: [],
   },
   {
     text: 'Product Categories',
     icon: <ActionToc />,
-    link: '',
-    children: [
-      {
-        text: 'All Categories',
-        icon: <ActionAssignment />,
-        link: '/dashboard/product-categories',
-      },
-    ],
+    link: '/dashboard/product-categories',
+    children: [],
+  },
+  {
+    text: 'Slider',
+    icon: <ActionToc />,
+    link: '/dashboard/slider-images',
+    children: [],
   },
 ];
 

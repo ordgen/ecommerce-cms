@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from './reducers';
 import { fetchAndCreateProductCategories } from './actions/action-creators/ProductCategories';
+import { fetchAndCreateSliderImages } from './actions/action-creators/SliderImages';
 
 export const history = createHistory();
 
@@ -31,6 +32,9 @@ const store = createStore(
 persistStore(store, { storage: localForage }, () => {
   if (_.isEmpty(store.getState().entities.ProductCategory.items)) {
     store.dispatch(fetchAndCreateProductCategories());
+  }
+  if (_.isEmpty(store.getState().entities.SliderImage.items)) {
+    store.dispatch(fetchAndCreateSliderImages());
   }
 });
 

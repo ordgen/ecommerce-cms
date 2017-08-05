@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import {
   ADD_PRODUCT_CATEGORY,
   REMOVE_PRODUCT_CATEGORY,
+  IS_LOADING_PRODUCT_CATEGORIES,
 } from '../types';
-import setIsFetchingState from './IsFetching';
+import setIsLoadingState from './IsLoading';
 import { addProduct, addProductToCategory } from './Products';
 
 export function addProductCategory(payload) {
@@ -21,14 +22,16 @@ export function removeProductCategory(payload) {
 }
 
 export function createProductCategory(data) {
-  return dispatch => new Promise((resolve, reject) =>
-    Meteor.call('ProductCategories.methods.createProductCategory',
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, true));
+    return Meteor.call('ProductCategories.methods.createProductCategory',
       {
         name: data.name,
         description: data.description,
         parent: data.parent,
       },
       (err, res) => {
+        dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, false));
         if (!err) {
           const payload = {
             ...data,
@@ -40,15 +43,17 @@ export function createProductCategory(data) {
           reject(err);
         }
       },
-    ),
+    );
+  },
   );
 }
 
 export function fetchAndCreateProductCategories() {
   return (dispatch) => {
-    dispatch(setIsFetchingState(true));
+    dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, true));
     return Meteor.call('ProductCategories.methods.getAllProductCategories',
       (err, res) => {
+        dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, false));
         if (!err) {
           res.forEach((category) => {
             const categoryPayload = {

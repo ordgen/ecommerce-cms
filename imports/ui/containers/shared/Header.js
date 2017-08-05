@@ -191,13 +191,13 @@ class Header extends PureComponent {
                       <div className="container">
                         <div className="row">
                           <div
-                            className="col-md-2 col-lg-2"
+                            className="col-md-2 col-lg-2 col-sm-2"
                             style={{ display: 'flex', justifyContent: 'center' }}
                           >
                             <img className="ecommerce-cms-header-billboard-logo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
                           </div>
                           <div
-                            className="col-md-8 col-lg-8"
+                            className="col-md-8 col-lg-8 col-sm-8"
                             style={styles.centerColumn}
                           >
                             <SearchBar
@@ -209,7 +209,7 @@ class Header extends PureComponent {
                             />
                           </div>
                           <div
-                            className="col-md-2 col-lg-2"
+                            className="col-md-2 col-lg-2 col-sm-2"
                             style={styles.centerColumn}
                           >
                             <RaisedButton

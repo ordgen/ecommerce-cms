@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
 import { pinkA400 } from 'material-ui/styles/colors';
+import Glide from 'react-glide';
 import Subheader from 'material-ui/Subheader';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
@@ -41,9 +42,17 @@ const ProductView = function ProductView({ getProduct, match }) {
                   <div className="row">
                     <div
                       className="col-md-8 col-lg-8 col-xs-12 col-sm-8"
-                      style={{ marginBottom: 20 }}
+                      style={{ marginBottom: 50 }}
                     >
-                      <img className="img-fluid" src={product.pictures[0]} alt="" />
+                      <Glide>
+                        {product.pictures.map(picture => (
+                          <img
+                            src={picture}
+                            alt=""
+                            className="img-fluid"
+                          />
+                        ))}
+                      </Glide>
                     </div>
                     <div
                       className="col-md-4 col-lg-4 col-xs-12 col-sm-4"

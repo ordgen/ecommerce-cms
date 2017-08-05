@@ -3,8 +3,9 @@ import {
   ADD_PRODUCT,
   ADD_PRODUCT_TO_CATEGORY,
   REMOVE_PRODUCT,
+  IS_LOADING_PRODUCTS,
 } from '../types';
-import setIsFetchingState from './IsFetching';
+import setIsLoadingState from './IsLoading';
 
 export function addProduct(payload) {
   return {
@@ -30,6 +31,7 @@ export function removeProduct(payload) {
 
 export function createProduct(data) {
   return dispatch => new Promise((resolve, reject) => {
+    dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, true));
     Meteor.call('Products.methods.createProduct',
       {
         name: data.name,
@@ -39,6 +41,7 @@ export function createProduct(data) {
         price: data.price,
       },
       (err, res) => {
+        dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, false));
         if (!err) {
           const payload = {
             ...data,

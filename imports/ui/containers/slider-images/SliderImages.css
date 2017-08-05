@@ -1,0 +1,13 @@
+.action-buttons {
+	float: right;
+}
+
+.action-buttons ul {
+  padding: 0;
+  margin: 15px 0;
+  list-style: none;
+}
+
+.action-buttons ul>li {
+  display: inline-block;
+}
