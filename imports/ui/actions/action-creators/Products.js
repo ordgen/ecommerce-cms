@@ -59,34 +59,3 @@ export function createProduct(data) {
   });
 }
 
-export function fetchAndCreateProducts() {
-  return (dispatch) => {
-    dispatch(setIsFetchingState(true));
-    return Meteor.call('Products.methods.getAllProducts',
-      (err, res) => {
-        if (!err) {
-          dispatch(setIsFetchingState(false));
-          res.forEach((product) => {
-            const payload = {
-              id: product._id, // eslint-disable-line no-underscore-dangle
-              name: product.name,
-              price: product.price,
-              pictures: product.pictures,
-              category: product.productCategoryId,
-              description: product.description,
-            };
-            const payload2 = {
-              categoryId: product.productCategoryId,
-              productId: product._id, // eslint-disable-line no-underscore-dangle,
-            };
-            dispatch(addProduct(payload));
-            dispatch(addProductToCategory(payload2));
-          });
-        } else {
-          dispatch(setIsFetchingState(false));
-        }
-      },
-    );
-  };
-}
-

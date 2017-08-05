@@ -91,7 +91,6 @@ class NewProductCategory extends Component {
   render() {
     const { match, productCategories } = this.props;
     const { parentValue, formError } = this.state;
-    console.log(formError)
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Category" />

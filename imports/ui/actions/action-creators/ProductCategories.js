@@ -4,6 +4,7 @@ import {
   REMOVE_PRODUCT_CATEGORY,
 } from '../types';
 import setIsFetchingState from './IsFetching';
+import { addProduct, addProductToCategory } from './Products';
 
 export function addProductCategory(payload) {
   return {
@@ -49,18 +50,31 @@ export function fetchAndCreateProductCategories() {
     return Meteor.call('ProductCategories.methods.getAllProductCategories',
       (err, res) => {
         if (!err) {
-          dispatch(setIsFetchingState(false));
           res.forEach((category) => {
-            const payload = {
+            const categoryPayload = {
               id: category._id, // eslint-disable-line no-underscore-dangle
               name: category.name,
               description: category.description,
               parent: category.parent,
             };
-            dispatch(addProductCategory(payload));
+            dispatch(addProductCategory(categoryPayload));
+            category.products.forEach((product) => {
+              const productPayload = {
+                id: product._id, // eslint-disable-line no-underscore-dangle
+                name: product.name,
+                price: product.price,
+                pictures: product.pictures,
+                category: product.productCategoryId,
+                description: product.description,
+              };
+              dispatch(addProduct(productPayload));
+              const addProductToCategoryPayload = {
+                categoryId: product.productCategoryId,
+                productId: product._id, // eslint-disable-line no-underscore-dangle,
+              };
+              dispatch(addProductToCategory(addProductToCategoryPayload));
+            });
           });
-        } else {
-          dispatch(setIsFetchingState(false));
         }
       },
     );
