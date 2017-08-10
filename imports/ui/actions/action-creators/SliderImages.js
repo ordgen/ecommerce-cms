@@ -55,26 +55,56 @@ export function createSliderImage(data) {
 export function fetchAndCreateSliderImages() {
   return (dispatch) => {
     dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, true));
-    return Meteor.call('SliderImages.methods.getAllSliderImages',
-      (err, res) => {
-        dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, false));
-        if (!err) {
-          res.forEach((sliderImage) => {
+    return new Promise((resolve, reject) =>
+      Meteor.call('SliderImages.methods.getAllSliderImages',
+        (err, res) => {
+          dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, false));
+          if (!err) {
+            reject(err);
+          } else {
+            res.forEach((sliderImage) => {
+              const payload = {
+                id: sliderImage._id, // eslint-disable-line no-underscore-dangle
+                url: sliderImage.url,
+                pageLink: sliderImage.pageLink,
+              };
+              dispatch(addSliderImage(payload));
+            });
+            resolve(res);
+          }
+        },
+      ),
+    );
+  };
+}
+
+export function editSliderImage(data) {
+  return (dispatch) => {
+    dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, true));
+    return new Promise((resolve, reject) =>
+      Meteor.call('SliderImages.methods.editImage',
+        { ...data },
+        (err, res) => {
+          dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, false));
+          if (err) {
+            reject(err);
+          } else {
             const payload = {
-              id: sliderImage._id, // eslint-disable-line no-underscore-dangle
-              url: sliderImage.url,
-              pageLink: sliderImage.pageLink,
+              id: data.imageId, // eslint-disable-line no-underscore-dangle
+              url: data.url,
+              pageLink: data.pageLink,
             };
-            dispatch(addSliderImage(payload));
-          });
-        }
-      },
+            dispatch(updateSliderImage(payload));
+            resolve(res);
+          }
+        },
+      ),
     );
   };
 }
 
 export function deleteSliderImage(id) {
-  return dispatch => new Promise((resolve, reject) => {
+  return dispatch => new Promise((resolve, reject) =>
     Meteor.call('SliderImages.methods.deleteImage',
       { imageId: id },
       (err, res) => {
@@ -85,6 +115,6 @@ export function deleteSliderImage(id) {
           reject(err);
         }
       },
-    );
-  });
+    ),
+  );
 }

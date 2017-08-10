@@ -8,3 +8,15 @@ export const AllSliderImagesSelector = createSelector(
   stateSelector,
   session => session.SliderImage.all().toRefArray(),
 );
+
+export const SliderImageSelector = createSelector(
+  orm,
+  stateSelector,
+  (state, imageId) => imageId,
+  (session, imageId) => {
+    if (session.SliderImage.hasId(imageId)) {
+      return session.SliderImage.withId(imageId).ref;
+    }
+    return null;
+  },
+);

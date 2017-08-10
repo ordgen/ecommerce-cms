@@ -7,6 +7,7 @@ export const createImage = new ValidatedMethod({
   validate: new SimpleSchema({
     url: {
       type: String,
+      regEx: SimpleSchema.RegEx.Url,
     },
     pageLink: {
       type: String,
@@ -27,6 +28,28 @@ export const getAllSliderImages = new ValidatedMethod({
     return SliderImages.find({}).fetch();
   },
 });
+
+export const editImage = new ValidatedMethod({
+  name: 'SliderImages.methods.editImage',
+  validate: new SimpleSchema({
+    imageId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+    url: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Url,
+    },
+    pageLink: {
+      type: String,
+    },
+  }).validator(),
+
+  async run({ imageId, url, pageLink }) {
+    return SliderImages.update({ _id: imageId }, { $set: { url, pageLink } });
+  },
+});
+
 
 export const deleteImage = new ValidatedMethod({
   name: 'SliderImages.methods.deleteImage',

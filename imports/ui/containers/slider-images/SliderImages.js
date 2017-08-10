@@ -27,19 +27,9 @@ class SliderImages extends Component {
       selectedImageId: null,
       openSnackBar: false,
     };
-    this.handleEditTap = this.handleEditTap.bind(this);
-    this.handleDialogOpen = this.handleDialogOpen.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDialogCloseWithPositive = this.handleDialogCloseWithPositive.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
-  }
-
-  handleEditTap() {
-    this.props.changePage(`/dashboard/slider-images/edit/${this.state.selectedImageId}`);
-  }
-
-  handleDialogOpen() {
-    this.setState({ openDialog: true });
   }
 
   handleDialogClose() {
@@ -69,6 +59,7 @@ class SliderImages extends Component {
     return images.map(image => (
       <Card
         key={image.id}
+        style={{ marginBottom: 40 }}
       >
         <CardMedia>
           <img src={image.url} alt="" />
@@ -77,12 +68,12 @@ class SliderImages extends Component {
           <FlatButton
             label="Edit"
             primary={true}
-            onTouchTap={this.handleEditTap}
+            onTouchTap={() => this.props.changePage(`/dashboard/slider-images/edit/${image.id}`)} // eslint-disable-line max-len
           />
           <FlatButton
             label="Delete"
             secondary={true}
-            onTouchTap={this.handleDialogOpen}
+            onTouchTap={() => this.setState({ openDialog: true, selectedImageId: image.id })} // eslint-disable-line max-len
           />
         </CardActions>
       </Card>
