@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow*/
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
@@ -40,7 +40,7 @@ class NewSliderImage extends Component {
       formError: null,
       images: [],
       openSnackBar: false,
-      snackMessage: ''
+      snackMessage: '',
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
@@ -55,7 +55,10 @@ class NewSliderImage extends Component {
 
   onSubmit(data) {
     this.props.createSliderImage(
-      data,
+      {
+        url: data.images[0],
+        pageLink: data.page_link,
+      },
     ).then(
       () => setTimeout(() => this.props.changePage('/dashboard/slider-images'), 3000),
     ).catch(reason => this.setState({ formError: reason }));
@@ -97,9 +100,9 @@ class NewSliderImage extends Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, isLoading } = this.props;
     const { images, snackMessage, openSnackBar } = this.state;
-    console.log(images);
+    console.log(this.state.formError);
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Slider Image" />
@@ -120,9 +123,11 @@ class NewSliderImage extends Component {
                         multiple={false}
                         maxFiles={1}
                         onError={this.handleImageUploadError}
+                        dropzoneText="Drag an image here"
+                        dropBtnText="Select image"
                       />
                       <FormsyText
-                        name="link"
+                        name="page_link"
                         hintText="Does this image link to a page?"
                         floatingLabelText="Page Link"
                         style={styles.formElement}
@@ -132,13 +137,13 @@ class NewSliderImage extends Component {
                         type="submit"
                         label="Submit"
                         primary={true}
-                        disabled={!this.state.canSubmit}
+                        disabled={!this.state.canSubmit || isLoading}
                       />
                       <div
                         style={{ display: 'none' }}
                       >
                         <FormsyText
-                          name="image"
+                          name="images"
                           required
                           validations="minLength:1"
                           value={images}
@@ -166,11 +171,16 @@ NewSliderImage.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
   createSliderImage: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = state => ({
+  isLoading: state.isLoading.isLoadingSliderImages,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   createSliderImage,
   changePage: path => push(path),
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(NewSliderImage);
+export default connect(mapStateToProps, mapDispatchToProps)(NewSliderImage);

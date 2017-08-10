@@ -33,8 +33,8 @@ export function createSliderImage(data) {
   return dispatch => new Promise((resolve, reject) => {
     Meteor.call('SliderImages.methods.createImage',
       {
-        image: data.image,
-        link: data.link,
+        url: data.url,
+        pageLink: data.pageLink,
       },
       (err, res) => {
         if (!err) {
@@ -62,8 +62,8 @@ export function fetchAndCreateSliderImages() {
           res.forEach((sliderImage) => {
             const payload = {
               id: sliderImage._id, // eslint-disable-line no-underscore-dangle
-              image: sliderImage.image,
-              link: sliderImage.link,
+              url: sliderImage.url,
+              pageLink: sliderImage.pageLink,
             };
             dispatch(addSliderImage(payload));
           });
@@ -71,4 +71,20 @@ export function fetchAndCreateSliderImages() {
       },
     );
   };
+}
+
+export function deleteSliderImage(id) {
+  return dispatch => new Promise((resolve, reject) => {
+    Meteor.call('SliderImages.methods.deleteImage',
+      { imageId: id },
+      (err, res) => {
+        if (!err) {
+          dispatch(removeSliderImage({ id }));
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    );
+  });
 }

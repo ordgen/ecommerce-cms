@@ -5,8 +5,8 @@ export default class SliderImage extends Model {
   static get fields() {
     return {
       id: attr(),
-      image: attr(),
-      link: attr(),
+      url: attr(),
+      pageLink: attr(),
     };
   }
 
@@ -15,8 +15,8 @@ export default class SliderImage extends Model {
   }
 
   static propTypes = {
-    image: PropTypes.string.isRequired,
-    link: PropTypes.string,
+    url: PropTypes.string.isRequired,
+    pageLink: PropTypes.string,
   }
 
   static defaultProps = {

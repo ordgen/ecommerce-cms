@@ -23,10 +23,10 @@ const Home = function Home({ categoriesWithProduct, sliderImages }) {
           {sliderImages.map(sliderImage => (
             <Link
               key={sliderImage.id}
-              to={sliderImage.link ? sliderImage.link : '#'}
+              to={sliderImage.pageLink ? sliderImage.pageLink : '#'}
             >
               <img
-                src={sliderImage.image}
+                src={sliderImage.url}
                 alt=""
                 className="img-fluid"
               />

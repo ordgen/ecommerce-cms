@@ -16,6 +16,8 @@ class DropzoneComponent extends Component {
   static defaultProps = {
     multiple: true,
     maxFiles: 5,
+    dropzoneText: 'Drop files here',
+    dropBtnText: 'Select files',
   };
   static propTypes = {
     files: PropTypes.array, //eslint-disable-line
@@ -24,6 +26,8 @@ class DropzoneComponent extends Component {
     multiple: PropTypes.bool,
     maxFiles: PropTypes.number,
     onError: PropTypes.func, //eslint-disable-line
+    dropzoneText: PropTypes.string,
+    dropBtnText: PropTypes.string,
   };
   constructor(props = {}) {
     super(props);
@@ -161,7 +165,7 @@ class DropzoneComponent extends Component {
   }
 
   render() {
-    const { accept, multiple } = this.props;
+    const { accept, multiple, dropzoneText, dropBtnText } = this.props;
     return (
       <Dropzone
         ref={(dropzone) => { this.dropzone = dropzone; }}
@@ -182,12 +186,12 @@ class DropzoneComponent extends Component {
         }}
       >
         <div style={{ textAlign: 'center', marginBottom: 10 }}>
-          <h5>Drop files here</h5>
+          <h5>{dropzoneText}</h5>
           <div className="text-muted" style={{ marginBottom: 15 }}>
             OR
           </div>
           <RaisedButton
-            label="Select files"
+            label={dropBtnText}
             onTouchTap={this.onOpenClick}
           />
         </div>

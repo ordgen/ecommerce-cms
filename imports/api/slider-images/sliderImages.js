@@ -18,11 +18,11 @@ SliderImages.schema = new SimpleSchema([
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    image: {
+    url: {
       type: String,
       label: 'Image (3376/560)',
     },
-    link: {
+    pageLink: {
       type: String,
       optional: true,
       label: 'Page link (optional)',

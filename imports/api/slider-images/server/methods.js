@@ -5,10 +5,10 @@ import SliderImages from '../sliderImages';
 export const createImage = new ValidatedMethod({
   name: 'SliderImages.methods.createImage',
   validate: new SimpleSchema({
-    image: {
+    url: {
       type: String,
     },
-    link: {
+    pageLink: {
       type: String,
       optional: true,
     },
@@ -25,5 +25,19 @@ export const getAllSliderImages = new ValidatedMethod({
 
   async run() {
     return SliderImages.find({}).fetch();
+  },
+});
+
+export const deleteImage = new ValidatedMethod({
+  name: 'SliderImages.methods.deleteImage',
+  validate: new SimpleSchema({
+    imageId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+  }).validator(),
+
+  async run({ imageId }) {
+    return SliderImages.remove({ _id: imageId });
   },
 });
