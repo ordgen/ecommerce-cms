@@ -6,8 +6,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import { FormsyText } from 'formsy-material-ui/lib';
+import DropzoneComponent from '../../components/dropzone/Dropzone';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import { createSliderImage } from '../../actions/action-creators/SliderImages';
 
@@ -36,10 +38,16 @@ class NewSliderImage extends Component {
     this.state = {
       canSubmit: false,
       formError: null,
+      images: [],
+      openSnackBar: false,
+      snackMessage: ''
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
+    this.handleImageUploaded = this.handleImageUploaded.bind(this);
+    this.handleImageUploadError = this.handleImageUploadError.bind(this);
+    this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
     this.errorMessages = {
       wordsError: 'Please only use letters',
     };
@@ -67,11 +75,31 @@ class NewSliderImage extends Component {
 
   handleParentChange(event, value) {
     this.setState({ parentValue: value });
-    console.log(this.state.formError)
+  }
+
+  handleImageUploaded(files) {
+    const images = [];
+    files.map(file => images.push(file.url));
+    this.setState({ images });
+  }
+
+  handleImageUploadError(error) {
+    this.setState({
+      openSnackBar: true,
+      snackMessage: error,
+    });
+  }
+
+  handleSnackRequestClose() {
+    this.setState({
+      openSnackBar: false,
+    });
   }
 
   render() {
     const { match } = this.props;
+    const { images, snackMessage, openSnackBar } = this.state;
+    console.log(images);
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Slider Image" />
@@ -86,12 +114,12 @@ class NewSliderImage extends Component {
                       onValid={this.enableSubmitButton}
                       onInvalid={this.disableSubmitButton}
                     >
-                      <FormsyText
-                        name="image"
-                        required
-                        hintText="Image"
-                        floatingLabelText="Image"
-                        style={styles.formElement}
+                      <DropzoneComponent
+                        onChange={this.handleImageUploaded}
+                        accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                        multiple={false}
+                        maxFiles={1}
+                        onError={this.handleImageUploadError}
                       />
                       <FormsyText
                         name="link"
@@ -106,6 +134,16 @@ class NewSliderImage extends Component {
                         primary={true}
                         disabled={!this.state.canSubmit}
                       />
+                      <div
+                        style={{ display: 'none' }}
+                      >
+                        <FormsyText
+                          name="image"
+                          required
+                          validations="minLength:1"
+                          value={images}
+                        />
+                      </div>
                     </Formsy.Form>
                   </div>
                 </div>
@@ -113,6 +151,12 @@ class NewSliderImage extends Component {
             </div>
           </div>
         </div>
+        <Snackbar
+          open={openSnackBar}
+          message={snackMessage}
+          autoHideDuration={4000}
+          onRequestClose={this.handleSnackRequestClose}
+        />
       </div>
     );
   }
