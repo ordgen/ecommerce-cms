@@ -4,6 +4,7 @@ import {
   ADD_PRODUCT_TO_CATEGORY,
   UPDATE_PRODUCT_CATEGORY,
   REMOVE_PRODUCT,
+  UPDATE_PRODUCT,
   ADD_PRODUCT_CATEGORY,
   REMOVE_PRODUCT_CATEGORY,
   ADD_SLIDER_IMAGE,
@@ -34,6 +35,19 @@ export default function ormReducer(dbState = initialState, action) {
     case ADD_PRODUCT:
       Product.create(payload);
       break;
+    case UPDATE_PRODUCT: {
+      const prevParent = ProductCategory.all().toRefArray().find(
+        category => !!ProductCategory.withId(category.id).products.toRefArray().find(
+          p => p.id === payload.id,
+        ),
+      );
+      if (prevParent && payload.productCategoryId !== prevParent.id) {
+        ProductCategory.withId(prevParent.id).products.remove(payload.id);
+        ProductCategory.withId(payload.productCategoryId).products.add(payload.id);
+      }
+      Product.withId(payload.id).update(payload);
+      break;
+    }
     case ADD_PRODUCT_TO_CATEGORY:
       ProductCategory.withId(action.payload.categoryId).products.add(action.payload.productId);
       break;

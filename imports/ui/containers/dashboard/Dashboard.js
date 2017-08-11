@@ -10,6 +10,7 @@ import LeftDrawer from './LeftDrawer';
 import { DashboardMenus } from '../../site-config';
 import Products from '../products/Products';
 import NewProduct from '../products/NewProduct';
+import EditProduct from '../products/EditProduct';
 import ProductCategories from '../product-categories/ProductCategories';
 import NewProductCategory from '../product-categories/NewProductCategory';
 import EditProductCategory from '../product-categories/EditProductCategory';
@@ -81,6 +82,11 @@ class Dashboard extends React.Component {
             exact
             path={`${match.url}/products/new`}
             component={NewProduct}
+          />
+          <Route
+            exact
+            path={`${match.url}/products/edit/:productId`}
+            component={EditProduct}
           />
           <Route
             exact

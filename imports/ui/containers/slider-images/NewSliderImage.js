@@ -60,7 +60,13 @@ class NewSliderImage extends Component {
         pageLink: data.page_link,
       },
     ).then(
-      () => setTimeout(() => this.props.changePage('/dashboard/slider-images'), 3000),
+      () => {
+        this.setState({
+          openSnackBar: true,
+          snackMessage: 'Slider Image Successfully Created!',
+        });
+        setTimeout(() => this.props.changePage('/dashboard/slider-images'), 3000);
+      },
     ).catch(reason => this.setState({ formError: reason }));
   }
 
@@ -102,7 +108,6 @@ class NewSliderImage extends Component {
   render() {
     const { match, isLoading } = this.props;
     const { images, snackMessage, openSnackBar } = this.state;
-    console.log(this.state.formError);
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Slider Image" />

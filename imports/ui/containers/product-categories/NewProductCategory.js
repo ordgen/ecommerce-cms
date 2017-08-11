@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
@@ -50,19 +51,26 @@ class NewProductCategory extends Component {
     this.state = {
       canSubmit: false,
       parentValue: null,
+      openSnackBar: false,
       formError: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
     this.handleParentChange = this.handleParentChange.bind(this);
+    this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
   }
 
   onSubmit(data) {
     this.props.createProductCategory(
       data,
     ).then(
-      () => setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000),
+      () => {
+        this.setState({
+          openSnackBar: true,
+        });
+        setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000);
+      },
     ).catch(reason => this.setState({ formError: reason }));
   }
 
@@ -82,9 +90,15 @@ class NewProductCategory extends Component {
     this.setState({ parentValue: value });
   }
 
+  handleSnackRequestClose() {
+    this.setState({
+      openSnackBar: false,
+    });
+  }
+
   render() {
     const { match, productCategories, isLoading } = this.props;
-    const { parentValue } = this.state;
+    const { parentValue, openSnackBar } = this.state;
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="New Category" />
@@ -136,6 +150,12 @@ class NewProductCategory extends Component {
             </div>
           </div>
         </div>
+        <Snackbar
+          open={openSnackBar}
+          message="Product Category Successfully Created!"
+          autoHideDuration={4000}
+          onRequestClose={this.handleSnackRequestClose}
+        />
       </div>
     );
   }

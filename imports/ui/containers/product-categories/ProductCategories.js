@@ -143,7 +143,6 @@ export class ProductCategories extends Component {
         onTouchTap={this.handleDialogCloseWithPositive}
       />,
     ];
-    console.log(categories);
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="Product Categories" />

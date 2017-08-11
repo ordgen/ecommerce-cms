@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow*/
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
 import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import DropzoneComponent from '../../components/dropzone/Dropzone';
 import { createProduct } from '../../actions/action-creators/Products';
 
 const styles = {
@@ -51,24 +53,33 @@ class NewProduct extends Component {
       canSubmit: false,
       categoryValue: null,
       formError: null,
+      images: [],
+      openSnackBar: false,
+      snackMessage: '',
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleImageUploaded = this.handleImageUploaded.bind(this);
+    this.handleImageUploadError = this.handleImageUploadError.bind(this);
+    this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
     this.errorMessages = {
-      wordsError: 'Please only use letters',
       numericError: 'Please provide a number',
-      urlError: 'Please provide a valid URL',
     };
   }
 
   onSubmit(data) {
-    const args = { ...data, pictures: [data.pictures], user: this.props.user };
     this.props.createProduct(
-      args,
+      data,
     ).then(
-      () => setTimeout(() => this.props.changePage('/dashboard/products'), 3000),
+      () => {
+        this.setState({
+          openSnackBar: true,
+          snackMessage: 'Product Successfully Created!',
+        });
+        setTimeout(() => this.props.changePage('/dashboard/products'), 3000);
+      },
     ).catch(reason => this.setState({ formError: reason }));
   }
 
@@ -88,9 +99,29 @@ class NewProduct extends Component {
     this.setState({ categoryValue: value });
   }
 
+  handleImageUploaded(files) {
+    const images = [];
+    files.map(file => images.push(file.url));
+    this.setState({ images });
+  }
+
+  handleImageUploadError(error) {
+    this.setState({
+      openSnackBar: true,
+      snackMessage: error,
+    });
+  }
+
+
+  handleSnackRequestClose() {
+    this.setState({
+      openSnackBar: false,
+    });
+  }
+
   render() {
     const { match, productCategories } = this.props;
-    const { categoryValue } = this.state;
+    const { categoryValue, images, openSnackBar, snackMessage } = this.state;
     const { numericError } = this.errorMessages;
     return (
       <div>
@@ -107,7 +138,7 @@ class NewProduct extends Component {
                       onInvalid={this.disableSubmitButton}
                     >
                       <FormsySelect
-                        name="category"
+                        name="productCategoryId"
                         hintText="Select product category"
                         style={styles.formElement}
                         onChange={this.handleCategoryChange}
@@ -138,12 +169,18 @@ class NewProduct extends Component {
                         hintText="What is this product about?"
                         style={styles.formElement}
                       />
-                      <FormsyText
-                        name="pictures"
-                        floatingLabelText="Pictures"
-                        required
-                        style={styles.formElement}
-                      />
+                      <div
+                        style={{ marginTop: 20 }}
+                      >
+                        <DropzoneComponent
+                          onChange={this.handleImageUploaded}
+                          accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                          maxFiles={4}
+                          onError={this.handleImageUploadError}
+                          dropzoneText="Drag pictures here"
+                          dropBtnText="Select pictures"
+                        />
+                      </div>
                       <RaisedButton
                         style={styles.submitStyle}
                         type="submit"
@@ -151,6 +188,16 @@ class NewProduct extends Component {
                         primary={true}
                         disabled={!this.state.canSubmit}
                       />
+                      <div
+                        style={{ display: 'none' }}
+                      >
+                        <FormsyText
+                          name="pictures"
+                          required
+                          validations="minLength:1"
+                          value={images}
+                        />
+                      </div>
                     </Formsy.Form>
                   </div>
                 </div>
@@ -158,6 +205,12 @@ class NewProduct extends Component {
             </div>
           </div>
         </div>
+        <Snackbar
+          open={openSnackBar}
+          message={snackMessage}
+          autoHideDuration={4000}
+          onRequestClose={this.handleSnackRequestClose}
+        />
       </div>
     );
   }
@@ -168,11 +221,9 @@ NewProduct.propTypes = {
   changePage: PropTypes.func.isRequired,
   createProduct: PropTypes.func.isRequired,
   productCategories: PropTypes.array.isRequired,
-  user: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.currentUser,
   productCategories: ProductCategoriesSelector(state),
 });
 

@@ -1,6 +1,5 @@
 import { Model, attr } from 'redux-orm';
 import { PropTypes } from 'prop-types';
-import User from './User';
 import ProductCategory from './ProductCategory';
 
 export default class Product extends Model {
@@ -25,10 +24,6 @@ export default class Product extends Model {
   static propTypes = {
     name: PropTypes.string.isRequired,
     pictures: PropTypes.array.isRequired,
-    user: PropTypes.oneOfType([
-      PropTypes.instanceOf(User),
-      PropTypes.string,
-    ]).isRequired,
     category: PropTypes.oneOfType([
       PropTypes.instanceOf(ProductCategory),
       PropTypes.string,

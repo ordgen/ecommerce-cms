@@ -4,6 +4,7 @@ import {
   ADD_PRODUCT_TO_CATEGORY,
   REMOVE_PRODUCT,
   IS_LOADING_PRODUCTS,
+  UPDATE_PRODUCT,
 } from '../types';
 import setIsLoadingState from './IsLoading';
 
@@ -29,27 +30,28 @@ export function removeProduct(payload) {
   };
 }
 
+export function updateProduct(payload) {
+  return {
+    type: UPDATE_PRODUCT,
+    payload,
+  };
+}
+
 export function createProduct(data) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, true));
     Meteor.call('Products.methods.createProduct',
-      {
-        name: data.name,
-        productCategoryId: data.category,
-        pictures: data.pictures,
-        description: data.description,
-        price: data.price,
-      },
+      data,
       (err, res) => {
         dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, false));
         if (!err) {
           const payload = {
             ...data,
-            id: res,
+            id: res._id, // eslint-disable-line no-underscore-dangle,
           };
           const payload2 = {
-            categoryId: data.category,
-            productId: res,
+            categoryId: data.productCategoryId,
+            productId: res._id, // eslint-disable-line no-underscore-dangle,
           };
           dispatch(addProduct(payload));
           dispatch(addProductToCategory(payload2));
@@ -62,3 +64,59 @@ export function createProduct(data) {
   });
 }
 
+export function editProduct(data) {
+  return (dispatch) => {
+    dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, true));
+    return new Promise((resolve, reject) =>
+      Meteor.call('Products.methods.editProduct',
+        { ...data },
+        (err, res) => {
+          dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, false));
+          if (err) {
+            reject(err);
+          } else {
+            const {
+              name,
+              description,
+              productCategoryId,
+              createdAt,
+              updatedAt,
+              pictures,
+              price,
+              discount,
+            } = res;
+            const payload = {
+              id: data.productId,
+              name,
+              description,
+              productCategoryId,
+              pictures,
+              price,
+              discount,
+              createdAt,
+              updatedAt,
+            };
+            dispatch(updateProduct(payload));
+            resolve(res);
+          }
+        },
+      ),
+    );
+  };
+}
+
+export function deleteProduct(id) {
+  return dispatch => new Promise((resolve, reject) =>
+    Meteor.call('Products.methods.deleteProduct',
+      { productId: id },
+      (err, res) => {
+        if (!err) {
+          dispatch(removeProduct({ id }));
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
+}
