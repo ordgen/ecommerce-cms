@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow*/
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
@@ -56,17 +56,11 @@ class NewProductCategory extends Component {
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
     this.handleParentChange = this.handleParentChange.bind(this);
-    this.errorMessages = {
-      wordsError: 'Please only use letters',
-      numericError: 'Please provide a number',
-      urlError: 'Please provide a valid URL',
-    };
   }
 
   onSubmit(data) {
-    const args = { ...data, user: this.props.user };
     this.props.createProductCategory(
-      args,
+      data,
     ).then(
       () => setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000),
     ).catch(reason => this.setState({ formError: reason }));
@@ -89,7 +83,7 @@ class NewProductCategory extends Component {
   }
 
   render() {
-    const { match, productCategories } = this.props;
+    const { match, productCategories, isLoading } = this.props;
     const { parentValue } = this.state;
     return (
       <div>
@@ -133,7 +127,7 @@ class NewProductCategory extends Component {
                         type="submit"
                         label="Submit"
                         primary={true}
-                        disabled={!this.state.canSubmit}
+                        disabled={!this.state.canSubmit || isLoading}
                       />
                     </Formsy.Form>
                   </div>
@@ -151,13 +145,13 @@ NewProductCategory.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
   createProductCategory: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
   productCategories: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.currentUser,
   productCategories: ProductCategoriesSelector(state),
+  isLoading: state.isLoading.isLoadingProductCategories,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

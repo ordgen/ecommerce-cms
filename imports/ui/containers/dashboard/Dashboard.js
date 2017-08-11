@@ -10,8 +10,9 @@ import LeftDrawer from './LeftDrawer';
 import { DashboardMenus } from '../../site-config';
 import Products from '../products/Products';
 import NewProduct from '../products/NewProduct';
-import NewProductCategory from '../product-categories/NewProductCategory';
 import ProductCategories from '../product-categories/ProductCategories';
+import NewProductCategory from '../product-categories/NewProductCategory';
+import EditProductCategory from '../product-categories/EditProductCategory';
 import SliderImages from '../slider-images/SliderImages';
 import NewSliderImage from '../slider-images/NewSliderImage';
 import EditSliderImage from '../slider-images/EditSliderImage';
@@ -83,13 +84,18 @@ class Dashboard extends React.Component {
           />
           <Route
             exact
+            path={`${match.url}/product-categories`}
+            component={ProductCategories}
+          />
+          <Route
+            exact
             path={`${match.url}/product-categories/new`}
             component={NewProductCategory}
           />
           <Route
             exact
-            path={`${match.url}/product-categories`}
-            component={ProductCategories}
+            path={`${match.url}/product-categories/edit/:categoryId`}
+            component={EditProductCategory}
           />
           <Route
             exact

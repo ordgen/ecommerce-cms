@@ -1,6 +1,5 @@
-import { Model, many, fk, attr } from 'redux-orm';
+import { Model, many, attr } from 'redux-orm';
 import { PropTypes } from 'prop-types';
-import User from './User';
 
 export default class ProductCategory extends Model {
   static get fields() {
@@ -8,8 +7,9 @@ export default class ProductCategory extends Model {
       id: attr(),
       name: attr(),
       description: attr(),
+      createdAt: attr(),
+      updatedAt: attr(),
       products: many('Product', 'productCategories'),
-      user: fk('User', 'productCategories'),
     };
   }
   static get modelName() {
@@ -21,10 +21,8 @@ export default class ProductCategory extends Model {
     picture: PropTypes.string,
     description: PropTypes.string.isRequired,
     parent: PropTypes.string,
-    user: PropTypes.oneOfType([
-      PropTypes.instanceOf(User),
-      PropTypes.string,
-    ]).isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
+    updatedAt: PropTypes.instanceOf(Date).isRequired,
   }
 
   static defaultProps = {

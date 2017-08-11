@@ -13,6 +13,8 @@ export default class Product extends Model {
       price: attr(),
       discount: attr(),
       category: attr(),
+      createdAt: attr(),
+      updatedAt: attr(),
     };
   }
 
@@ -34,6 +36,8 @@ export default class Product extends Model {
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     discount: PropTypes.number,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
+    updatedAt: PropTypes.instanceOf(Date).isRequired,
   }
 
   static defaultProps = {

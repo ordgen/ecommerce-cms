@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import {
   ADD_PRODUCT,
   ADD_PRODUCT_TO_CATEGORY,
+  UPDATE_PRODUCT_CATEGORY,
   REMOVE_PRODUCT,
   ADD_PRODUCT_CATEGORY,
   REMOVE_PRODUCT_CATEGORY,
@@ -43,7 +44,11 @@ export default function ormReducer(dbState = initialState, action) {
       ProductCategory.create(payload);
       break;
     case REMOVE_PRODUCT_CATEGORY:
+      ProductCategory.withId(payload.id).products.delete();
       ProductCategory.withId(payload.id).delete();
+      break;
+    case UPDATE_PRODUCT_CATEGORY:
+      ProductCategory.withId(payload.id).update(payload);
       break;
     case ADD_SLIDER_IMAGE:
       SliderImage.create(payload);

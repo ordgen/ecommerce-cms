@@ -19,14 +19,20 @@ export const ProductCategoriesSelector = createSelector(
 export const ProductCategorySelector = createSelector(
   orm,
   stateSelector,
-  (state, productCategoryId) => productCategoryId,
-  (session, productCategoryId) => {
-    if (session.ProductCategory.hasId(productCategoryId)) {
-      const category = session.ProductCategory.withId(productCategoryId).ref;
-      return {
-        ...category,
-        parent: category.parent ? session.ProductCategory.withId(category.parent).ref : null,
-      };
+  (state, categoryId) => categoryId,
+  (session, categoryId) => {
+    if (session.ProductCategory.hasId(categoryId)) {
+      const category = session.ProductCategory.withId(categoryId).ref;
+      if (category.parent) {
+        if (session.ProductCategory.withId(category.parent)) {
+          return {
+            ...category,
+            parent: session.ProductCategory.withId(category.parent).ref,
+          };
+        }
+      } else {
+        return category;
+      }
     }
     return null;
   },

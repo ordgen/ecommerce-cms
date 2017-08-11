@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
-import { FormsyText } from 'formsy-material-ui/lib';
-import DropzoneComponent from '../../components/dropzone/Dropzone';
+import Snackbar from 'material-ui/Snackbar';
+import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
+import MenuItem from 'material-ui/MenuItem';
+import { ProductCategoriesSelector, ProductCategorySelector } from '../../models/selectors/productCategories';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import { editSliderImage } from '../../actions/action-creators/SliderImages';
-import { SliderImageSelector } from '../../models/selectors/sliderImages';
+import { editProductCategory } from '../../actions/action-creators/ProductCategories';
 
 const styles = {
   paperStyle: {
@@ -33,61 +33,66 @@ const styles = {
   },
 };
 
-class EditSliderImage extends Component {
+class EditProductCategory extends Component {
+  static ParentMenuItems(values, parentItems) {
+    return parentItems.map(parentItem => (
+      <MenuItem
+        key={parentItem.id}
+        insetChildren={true}
+        checked={values && values.indexOf(parentItem.id) > -1}
+        value={parentItem.id}
+        primaryText={parentItem.name}
+      />
+    ));
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       canSubmit: false,
-      formError: null,
-      images: [],
+      parentValue: null,
       openSnackBar: false,
-      snackMessage: '',
+      formError: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.enableSubmitButton = this.enableSubmitButton.bind(this);
     this.disableSubmitButton = this.disableSubmitButton.bind(this);
-    this.handleImageUploaded = this.handleImageUploaded.bind(this);
-    this.handleImageUploadError = this.handleImageUploadError.bind(this);
+    this.handleParentChange = this.handleParentChange.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
-    this.errorMessages = {
-      wordsError: 'Please only use letters',
-    };
   }
 
   componentWillMount() {
-    const { match, getImage } = this.props;
-    const sliderImage = getImage(match.params.imageId);
-    if (sliderImage) {
+    const { match, getCategory } = this.props;
+    const category = getCategory(match.params.categoryId);
+    if (category && category.parent) {
       this.setState({
-        images: [sliderImage.url],
+        parentValue: category.parent.id,
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match, getImage } = nextProps;
-    const sliderImage = getImage(match.params.imageId);
-    if (sliderImage) {
+    const { match, getCategory } = nextProps;
+    const category = getCategory(match.params.categoryId);
+    if (category && category.parent) {
       this.setState({
-        images: [sliderImage.url],
+        parentValue: category.parent.id,
       });
     }
   }
 
   onSubmit(data) {
-    this.props.editSliderImage(
+    this.props.editProductCategory(
       {
-        imageId: this.props.match.params.imageId,
-        url: data.images[0],
-        pageLink: data.page_link,
+        ...data,
+        categoryId: this.props.match.params.categoryId,
       },
     ).then(
       () => {
         this.setState({
           openSnackBar: true,
-          snackMessage: 'Slider Image Successfully Updated!',
         });
-        setTimeout(() => this.props.changePage('/dashboard/slider-images'), 3000);
+        setTimeout(() => this.props.changePage('/dashboard/product-categories'), 3000);
       },
     ).catch(reason => this.setState({ formError: reason }));
   }
@@ -108,19 +113,6 @@ class EditSliderImage extends Component {
     this.setState({ parentValue: value });
   }
 
-  handleImageUploaded(files) {
-    const images = [];
-    files.map(file => images.push(file.url));
-    this.setState({ images });
-  }
-
-  handleImageUploadError(error) {
-    this.setState({
-      openSnackBar: true,
-      snackMessage: error,
-    });
-  }
-
   handleSnackRequestClose() {
     this.setState({
       openSnackBar: false,
@@ -128,40 +120,48 @@ class EditSliderImage extends Component {
   }
 
   render() {
-    const { match, isLoading, getImage } = this.props;
-    const { images, snackMessage, openSnackBar } = this.state;
-    const sliderImage = getImage(match.params.imageId);
+    const { match, getCategory, isLoading, productCategories } = this.props;
+    const category = getCategory(match.params.categoryId);
+    const { parentValue, openSnackBar } = this.state;
     return (
       <div>
-        <BreadCrumbs match={match} pageTitle="New Slider Image" />
+        <BreadCrumbs match={match} pageTitle="New Category" />
         <div className="container">
           <div className="row">
             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <Paper style={styles.paperStyle}>
                 <div className="row">
                   <div className="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                    {sliderImage &&
+                    {category &&
                       <Formsy.Form
                         onValidSubmit={this.onSubmit}
                         onValid={this.enableSubmitButton}
                         onInvalid={this.disableSubmitButton}
                       >
-                        <DropzoneComponent
-                          files={[sliderImage.url]}
-                          onChange={this.handleImageUploaded}
-                          accept="image/jpeg,image/jpg,image/tiff,image/gif"
-                          multiple={false}
-                          maxFiles={1}
-                          onError={this.handleImageUploadError}
-                          dropzoneText="Drag an image here"
-                          dropBtnText="Select image"
+                        <FormsySelect
+                          name="parent"
+                          hintText="Select the parent of this category (optional)"
+                          style={styles.formElement}
+                          onChange={this.handleParentChange}
+                          value={parentValue}
+                        >
+                          {EditProductCategory.ParentMenuItems([parentValue], productCategories)}
+                        </FormsySelect>
+                        <FormsyText
+                          name="name"
+                          required
+                          hintText="What is the name of the category?"
+                          floatingLabelText="Name of Category"
+                          style={styles.formElement}
+                          value={category.name}
                         />
                         <FormsyText
-                          name="page_link"
-                          hintText="Does this image link to a page?"
-                          floatingLabelText="Page Link"
+                          name="description"
+                          required
+                          hintText="What is this category about?"
+                          floatingLabelText="Description"
                           style={styles.formElement}
-                          value={sliderImage.pageLink}
+                          value={category.description}
                         />
                         <RaisedButton
                           style={styles.submitStyle}
@@ -170,16 +170,6 @@ class EditSliderImage extends Component {
                           primary={true}
                           disabled={!this.state.canSubmit || isLoading}
                         />
-                        <div
-                          style={{ display: 'none' }}
-                        >
-                          <FormsyText
-                            name="images"
-                            required
-                            validations="minLength:1"
-                            value={images}
-                          />
-                        </div>
                       </Formsy.Form>
                     }
                   </div>
@@ -190,7 +180,7 @@ class EditSliderImage extends Component {
         </div>
         <Snackbar
           open={openSnackBar}
-          message={snackMessage}
+          message="Category Successfully Updated!"
           autoHideDuration={4000}
           onRequestClose={this.handleSnackRequestClose}
         />
@@ -199,22 +189,24 @@ class EditSliderImage extends Component {
   }
 }
 
-EditSliderImage.propTypes = {
+EditProductCategory.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
-  editSliderImage: PropTypes.func.isRequired,
+  editProductCategory: PropTypes.func.isRequired,
+  productCategories: PropTypes.array.isRequired,
+  getCategory: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  getImage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.isLoading.isLoadingSliderImages,
-  getImage: imageId => SliderImageSelector(state, imageId),
+  productCategories: ProductCategoriesSelector(state),
+  getCategory: categoryId => ProductCategorySelector(state, categoryId),
+  isLoading: state.isLoading.isLoadingProductCategories,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  editSliderImage,
+  editProductCategory,
   changePage: path => push(path),
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSliderImage);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProductCategory);

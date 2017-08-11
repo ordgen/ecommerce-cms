@@ -20,7 +20,13 @@ export const createProductCategory = new ValidatedMethod({
   }).validator(),
 
   async run(...args) {
-    return ProductCategories.insert(...args);
+    const productCategory = await new Promise(resolve =>
+      ProductCategories.insert(
+        ...args,
+        (err, _id) => resolve(ProductCategories.findOne({ _id })),
+      ),
+    );
+    return productCategory;
   },
 });
 
@@ -35,5 +41,52 @@ export const getAllProductCategories = new ValidatedMethod({
         products: Products.find({ productCategoryId: category._id }).fetch(), // eslint-disable-line
       }),
     );
+  },
+});
+
+export const editCategory = new ValidatedMethod({
+  name: 'ProductCategories.methods.editCategory',
+  validate: new SimpleSchema({
+    categoryId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+    name: {
+      type: String,
+    },
+    parent: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
+    },
+    description: {
+      type: String,
+    },
+  }).validator(),
+
+  async run({ categoryId, name, parent, description }) {
+    const productCategory = await new Promise(resolve =>
+      ProductCategories.update(
+        { _id: categoryId },
+        { $set: { name, parent, description } },
+        () => resolve(ProductCategories.findOne(categoryId)),
+      ),
+    );
+    return productCategory;
+  },
+});
+
+
+export const deleteCategory = new ValidatedMethod({
+  name: 'ProductCategories.methods.deleteCategory',
+  validate: new SimpleSchema({
+    categoryId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+  }).validator(),
+
+  async run({ categoryId }) {
+    return ProductCategories.remove({ _id: categoryId });
   },
 });

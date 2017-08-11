@@ -118,6 +118,7 @@ class SliderImages extends Component {
           <div className="row">
             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <div className="page-content">
+                <h5>All Slider Images</h5>
                 {isLoading
                   ? <Spinner />
                   : this.renderImages(images)

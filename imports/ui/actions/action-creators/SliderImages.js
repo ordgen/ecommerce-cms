@@ -37,15 +37,15 @@ export function createSliderImage(data) {
         pageLink: data.pageLink,
       },
       (err, res) => {
-        if (!err) {
+        if (err) {
+          reject(err);
+        } else {
           const payload = {
             ...data,
             id: res,
           };
           dispatch(addSliderImage(payload));
           resolve(res);
-        } else {
-          reject(err);
         }
       },
     );
@@ -59,7 +59,7 @@ export function fetchAndCreateSliderImages() {
       Meteor.call('SliderImages.methods.getAllSliderImages',
         (err, res) => {
           dispatch(setIsLoadingState(IS_LOADING_SLIDER_IMAGES, false));
-          if (!err) {
+          if (err) {
             reject(err);
           } else {
             res.forEach((sliderImage) => {
@@ -108,11 +108,11 @@ export function deleteSliderImage(id) {
     Meteor.call('SliderImages.methods.deleteImage',
       { imageId: id },
       (err, res) => {
-        if (!err) {
+        if (err) {
+          reject(err);
+        } else {
           dispatch(removeSliderImage({ id }));
           resolve(res);
-        } else {
-          reject(err);
         }
       },
     ),
