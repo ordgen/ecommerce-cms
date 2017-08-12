@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,93 +6,149 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
 import { pinkA400 } from 'material-ui/styles/colors';
-import Glide from 'react-glide';
 import Subheader from 'material-ui/Subheader';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import { ProductSelector } from '../../models/selectors/products';
 import MobileTearSheet from '../../components/MobileTearSheet';
 import Header from '../shared/Header';
+import './ProductView.css';
 
-const ProductView = function ProductView({ getProduct, match }) {
-  const product = getProduct(match.params.productId);
-  return (
-    <div className="ecommerce-cms-wrapper">
-      <Header />
-      <div className="ecommerce-cms-main-content clearfix">
-        <article className="ecommerce-cms-article">
-          <article className="ecommerce-cms-article-inner">
-            <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
-              {product &&
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                      <p
-                        style={{ fontSize: 11, color: '#878787', display: 'inline-block' }}
-                      >
-                        <Link
-                          to={`/category/${product.category.id}/products`}
-                          style={{ textDecoration: 'none', color: '#878787' }}
-                        >
-                          {product.category.name}
-                        </Link>  / {product.name}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div
-                      className="col-md-8 col-lg-8 col-xs-12 col-sm-8"
-                      style={{ marginBottom: 50 }}
-                    >
-                      <Glide>
-                        {product.pictures.map(picture => (
-                          <img
-                            src={picture}
-                            alt=""
-                            className="img-fluid"
-                          />
-                        ))}
-                      </Glide>
-                    </div>
-                    <div
-                      className="col-md-4 col-lg-4 col-xs-12 col-sm-4"
-                      style={{ marginBottom: 20 }}
-                    >
-                      <h4>{product.name}</h4>
-                      <div
-                        className="product-price"
-                        style={{ marginBottom: 20 }}
-                      >
+class ProductView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedPicture: '',
+    };
+    this.renderThumbnails = this.renderThumbnails.bind(this);
+  }
+
+  componentWillMount() {
+    const { getProduct, match } = this.props;
+    const product = getProduct(match.params.productId);
+    if (product) {
+      this.setState({
+        selectedPicture: product.pictures[0],
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { getProduct, match } = nextProps;
+    const product = getProduct(match.params.productId);
+    if (product) {
+      this.setState({
+        selectedPicture: product.pictures[0],
+      });
+    }
+  }
+
+  renderThumbnails() {
+    const { getProduct, match } = this.props;
+    const { selectedPicture } = this.state;
+    const product = getProduct(match.params.productId);
+    return product.pictures.map((picture, index) => (
+      <div
+        className="col-md-3 col-lg-3 col-sm-3 col-xs-6 text-xs-center"
+        key={index}
+      >
+        <input
+          type="image"
+          src={picture}
+          className={`img-fluid img-thumbnail m-b-1 ${selectedPicture === picture ? 'image-gallery-selected' : null}`}
+          onClick={() => this.setState({ selectedPicture: picture })}
+          alt=""
+        />
+      </div>
+    ));
+  }
+
+  render() {
+    const { getProduct, match } = this.props;
+    const { selectedPicture } = this.state;
+    const product = getProduct(match.params.productId);
+    return (
+      <div className="ecommerce-cms-wrapper">
+        <Header />
+        <div className="ecommerce-cms-main-content clearfix">
+          <article className="ecommerce-cms-article">
+            <article className="ecommerce-cms-article-inner">
+              <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
+                {product &&
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <p
-                          style={{ color: pinkA400, fontWeight: 'bold' }}
+                          style={{ fontSize: 11, color: '#878787', display: 'inline-block' }}
                         >
-                          {`$${product.price}`}
+                          <Link
+                            to={`/category/${product.category.id}/products`}
+                            style={{ textDecoration: 'none', color: '#878787' }}
+                          >
+                            {product.category.name}
+                          </Link>  / {product.name}
                         </p>
                       </div>
+                    </div>
+                    <div className="row">
+                      <div
+                        className="col-md-8 col-lg-8 col-xs-12 col-sm-8"
+                        style={{ marginBottom: 50 }}
+                      >
+                        <div>
+                          <div className="text-xs-center m-b-1">
+                            <input
+                              type="image"
+                              src={selectedPicture}
+                              className="image-gallery-main img-fluid m-x-auto d-block image-gallery-effect"
+                              alt=""
+                            />
+                          </div>
+                          <div className="row">
+                            {this.renderThumbnails()}
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="col-md-4 col-lg-4 col-xs-12 col-sm-4"
+                        style={{ marginBottom: 20 }}
+                      >
+                        <h4>{product.name}</h4>
+                        <div
+                          className="product-price"
+                          style={{ marginBottom: 20 }}
+                        >
+                          <p
+                            style={{ color: pinkA400, fontWeight: 'bold' }}
+                          >
+                            {`$${product.price}`}
+                          </p>
+                        </div>
 
-                      <MobileTearSheet>
-                        <List>
-                          <Subheader inset={true}>Description</Subheader>
-                          <ListItem
-                            primaryText={product.description}
-                            hoverColor="inherit"
-                            style={{ cursor: 'auto' }}
-                          />
-                        </List>
-                      </MobileTearSheet>
+                        <MobileTearSheet>
+                          <List>
+                            <Subheader inset={true}>Description</Subheader>
+                            <ListItem
+                              primaryText={product.description}
+                              hoverColor="inherit"
+                              style={{ cursor: 'auto' }}
+                            />
+                          </List>
+                        </MobileTearSheet>
+                      </div>
                     </div>
                   </div>
-                </div>
-              }
-            </section>
+                }
+              </section>
+            </article>
           </article>
-        </article>
+        </div>
+        <PrimaryFooter />
+        <SecondaryFooter />
       </div>
-      <PrimaryFooter />
-      <SecondaryFooter />
-    </div>
-  );
-};
+    );
+  }
+}
 
 ProductView.propTypes = {
   match: PropTypes.object.isRequired,

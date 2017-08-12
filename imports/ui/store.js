@@ -36,6 +36,6 @@ persistStore(store, { storage: localForage }, () => {
   if (_.isEmpty(store.getState().entities.SliderImage.items)) {
     store.dispatch(fetchAndCreateSliderImages());
   }
-}).purge();
+});
 
 export default store;

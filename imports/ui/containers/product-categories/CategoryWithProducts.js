@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -107,7 +105,6 @@ CategoryWithProducts.propTypes = {
   match: PropTypes.object.isRequired,
   getCategoryProducts: PropTypes.func.isRequired,
   getCategory: PropTypes.func.isRequired,
-  changePage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -115,8 +112,4 @@ const mapStateToProps = state => ({
   getCategory: categoryId => ProductCategorySelector(state, categoryId),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  changePage: path => push(path),
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryWithProducts);
+export default connect(mapStateToProps, null)(CategoryWithProducts);

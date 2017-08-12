@@ -23,16 +23,13 @@ export const ProductCategorySelector = createSelector(
   (session, categoryId) => {
     if (session.ProductCategory.hasId(categoryId)) {
       const category = session.ProductCategory.withId(categoryId).ref;
-      if (category.parent) {
-        if (session.ProductCategory.withId(category.parent)) {
-          return {
-            ...category,
-            parent: session.ProductCategory.withId(category.parent).ref,
-          };
-        }
-      } else {
-        return category;
+      if (category.parent && session.ProductCategory.hasId(category.parent)) {
+        return {
+          ...category,
+          parent: session.ProductCategory.withId(category.parent).ref,
+        };
       }
+      return category;
     }
     return null;
   },
