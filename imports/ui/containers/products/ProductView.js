@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
 import { pinkA400 } from 'material-ui/styles/colors';
 import Subheader from 'material-ui/Subheader';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import { ProductSelector } from '../../models/selectors/products';
@@ -123,6 +125,19 @@ class ProductView extends Component {
                           >
                             {`$${product.price}`}
                           </p>
+                        </div>
+
+                        <div
+                          style={{ marginTop: 10, marginBottom: 25 }}
+                        >
+                          <RaisedButton
+                            containerElement={<Link to="/order-summary" />}
+                            label="ADD TO CART"
+                            secondary={true}
+                            labelPosition="before"
+                            labelStyle={{ fontWeight: 600 }}
+                            icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
+                          />
                         </div>
 
                         <MobileTearSheet>

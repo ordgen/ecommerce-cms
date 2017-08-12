@@ -2,44 +2,18 @@ import React, { PureComponent } from 'react';
 import AppBar from 'material-ui/AppBar';
 import PropTypes from 'prop-types';
 import { white, darkBlack, lime900, lime800 } from 'material-ui/styles/colors';
-import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import RaisedButton from 'material-ui/RaisedButton';
 import SearchBar from 'material-ui-search-bar';
-import FontIcon from 'material-ui/FontIcon';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import Menu from 'material-ui/Menu';
-import Popover from 'material-ui/Popover';
-import MenuItem from 'material-ui/MenuItem';
 import MobileDrawer from './MobileDrawer';
 import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategories';
 import './Header.css';
 
-const styles = {
-  cartCount: {
-    borderRadius: '3px',
-    backgroundColor: 'rgba(0, 0, 0, .1)',
-    height: '20px',
-    padding: '3px 6px',
-    fontWeight: 500,
-    display: 'inline-block',
-    color: '#fff',
-    lineHeight: '12px',
-  },
-  centerColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-};
-
-class Header extends PureComponent {
+class MiniHeader extends PureComponent {
   static propTypes = {
     productCategories: PropTypes.array.isRequired,
     getProductCategoryChildren: PropTypes.func.isRequired,
@@ -118,20 +92,29 @@ class Header extends PureComponent {
     const paddingLeftDrawerOpen = 236;
 
     const style = {
-      header: {
-        paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
+      mobile: {
+        header: {
+          paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
+        },
+        centerColumn: {
+          display: 'flex',
+          flexDirection: navDrawerOpen ? 'inherit' : 'column',
+          justifyContent: 'center',
+        },
       },
-      centerColumn: {
-        display: 'flex',
-        flexDirection: navDrawerOpen ? 'inherit' : 'column',
-        justifyContent: 'center',
+      desktop: {
+        centerColumn: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        },
       },
     };
 
     return (
       <div>
         {isMobile
-          ? <div style={style.header}>
+          ? <div style={style.mobile.header}>
             <AppBar
               title={<img className="ecommerce-cms-site-mobilelogo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />}
               style={{ backgroundColor: white }}
@@ -156,7 +139,7 @@ class Header extends PureComponent {
                           <div className="row">
                             <div
                               className="col-xs-12 col-sm-12"
-                              style={style.centerColumn}
+                              style={style.mobile.centerColumn}
                             >
                               <SearchBar
                                 onChange={() => console.log('onChange')}
@@ -192,13 +175,17 @@ class Header extends PureComponent {
                         <div className="row">
                           <div
                             className="col-md-2 col-lg-2 col-sm-2"
-                            style={{ display: 'flex', justifyContent: 'center' }}
                           >
-                            <img className="ecommerce-cms-header-billboard-logo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
+                            <Link to="/">
+                              <img
+                                className="ecommerce-cms-header-billboard-logo"
+                                src="https://s3.amazonaws.com/loystar/wallville-logo-mini.jpeg"
+                                alt="logo"
+                              />
+                            </Link>
                           </div>
                           <div
                             className="col-md-8 col-lg-8 col-sm-8"
-                            style={styles.centerColumn}
                           >
                             <SearchBar
                               onChange={() => console.log('onChange')}
@@ -208,97 +195,12 @@ class Header extends PureComponent {
                               hintText="Search Products"
                             />
                           </div>
-                          <div
-                            className="col-md-2 col-lg-2 col-sm-2"
-                            style={styles.centerColumn}
-                          >
-                            <RaisedButton
-                              containerElement={<Link to="/order-summary" />}
-                              label="CART"
-                              primary={true}
-                              labelPosition="before"
-                              labelStyle={{ fontWeight: 600 }}
-                              icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
-                            >
-                              <span style={styles.cartCount}>0</span>
-                            </RaisedButton>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <nav className="ecommerce-cms-nav ecommerce-cms-overflow-tabs-scroll-wrapper">
-                <ul className="ecommerce-cms-nav-tab-list ecommerce-cms-overflow-tabs-scroll">
-                  <li className="ecommerce-cms-nav-tab-container">
-                    <FlatButton
-                      label="HOME"
-                      primary={true}
-                      style={{ color: white, display: 'inline' }}
-                      containerElement={<Link to="/" />}
-                    />
-                  </li>
-                  <li className="ecommerce-cms-nav-tab-container">
-                    <FlatButton
-                      label="ABOUT US"
-                      primary={true}
-                      style={{ color: white, display: 'inline' }}
-                      containerElement={<Link to="/about-us" />}
-                    />
-                  </li>
-                  <li className="ecommerce-cms-nav-tab-container">
-                    <FlatButton
-                      label="OUR PRODUCTS"
-                      labelPosition="before"
-                      primary={true}
-                      icon={<NavigationExpandMore color={white} />}
-                      onTouchTap={this.handleTouchTap}
-                      style={{ color: white }}
-                    />
-                    <Popover
-                      open={this.state.open}
-                      anchorEl={this.state.anchorEl}
-                      anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                      targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                      onRequestClose={this.handleRequestClose}
-                    >
-                      <Menu>
-                        {menuItems.map(menu => (
-                          <MenuItem
-                            key={menu.id}
-                            primaryText={menu.name}
-                            containerElement={menu.children && menu.children.length > 0 ? 'span' : <Link to={`/category/${menu.id}/products`} />}
-                            rightIcon={
-                              menu.children.length > 0
-                                ? <ArrowDropRight />
-                                : null
-                            }
-                            menuItems={(menu.children && menu.children.length > 0)
-                              ? menu.children.map(menu2 => (
-                                <MenuItem
-                                  key={menu2.id}
-                                  primaryText={menu2.name}
-                                  containerElement={<Link to={`/category/${menu2.id}/products`} />}
-                                />
-                              ))
-                              : []
-                            }
-                          />),
-                        )}
-                      </Menu>
-                    </Popover>
-                  </li>
-                  <li className="ecommerce-cms-nav-tab-container">
-                    <FlatButton
-                      label="CONTACT US"
-                      primary={true}
-                      style={{ color: white, display: 'inline' }}
-                      containerElement={<Link to="/contact-us" />}
-                    />
-                  </li>
-                </ul>
-              </nav>
             </header>
           </div>
         }
@@ -313,4 +215,4 @@ const mapStateToProps = state => ({
   appState: state,
 });
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, null)(MiniHeader);

@@ -48,7 +48,7 @@ body {
 }
 
 .ecommerce-cms-article-inner {
-  min-height: calc(100vh - 562px);
+  min-height: 350px;
   float: left;
   width: 100%;
 }
