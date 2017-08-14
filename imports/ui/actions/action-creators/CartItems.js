@@ -5,10 +5,13 @@ import {
 } from '../types';
 
 export function addCartItem(payload) {
-  return {
-    type: ADD_CART_ITEM,
-    payload,
-  };
+  return dispatch => new Promise((resolve) => {
+    dispatch({
+      type: ADD_CART_ITEM,
+      payload,
+    });
+    resolve('done');
+  });
 }
 
 export function removeCartItem(payload) {

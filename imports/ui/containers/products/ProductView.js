@@ -12,7 +12,9 @@ import FontIcon from 'material-ui/FontIcon';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import { ProductSelector } from '../../models/selectors/products';
+import { cartItemSelector } from '../../models/selectors/cartItems';
 import MobileTearSheet from '../../components/MobileTearSheet';
+import { addCartItem } from '../../actions/action-creators/CartItems';
 import Header from '../shared/Header';
 import './ProductView.css';
 
@@ -21,26 +23,40 @@ class ProductView extends Component {
     super(props);
     this.state = {
       selectedPicture: '',
+      cartBtnLabel: 'ADD TO CART',
     };
     this.renderThumbnails = this.renderThumbnails.bind(this);
+    this.handleCartBtnTap = this.handleCartBtnTap.bind(this);
   }
 
   componentWillMount() {
-    const { getProduct, match } = this.props;
-    const product = getProduct(match.params.productId);
+    const { getProduct, match, getCartItem } = this.props;
+    const productId = match.params.productId;
+    const cartItem = getCartItem(productId);
+    const product = getProduct(productId);
     if (product) {
       this.setState({
         selectedPicture: product.pictures[0],
+      });
+    } else if (cartItem) {
+      this.setState({
+        cartBtnLabel: 'GO TO CART',
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getProduct, match } = nextProps;
-    const product = getProduct(match.params.productId);
+    const { getProduct, match, getCartItem } = nextProps;
+    const productId = match.params.productId;
+    const cartItem = getCartItem(productId);
+    const product = getProduct(productId);
     if (product) {
       this.setState({
         selectedPicture: product.pictures[0],
+      });
+    } else if (cartItem) {
+      this.setState({
+        cartBtnLabel: 'GO TO CART',
       });
     }
   }
@@ -65,9 +81,34 @@ class ProductView extends Component {
     ));
   }
 
+  handleCartBtnTap(event) {
+    event.preventDefault();
+    const { getProduct, match, getCartItem, changePage, addCartItem: addItem } = this.props;
+    const productId = match.params.productId;
+    const cartItem = getCartItem(productId);
+    if (cartItem) {
+      changePage('/order-summary');
+    } else {
+      const product = getProduct(productId);
+      if (product) {
+        const { name, price, discount } = product;
+        addItem({
+          productId,
+          name,
+          price,
+          discount,
+          quantity: 1,
+          image: product.pictures[0],
+        }).then(
+          () => this.setState({ cartBtnLabel: 'GO TO CART' }),
+        );
+      }
+    }
+  }
+
   render() {
     const { getProduct, match } = this.props;
-    const { selectedPicture } = this.state;
+    const { selectedPicture, cartBtnLabel } = this.state;
     const product = getProduct(match.params.productId);
     return (
       <div className="ecommerce-cms-wrapper">
@@ -131,8 +172,8 @@ class ProductView extends Component {
                           style={{ marginTop: 10, marginBottom: 25 }}
                         >
                           <RaisedButton
-                            containerElement={<Link to="/order-summary" />}
-                            label="ADD TO CART"
+                            onTouchTap={this.handleCartBtnTap}
+                            label={cartBtnLabel}
                             secondary={true}
                             labelPosition="before"
                             labelStyle={{ fontWeight: 600 }}
@@ -169,13 +210,17 @@ ProductView.propTypes = {
   match: PropTypes.object.isRequired,
   getProduct: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
+  addCartItem: PropTypes.func.isRequired,
+  getCartItem:  PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   getProduct: productId => ProductSelector(state, productId),
+  getCartItem: productId => cartItemSelector(state, productId),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  addCartItem,
   changePage: path => push(path),
 }, dispatch);
 

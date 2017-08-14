@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import MiniHeader from '../shared/MiniHeader';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
-import CartItemsSelector from '../../models/selectors/cartItems';
+import { CartItemsSelector } from '../../models/selectors/cartItems';
 import { removeCartItem } from '../../actions/action-creators/CartItems';
+import MiniHeader from '../shared/MiniHeader';
+import CartItem from '../products/CartItem';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 
@@ -47,6 +48,19 @@ class OrderSummary extends Component {
                 <h6>MY CART</h6>
               </div>
               <Divider />
+              <div className="row">
+                <div className="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                  {cartItems.map(item => (
+                    <CartItem
+                      key={item.id}
+                      cartItem={item}
+                    />
+                  ))}
+                </div>
+                <div className="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+
+                </div>
+              </div>
               <Paper
                 style={{ width: '100%', height: 80 }}
                 zDepth={2}

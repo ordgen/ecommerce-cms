@@ -9,6 +9,7 @@ export default class CartItem extends Model {
       name: attr(),
       price: attr(),
       quantity: attr(),
+      image: attr(),
       discount: attr(),
     };
   }
@@ -23,6 +24,7 @@ export default class CartItem extends Model {
     price: PropTypes.number.isRequired,
     quantity: PropTypes.number.isRequired,
     discount: PropTypes.number,
+    image: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
