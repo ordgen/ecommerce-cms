@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import AppBar from 'material-ui/AppBar';
 import PropTypes from 'prop-types';
-import { white, darkBlack, lime900, lime800 } from 'material-ui/styles/colors';
+import { white, darkBlack, lime900, lime800, pinkA400 } from 'material-ui/styles/colors';
 import { Link } from 'react-router-dom';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
@@ -18,15 +18,17 @@ import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
 import MobileDrawer from './MobileDrawer';
+import { CartItemsSelector } from '../../models/selectors/cartItems';
 import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategories';
 import './Header.css';
 
 const styles = {
   cartCount: {
     borderRadius: '3px',
-    backgroundColor: 'rgba(0, 0, 0, .1)',
+    backgroundColor: pinkA400,
     height: '20px',
     padding: '3px 6px',
+    fontSize: 14,
     fontWeight: 500,
     display: 'inline-block',
     color: '#fff',
@@ -44,6 +46,7 @@ class Header extends PureComponent {
     productCategories: PropTypes.array.isRequired,
     getProductCategoryChildren: PropTypes.func.isRequired,
     appState: PropTypes.object.isRequired,
+    cartItems: PropTypes.array.isRequired,
   }
   constructor(props) {
     super(props);
@@ -142,6 +145,24 @@ class Header extends PureComponent {
                   <NavigationMenu color={darkBlack} />
                 </IconButton>
               }
+              iconElementRight={
+                <FlatButton
+                  containerElement={<Link to="/order-summary" />}
+                  primary={true}
+                  labelPosition="before"
+                  labelStyle={{ fontWeight: 600 }}
+                  icon={
+                    <FontIcon
+                      className="material-icons"
+                      color={darkBlack}
+                    >
+                      shopping_cart
+                    </FontIcon>
+                  }
+                >
+                  <span style={styles.cartCount}>{this.props.cartItems.length}</span>
+                </FlatButton>
+              }
             />
             <div className="ecommerce-cms-top-section-wrapper">
               <header className="ecommerce-cms-top-section nocontent">
@@ -220,7 +241,7 @@ class Header extends PureComponent {
                               labelStyle={{ fontWeight: 600 }}
                               icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
                             >
-                              <span style={styles.cartCount}>0</span>
+                              <span style={styles.cartCount}>{this.props.cartItems.length}</span>
                             </RaisedButton>
                           </div>
                         </div>
@@ -309,6 +330,7 @@ class Header extends PureComponent {
 
 const mapStateToProps = state => ({
   productCategories: ProductCategoriesSelector(state),
+  cartItems: CartItemsSelector(state),
   getProductCategoryChildren: category => ProductCategoryChildrenSelector(state, category),
   appState: state,
 });

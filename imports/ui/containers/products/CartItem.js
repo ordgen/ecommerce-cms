@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
+import Avatar from 'material-ui/Avatar';
+import { bindActionCreators } from 'redux';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { connect } from 'react-redux';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
-import { List, ListItem } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
+import { updateCartItem, removeCartItem } from '../../actions/action-creators/CartItems';
 import './CartItem.css';
 
 /* eslint-disable jsx-a11y/href-no-hash, no-console */
@@ -13,86 +18,65 @@ Formsy.addValidationRule('isIn', (values, value, array) =>
   Number.isInteger(value) && array.indexOf(value) >= 0,
 );
 
-export default class CartItem extends React.Component {
+class CartItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       canDecrement: false,
       canIncrement: false,
       inputValue: '',
+      openDialog: false,
     };
     this.deleteCartItem = this.deleteCartItem.bind(this);
-    this.incrementCartItemCount = this.incrementCartItemCount.bind(this);
-    this.decrementCartItemCount = this.decrementCartItemCount.bind(this);
-    this.renderIncrementDecrementButtons = this.renderIncrementDecrementButtons.bind(this);
     this.enableDecrementButton = this.enableDecrementButton.bind(this);
     this.disableDecrementButton = this.disableDecrementButton.bind(this);
     this.onChange = this.onChange.bind(this);
     this.increaseQuantity = this.increaseQuantity.bind(this);
     this.decreaseQuantity = this.decreaseQuantity.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleDialogCloseWithPositive = this.handleDialogCloseWithPositive.bind(this);
   }
 
   componentWillMount() {
-    const { cartItem } = this.props;
+    const { cartItem: { quantity } } = this.props;
     this.setState({
-      inputValue: cartItem.quantity,
+      inputValue: quantity,
     });
-    if (cartItem.quantity < 5) {
+    if (quantity < 20) {
       this.setState({
         canIncrement: true,
       });
-    } else if (cartItem.quantity > 1) {
+    } else {
+      this.setState({
+        canIncrement: false,
+      });
+    }
+    if (quantity > 1) {
       this.setState({
         canDecrement: true,
+      });
+    } else {
+      this.setState({
+        canDecrement: false,
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { cartItem } = nextProps;
+    const { cartItem: { quantity } } = nextProps;
     this.setState({
-      inputValue: cartItem.quantity,
+      inputValue: quantity,
     });
-    if (cartItem.quantity < 5) {
+    if (quantity < 20) {
       this.setState({
         canIncrement: true,
       });
-    } else if (cartItem.quantity > 1) {
+    }
+    if (quantity > 1) {
       this.setState({
         canDecrement: true,
       });
     }
-  }
-
-  deleteCartItem(e) {
-    e.preventDefault();
-    const cartItem = this.props.cartItem;
-  }
-
-  incrementCartItemCount() {
-
-  }
-
-  decrementCartItemCount() {
-
-  }
-
-  renderIncrementDecrementButtons() {
-    return (
-      <div />
-    );
-  }
-
-  enableDecrementButton() {
-    this.setState({
-      canDecrement: true,
-    });
-  }
-
-  disableDecrementButton() {
-    this.setState({
-      canDecrement: false,
-    });
   }
 
   onChange(event, value) {
@@ -141,78 +125,88 @@ export default class CartItem extends React.Component {
     }
   }
 
+  deleteCartItem(e) {
+    e.preventDefault();
+    this.setState({ openDialog: true });
+  }
+
+  enableDecrementButton() {
+    this.setState({
+      canDecrement: true,
+    });
+  }
+
+  disableDecrementButton() {
+    this.setState({
+      canDecrement: false,
+    });
+  }
+
   increaseQuantity() {
+    const { cartItem, updateCartItem: updateItem } = this.props;
     const curValue = this.input.getValue();
     const newValue = curValue + 1;
-    this.setState({
-      inputValue: newValue,
+    updateItem({
+      id: cartItem.id,
+      quantity: newValue,
     });
-    if (newValue === 20) {
-      this.setState({
-        canIncrement: false,
-      });
-    }
-    if (!this.state.canDecrement) {
-      this.setState({
-        canDecrement: true,
-      });
-    }
   }
 
   decreaseQuantity() {
+    const { cartItem, updateCartItem: updateItem } = this.props;
     const curValue = this.input.getValue();
     const newValue = curValue - 1;
-    this.setState({
-      inputValue: newValue,
+    updateItem({
+      id: cartItem.id,
+      quantity: newValue,
     });
-    if (newValue === 1) {
-      this.setState({
-        canDecrement: false,
-      });
-    }
-    if (!this.state.canIncrement) {
-      this.setState({
-        canIncrement: true,
-      });
-    }
+  }
+
+  handleDialogClose() {
+    this.setState({ openDialog: false });
+  }
+
+  handleDialogCloseWithPositive() {
+    this.setState({ openDialog: false });
+    const { cartItem, removeCartItem: removeItem } = this.props;
+    removeItem({
+      id: cartItem.id,
+    });
   }
 
 
   render() {
     const { cartItem } = this.props;
-    const { canDecrement, canIncrement, inputValue } = this.state;
+    const { canDecrement, canIncrement, inputValue, openDialog } = this.state;
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleDialogClose}
+      />,
+      <FlatButton
+        label="Delete"
+        secondary={true}
+        onTouchTap={this.handleDialogCloseWithPositive}
+      />,
+    ];
     return (
       <div>
-        <div
-          className="media"
-          style={{ margin: 15 }}
+        <Card
+          style={{ marginBottom: 10 }}
         >
-          <div
-            className="media-left"
-            style={{ verticalAlign: 'middle' }}
-          >
-            <a href="#">
-              <img
-                className="media-object"
+          <CardHeader
+            title={cartItem.name}
+            subtitle={cartItem.price}
+            avatar={
+              <Avatar
                 src={cartItem.image}
-                alt=""
-                style={{
-                  maxHeight: 120,
-                  borderRadius: 4,
-                }}
+                size={80}
+                style={{ borderRadius: 'inherit' }}
               />
-            </a>
-          </div>
-          <div
-            className="media-body"
-            style={{ padding: '0px 20px' }}
-          >
-            <h4 className="media-heading">{cartItem.name}</h4>
-            <p
-              style={{ fontWeight: 'bold', fontSize: 18 }}
-            >
-              {cartItem.price}
-            </p>
+            }
+          />
+          <CardText>
             <div className="_3cto0P">
               <div className="_3RkJty">
                 <div className="_3md1dr">
@@ -256,15 +250,23 @@ export default class CartItem extends React.Component {
                   </button>
                 </div>
               </div>
-              <div className="_2rsOsD">
-                <div className="_2xVwyr" tabIndex="13">
-                  <span>Remove</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <Divider />
+          </CardText>
+          <CardActions>
+            <FlatButton
+              label="Remove"
+              onTouchTap={this.deleteCartItem}
+            />
+          </CardActions>
+        </Card>
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={openDialog}
+          onRequestClose={this.handleDialogClose}
+        >
+          Are you sure? You won&apos;t be able to revert this!
+        </Dialog>
       </div>
     );
   }
@@ -272,4 +274,13 @@ export default class CartItem extends React.Component {
 
 CartItem.propTypes = {
   cartItem: PropTypes.object.isRequired,
+  removeCartItem: PropTypes.func.isRequired,
+  updateCartItem: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  removeCartItem: payload => removeCartItem(payload),
+  updateCartItem: payload => updateCartItem(payload),
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(CartItem);

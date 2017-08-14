@@ -38,7 +38,8 @@ class ProductView extends Component {
       this.setState({
         selectedPicture: product.pictures[0],
       });
-    } else if (cartItem) {
+    }
+    if (cartItem) {
       this.setState({
         cartBtnLabel: 'GO TO CART',
       });
@@ -54,31 +55,12 @@ class ProductView extends Component {
       this.setState({
         selectedPicture: product.pictures[0],
       });
-    } else if (cartItem) {
+    }
+    if (cartItem) {
       this.setState({
         cartBtnLabel: 'GO TO CART',
       });
     }
-  }
-
-  renderThumbnails() {
-    const { getProduct, match } = this.props;
-    const { selectedPicture } = this.state;
-    const product = getProduct(match.params.productId);
-    return product.pictures.map((picture, index) => (
-      <div
-        className="col-md-3 col-lg-3 col-sm-3 col-xs-6 text-xs-center"
-        key={index}
-      >
-        <input
-          type="image"
-          src={picture}
-          className={`img-fluid img-thumbnail m-b-1 ${selectedPicture === picture ? 'image-gallery-selected' : null}`}
-          onClick={() => this.setState({ selectedPicture: picture })}
-          alt=""
-        />
-      </div>
-    ));
   }
 
   handleCartBtnTap(event) {
@@ -104,6 +86,26 @@ class ProductView extends Component {
         );
       }
     }
+  }
+
+  renderThumbnails() {
+    const { getProduct, match } = this.props;
+    const { selectedPicture } = this.state;
+    const product = getProduct(match.params.productId);
+    return product.pictures.map((picture, index) => (
+      <div
+        className="col-md-3 col-lg-3 col-sm-3 col-xs-6 text-xs-center"
+        key={index}
+      >
+        <input
+          type="image"
+          src={picture}
+          className={`img-fluid img-thumbnail m-b-1 ${selectedPicture === picture ? 'image-gallery-selected' : null}`}
+          onClick={() => this.setState({ selectedPicture: picture })}
+          alt=""
+        />
+      </div>
+    ));
   }
 
   render() {
@@ -178,6 +180,7 @@ class ProductView extends Component {
                             labelPosition="before"
                             labelStyle={{ fontWeight: 600 }}
                             icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
+                            style={{ width: '100%', height: 42 }}
                           />
                         </div>
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Divider from 'material-ui/Divider';
+import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 import { CartItemsSelector } from '../../models/selectors/cartItems';
-import { removeCartItem } from '../../actions/action-creators/CartItems';
 import MiniHeader from '../shared/MiniHeader';
 import CartItem from '../products/CartItem';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
@@ -34,10 +34,17 @@ class OrderSummary extends Component {
         </div>
       );
     }
+    let totalPrice = 0;
+    cartItems.forEach((item) => {
+      totalPrice += parseInt(item.price, 10) * item.quantity;
+    });
     return (
       <div className="container">
         <div className="row">
-          <div className="col-md-8 col-lg-8 col-xs-12 col-sm-12">
+          <div
+            className="col-md-8 col-lg-8 col-xs-12 col-sm-12"
+            style={{ marginBottom: 40 }}
+          >
             <Paper
               style={style}
               zDepth={1}
@@ -49,7 +56,7 @@ class OrderSummary extends Component {
               </div>
               <Divider />
               <div className="row">
-                <div className="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                   {cartItems.map(item => (
                     <CartItem
                       key={item.id}
@@ -57,19 +64,44 @@ class OrderSummary extends Component {
                     />
                   ))}
                 </div>
-                <div className="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-
-                </div>
               </div>
               <Paper
-                style={{ width: '100%', height: 80 }}
+                style={{ width: '100%' }}
                 zDepth={2}
-              />
+              >
+                <div
+                  className="row"
+                >
+                  <div
+                    className="col-md-5 col-lg-5 col-sm-5 col-xs-12"
+                    style={{ padding: 20, marginLeft: '4%', marginRight: '4%' }}
+                  >
+                    <RaisedButton
+                      containerElement={<Link to="/" />}
+                      label="CONTINUE SHOPPING"
+                      primary={true}
+                      labelStyle={{ fontWeight: 600 }}
+                      style={{ marginRight: 10, width: '100%', height: 42 }}
+                    />
+                  </div>
+                  <div
+                    className="col-md-5 col-lg-5 col-sm-5 col-xs-12"
+                    style={{ padding: 20, marginLeft: '4%', marginRight: '4%' }}
+                  >
+                    <RaisedButton
+                      label="PLACE ORDER"
+                      secondary={true}
+                      labelStyle={{ fontWeight: 600 }}
+                      style={{ width: '100%', height: 42 }}
+                    />
+                  </div>
+                </div>
+              </Paper>
             </Paper>
           </div>
           <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12">
             <Paper
-              style={style}
+              style={{ width: '100%', height: 300 }}
               zDepth={1}
             >
               <div
@@ -78,6 +110,39 @@ class OrderSummary extends Component {
                 <h6>PRICE DETAILS</h6>
               </div>
               <Divider />
+              <div
+                style={{ margin: 15 }}
+              >
+                <div
+                  style={{ height: 40, marginBottom: 10 }}
+                >
+                  <p
+                    style={{ float: 'left' }}
+                  >
+                    {`Price (${cartItems.length} items)`}
+                  </p>
+                  <p
+                    style={{ float: 'right' }}
+                  >
+                    {totalPrice}
+                  </p>
+                </div>
+                <Divider />
+                <div
+                  style={{ marginTop: 10 }}
+                >
+                  <p
+                    style={{ float: 'left', fontWeight: 600, fontSize: 18 }}
+                  >
+                    Amount Payable
+                  </p>
+                  <p
+                    style={{ float: 'right' }}
+                  >
+                    {totalPrice}
+                  </p>
+                </div>
+              </div>
             </Paper>
           </div>
         </div>
@@ -95,7 +160,7 @@ class OrderSummary extends Component {
             <article className="ecommerce-cms-article-inner">
               <section
                 className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey"
-                style={{ padding: 'inherit' }}
+                style={{ marginBottom: 100 }}
               >
                 {this.renderCartItems(cartItems)}
               </section>
@@ -111,15 +176,10 @@ class OrderSummary extends Component {
 
 OrderSummary.propTypes = {
   cartItems: PropTypes.array.isRequired,
-  removeCartItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   cartItems: CartItemsSelector(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  removeCartItem: payload => removeCartItem(payload),
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);
+export default connect(mapStateToProps, null)(OrderSummary);
