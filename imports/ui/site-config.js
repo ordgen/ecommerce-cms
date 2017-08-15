@@ -15,6 +15,12 @@ const DashboardMenus = [
     children: [],
   },
   {
+    text: 'Orders',
+    icon: <ActionAssignment />,
+    link: '/dashboard/orders',
+    children: [],
+  },
+  {
     text: 'Products',
     icon: <ActionAssignment />,
     link: '/dashboard/products',

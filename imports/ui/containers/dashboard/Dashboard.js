@@ -17,6 +17,8 @@ import EditProductCategory from '../product-categories/EditProductCategory';
 import SliderImages from '../slider-images/SliderImages';
 import NewSliderImage from '../slider-images/NewSliderImage';
 import EditSliderImage from '../slider-images/EditSliderImage';
+import Orders from '../orders/Orders';
+import OrderView from '../orders/OrderView';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -117,6 +119,16 @@ class Dashboard extends React.Component {
             exact
             path={`${match.url}/slider-images/edit/:imageId`}
             component={EditSliderImage}
+          />
+          <Route
+            exact
+            path={`${match.url}/orders`}
+            component={Orders}
+          />
+          <Route
+            exact
+            path={`${match.url}/orders/:orderId`}
+            component={OrderView}
           />
         </div>
       </div>

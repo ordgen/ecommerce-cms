@@ -9,7 +9,7 @@ export const OrdersSelector = createSelector(
   session => session.Order.all().toRefArray().map(
     order => ({
       ...order,
-      cartItems: session.CartItem.all.toRefArray.filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len
+      cartItems: session.CartItem.all().toRefArray().filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len
     })),
 );
 
@@ -22,7 +22,7 @@ export const OrderSelector = createSelector(
       const order = session.Order.withId(orderId).ref;
       return {
         ...order,
-        cartItems: session.CartItem.all.toRefArray.filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len,
+        cartItems: session.CartItem.all().toRefArray().filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len,
       };
     }
     return null;

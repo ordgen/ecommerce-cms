@@ -82,7 +82,10 @@ class ProductView extends Component {
           quantity: 1,
           image: product.pictures[0],
         }).then(
-          () => this.setState({ cartBtnLabel: 'GO TO CART' }),
+          () => {
+            changePage('/order-summary');
+            this.setState({ cartBtnLabel: 'GO TO CART' });
+          },
         );
       }
     }

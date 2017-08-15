@@ -1,6 +1,7 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import Products from '../../products/products';
+import CartItems from '../../cart-items/cart-items';
 import Orders from '../orders';
 
 export const createOrder = new ValidatedMethod({
@@ -118,5 +119,23 @@ export const deleteOrder = new ValidatedMethod({
 
   async run({ orderId }) {
     return Orders.remove({ _id: orderId });
+  },
+});
+
+export const getOrder = new ValidatedMethod({
+  name: 'Orders.methods.getOrder',
+  validate: new SimpleSchema({
+    orderId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+  }).validator(),
+
+  async run({ orderId }) {
+    const order = Orders.findOne({ _id: orderId });
+    return {
+      ...order,
+      cartItems: CartItems.find({}).fetch().filter(item => order.cartItemIds.includes(item._id)), // eslint-disable-line
+    };
   },
 });

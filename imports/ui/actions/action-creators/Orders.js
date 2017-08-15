@@ -38,9 +38,28 @@ export function createOrder(data) {
       (err, res) => {
         dispatch(setIsLoadingState(IS_LOADING_ORDERS, false));
         if (!err) {
+          const {
+            cartItemIds,
+            createdAt,
+            updatedAt,
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            lat,
+            lng,
+          } = res;
           const payload = {
-            ...data,
-            id: res._id, // eslint-disable-line no-underscore-dangle,
+            id: res._id, // eslint-disable-line
+            cartItemIds,
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            lat,
+            lng,
+            createdAt,
+            updatedAt,
           };
           dispatch(addOrder(payload));
           resolve(res);
