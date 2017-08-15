@@ -146,7 +146,7 @@ class CartItem extends React.Component {
     const curValue = this.input.getValue();
     const newValue = curValue + 1;
     updateItem({
-      id: cartItem.id,
+      cartItemId: cartItem.id,
       quantity: newValue,
     });
   }
@@ -156,7 +156,7 @@ class CartItem extends React.Component {
     const curValue = this.input.getValue();
     const newValue = curValue - 1;
     updateItem({
-      id: cartItem.id,
+      cartItemId: cartItem.id,
       quantity: newValue,
     });
   }

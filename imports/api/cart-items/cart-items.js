@@ -2,52 +2,51 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { BaseSchema } from '../../shared/schemas.js';
 
-const Orders = new Mongo.Collection('orders');
+const CartItems = new Mongo.Collection('cartItems');
 
 // Deny all client-side updates
-Orders.deny({
+CartItems.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-Orders.schema = new SimpleSchema([
+CartItems.schema = new SimpleSchema([
   BaseSchema,
   {
     _id: {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    cartItemIds: {
-      type: [String],
+    productId: {
+      type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    firstName: {
-      type: String,
+    quantity: {
+      type: Number,
     },
-    lastName: {
-      type: String,
-      optional: true,
-    },
-    phoneNumber: {
-      type: String,
-    },
-    address: {
+    name: {
       type: String,
       optional: true,
     },
-    lat: {
-      type: String,
+    price: {
+      type: Number,
+      decimal: true,
       optional: true,
     },
-    lng: {
+    discount: {
+      type: Number,
+      decimal: true,
+      optional: true,
+    },
+    image: {
       type: String,
       optional: true,
     },
   },
 ]);
 
-Orders.attachSchema(Orders.schema);
+CartItems.attachSchema(CartItems.schema);
 
-export default Orders;
+export default CartItems;
 

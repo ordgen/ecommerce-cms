@@ -5,8 +5,13 @@ export default class Order extends Model {
   static get fields() {
     return {
       id: attr(),
-      productId: attr(),
-      quantity: attr(),
+      cartItemIds: attr(),
+      firstName: attr(),
+      lastName: attr(),
+      phoneNumber: attr(),
+      address: attr(),
+      lat: attr(),
+      lng: attr(),
       createdAt: attr(),
       updatedAt: attr(),
     };
@@ -17,10 +22,15 @@ export default class Order extends Model {
   }
 
   static propTypes = {
-    productId: PropTypes.string.isRequired,
-    quantity: PropTypes.number.isRequired,
+    cartItemIds: PropTypes.array.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
     updatedAt: PropTypes.instanceOf(Date).isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string,
+    phoneNumber: PropTypes.string.isRequired,
+    address: PropTypes.string,
+    lat: PropTypes.string,
+    lng: PropTypes.string,
   }
 
   toString() {

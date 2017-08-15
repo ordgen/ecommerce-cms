@@ -90,6 +90,7 @@ export default function ormReducer(dbState = initialState, action) {
       break;
     case ADD_ORDER:
       Order.create(payload);
+      CartItem.all().toModelArray().forEach(item => item.delete());
       break;
     case REMOVE_ORDER:
       Order.withId(payload.id).delete();

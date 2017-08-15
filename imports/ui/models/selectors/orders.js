@@ -9,8 +9,8 @@ export const OrdersSelector = createSelector(
   session => session.Order.all().toRefArray().map(
     order => ({
       ...order,
-      product: session.Product.hasId(order.productId) ? session.Product.withId(order.productId).ref : '' }), // eslint-disable-line max-len
-  ),
+      cartItems: session.CartItem.all.toRefArray.filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len
+    })),
 );
 
 export const OrderSelector = createSelector(
@@ -22,7 +22,7 @@ export const OrderSelector = createSelector(
       const order = session.Order.withId(orderId).ref;
       return {
         ...order,
-        product: session.Product.withId(order.productId),
+        cartItems: session.CartItem.all.toRefArray.filter(cartItem => order.cartItemIds.includes(cartItem.id)), // eslint-disable-line max-len,
       };
     }
     return null;

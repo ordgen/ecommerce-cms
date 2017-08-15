@@ -97,6 +97,7 @@ class EditProduct extends Component {
       {
         ...data,
         productId: this.props.match.params.productId,
+        price: parseFloat(data.price, 10),
       },
     ).then(
       () => {

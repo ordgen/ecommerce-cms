@@ -6,12 +6,31 @@ import Orders from '../orders';
 export const createOrder = new ValidatedMethod({
   name: 'Orders.methods.createOrder',
   validate: new SimpleSchema({
-    productId: {
-      type: String,
+    cartItemIds: {
+      type: [String],
       regEx: SimpleSchema.RegEx.Id,
     },
-    quantity: {
-      type: Number,
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+      optional: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    address: {
+      type: String,
+      optional: true,
+    },
+    lat: {
+      type: String,
+      optional: true,
+    },
+    lng: {
+      type: String,
+      optional: true,
     },
   }).validator(),
 
@@ -47,8 +66,31 @@ export const editOrder = new ValidatedMethod({
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    quantity: {
-      type: Number,
+    cartItemIds: {
+      type: [String],
+      regEx: SimpleSchema.RegEx.Id,
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+      optional: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    address: {
+      type: String,
+      optional: true,
+    },
+    lat: {
+      type: String,
+      optional: true,
+    },
+    lng: {
+      type: String,
+      optional: true,
     },
   }).validator(),
 

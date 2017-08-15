@@ -77,8 +77,8 @@ class ProductView extends Component {
         addItem({
           productId,
           name,
-          price,
-          discount,
+          price: parseFloat(price, 10),
+          discount: discount ? parseFloat(discount, 10) : 0,
           quantity: 1,
           image: product.pictures[0],
         }).then(

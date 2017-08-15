@@ -35,12 +35,12 @@ Products.schema = new SimpleSchema([
       label: 'Product Description',
     },
     price: {
-      type: String,
+      type: Number,
       label: 'Price',
       decimal: true,
     },
     discount: {
-      type: String,
+      type: Number,
       label: 'Discount',
       decimal: true,
       optional: true,

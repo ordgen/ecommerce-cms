@@ -71,7 +71,10 @@ class NewProduct extends Component {
 
   onSubmit(data) {
     this.props.createProduct(
-      data,
+      {
+        ...data,
+        price: parseFloat(data.price, 10),
+      },
     ).then(
       () => {
         this.setState({

@@ -64,13 +64,25 @@ export function editOrder(data) {
             reject(err);
           } else {
             const {
-              quantity,
+              cartItemIds,
               createdAt,
               updatedAt,
+              firstName,
+              lastName,
+              phoneNumber,
+              address,
+              lat,
+              lng,
             } = res;
             const payload = {
               id: data.orderId,
-              quantity,
+              cartItemIds,
+              firstName,
+              lastName,
+              phoneNumber,
+              address,
+              lat,
+              lng,
               createdAt,
               updatedAt,
             };
