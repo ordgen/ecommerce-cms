@@ -2,19 +2,92 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Divider from 'material-ui/Divider';
+import Formsy from 'formsy-react';
+import { FormsyText } from 'formsy-material-ui/lib';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 import { CartItemsSelector } from '../../models/selectors/cartItems';
 import MiniHeader from '../shared/MiniHeader';
 import CartItem from '../products/CartItem';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
+import './OrderSummary.css';
 
 class OrderSummary extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      openDialog: false,
+      geoCoordinates: null,
+      loadingPlace: false,
+      address: '',
+      canSubmit: false,
+      dataSource: [],
+    };
     this.renderCartItems = this.renderCartItems.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleDialogCloseWithPositive = this.handleDialogCloseWithPositive.bind(this);
+    this.handleDialogOpen = this.handleDialogOpen.bind(this);
+    this.handlePlaceSelect = this.handlePlaceSelect.bind(this);
+    this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    this.enableSubmitButton = this.enableSubmitButton.bind(this);
+    this.disableSubmitButton = this.disableSubmitButton.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.styles = {
+      submitStyle: {
+        marginTop: 32,
+        display: 'block',
+      },
+      formElement: {
+        display: 'block',
+        width: '100%',
+      },
+    };
+  }
+
+  onSubmit() {
+
+  }
+
+  handleDialogClose() {
+    this.setState({ openDialog: false });
+  }
+
+  handleDialogCloseWithPositive() {
+    this.setState({ openDialog: false });
+  }
+
+  handleDialogOpen() {
+    this.setState({ openDialog: true });
+  }
+
+  handlePlaceSelect(address) {
+    // this.setState({
+    //   address,
+    //   loadingPlace: true,
+    // });
+  }
+
+  handlePlaceChange(address) {
+    /*this.setState({
+      address,
+      geocodeResults: null,
+    });*/
+  }
+
+  enableSubmitButton() {
+    this.setState({
+      canSubmit: true,
+    });
+  }
+
+  disableSubmitButton() {
+    this.setState({
+      canSubmit: false,
+    });
   }
 
   renderCartItems(cartItems) {
@@ -93,6 +166,7 @@ class OrderSummary extends Component {
                       secondary={true}
                       labelStyle={{ fontWeight: 600 }}
                       style={{ width: '100%', height: 42 }}
+                      onTouchTap={this.handleDialogOpen}
                     />
                   </div>
                 </div>
@@ -151,7 +225,22 @@ class OrderSummary extends Component {
   }
 
   render() {
+    const { formElement, submitStyle } = this.styles;
     const { cartItems } = this.props;
+    const { openDialog, canSubmit, geoCoordinates } = this.state;
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleDialogClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        disabled={true}
+        onTouchTap={this.handleDialogCloseWithPositive}
+      />,
+    ];
     return (
       <div className="ecommerce-cms-wrapper">
         <MiniHeader />
@@ -169,6 +258,65 @@ class OrderSummary extends Component {
         </div>
         <PrimaryFooter />
         <SecondaryFooter />
+        <Dialog
+          title="Personal Details"
+          actions={actions}
+          modal={true}
+          open={openDialog}
+        >
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <Formsy.Form
+                  onValidSubmit={this.onSubmit}
+                  onValid={this.enableSubmitButton}
+                  onInvalid={this.disableSubmitButton}
+                  ref={(form) => { this.form = form; }}
+                  noValidate
+                >
+                  <FormsyText
+                    name="first_name"
+                    required
+                    hintText="Enter your first name "
+                    floatingLabelText="First Name"
+                    style={formElement}
+                  />
+                  <FormsyText
+                    name="surname"
+                    hintText="Enter your surname (optional)"
+                    floatingLabelText="Surname"
+                    style={formElement}
+                  />
+                  <FormsyText
+                    name="phone"
+                    hintText="Enter your phone number"
+                    required
+                    floatingLabelText="Phone Number"
+                    style={formElement}
+                  />
+                  <div>
+                    
+                  </div>
+                  <RaisedButton
+                    style={submitStyle}
+                    type="submit"
+                    label="Submit"
+                    primary={true}
+                    disabled={!canSubmit}
+                  />
+                  <div
+                    style={{ display: 'none' }}
+                  >
+                    <FormsyText
+                      name="geo_coordinates"
+                      value={geoCoordinates}
+                    />
+                  </div>
+                </Formsy.Form>
+              </div>
+            </div>
+          </div>
+        </Dialog>
       </div>
     );
   }

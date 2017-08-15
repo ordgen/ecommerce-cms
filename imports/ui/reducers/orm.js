@@ -13,6 +13,9 @@ import {
   ADD_CART_ITEM,
   REMOVE_CART_ITEM,
   UPDATE_CART_ITEM,
+  ADD_ORDER,
+  REMOVE_ORDER,
+  UPDATE_ORDER,
 } from '../actions/types';
 import orm from '../models/orm';
 
@@ -32,7 +35,7 @@ export default function ormReducer(dbState = initialState, action) {
 
   /* Session-specific Models are available
   as properties on the Session instance. */
-  const { Product, ProductCategory, SliderImage, CartItem } = sess;
+  const { Product, ProductCategory, SliderImage, CartItem, Order } = sess;
   const { payload, type } = action;
   switch (type) {
     case ADD_PRODUCT:
@@ -84,6 +87,15 @@ export default function ormReducer(dbState = initialState, action) {
       break;
     case UPDATE_CART_ITEM:
       CartItem.withId(payload.id).update(payload);
+      break;
+    case ADD_ORDER:
+      Order.create(payload);
+      break;
+    case REMOVE_ORDER:
+      Order.withId(payload.id).delete();
+      break;
+    case UPDATE_ORDER:
+      Order.withId(payload.id).update(payload);
       break;
     default:
       break;

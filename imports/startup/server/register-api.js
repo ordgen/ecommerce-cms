@@ -7,3 +7,4 @@ import '../../api/product-categories/server/publications';
 import '../../api/product-categories/server/methods';
 import '../../api/slider-images/server/publications';
 import '../../api/slider-images/server/methods';
+import '../../api/orders/server/methods';
