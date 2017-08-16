@@ -22,6 +22,10 @@ export const updateSiteConfig = new ValidatedMethod({
       type: String,
       label: 'Site Name',
     },
+    aboutUs: {
+      type: String,
+      label: 'About Company',
+    },
     primaryLogo: {
       type: String,
     },
@@ -144,13 +148,40 @@ export const updateSiteConfig = new ValidatedMethod({
       type: String,
       optional: true,
     },
+    'socialMedia.instagram': {
+      type: Object,
+      optional: true,
+      label: 'Instagram',
+    },
+    'socialMedia.instagram.url': {
+      type: String,
+      optional: true,
+      defaultValue: '',
+      label: 'Instagram Link',
+    },
+    'socialMedia.instagram.icon': {
+      type: String,
+      optional: true,
+      defaultValue: 'fa-instagram ',
+    },
+    'socialMedia.instagram.isEnabled': {
+      type: Boolean,
+      optional: true,
+      defaultValue: true,
+      label: 'Show instagram button',
+    },
+    'socialMedia.instagram.title': {
+      type: String,
+      optional: true,
+      defaultValue: 'Instagram',
+    },
   }).validator(),
 
-  async run({ _id, siteName, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia }) { // eslint-disable-line
+  async run({ _id, siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia }) { // eslint-disable-line
     const siteConfig = await new Promise(resolve =>
       SiteConfig.update(
         { _id },
-        { $set: { siteName, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia } }, // eslint-disable-line
+        { $set: { siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia } }, // eslint-disable-line
         () => resolve(SiteConfig.findOne(_id)),
       ),
     );

@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { REHYDRATE } from 'redux-persist/constants'
 import {
   ADD_PRODUCT,
   ADD_PRODUCT_TO_CATEGORY,
@@ -55,9 +54,6 @@ export default function ormReducer(dbState = initialState, action) {
       Product.withId(payload.id).update(payload);
       break;
     }
-    case REHYDRATE:
-      console.log(payload);
-      break;
     case ADD_PRODUCT_TO_CATEGORY:
       ProductCategory.withId(action.payload.categoryId).products.add(action.payload.productId);
       break;

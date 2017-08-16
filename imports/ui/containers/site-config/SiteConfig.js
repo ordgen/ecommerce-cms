@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
-import { SubmitField, AutoField, SelectField } from 'uniforms-material';
+import { SubmitField, AutoField, SelectField, TextField } from 'uniforms-material';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import SiteConfigSchema from '../../../api/site-config/schema';
@@ -72,6 +72,7 @@ class SiteConfig extends Component {
       primaryLogo: '',
       secondaryLogo: '',
       currency: '',
+      formError: null,
     };
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -143,7 +144,7 @@ class SiteConfig extends Component {
   }
 
   handleSubmit(doc) {
-    const { _id, siteName, companyPhones, companyEmails, socialMedia } = doc; // eslint-disable-line
+    const { _id, siteName, companyPhones, companyEmails, socialMedia, aboutUs } = doc; // eslint-disable-line
     const { primaryLogo, secondaryLogo, currency: siteCurrency } = this.state;
     updateSiteConfig(
       {
@@ -154,6 +155,7 @@ class SiteConfig extends Component {
         companyPhones,
         companyEmails,
         socialMedia,
+        aboutUs,
         currency: (Currencies.find(currency => currency.name === siteCurrency)).symbol_native,
       }).then(
       () => {
@@ -163,10 +165,11 @@ class SiteConfig extends Component {
         });
       },
     ).catch(
-      () => {
+      (formError) => {
         this.setState({
           openSnackBar: true,
           snackMessage: 'Oops! Update Failed!! Please try again.',
+          formError,
         });
       },
     );
@@ -174,7 +177,7 @@ class SiteConfig extends Component {
 
   render() {
     const { match } = this.props;
-    const { openSnackBar, siteConfig, snackMessage, primaryLogo, secondaryLogo, currency } = this.state;
+    const { openSnackBar, siteConfig, snackMessage, primaryLogo, secondaryLogo, currency, formError } = this.state; // eslint-disable-line
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="Site Information" />
@@ -193,6 +196,11 @@ class SiteConfig extends Component {
                           showInlineError
                         >
                           <AutoField name="siteName" />
+                          <TextField
+                            name="aboutUs"
+                            multiLine
+                            rows={5}
+                          />
                           <AutoField name="companyPhones" />
                           <AutoField name="companyEmails" />
                           <SelectField
