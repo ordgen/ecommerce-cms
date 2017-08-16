@@ -89,7 +89,7 @@ export default new SimpleSchema([
     'socialMedia.twitter.isEnabled': {
       type: Boolean,
       optional: true,
-      defaultValue: true,
+      defaultValue: false,
       label: 'Show twitter button',
     },
     'socialMedia.twitter.title': {
@@ -114,7 +114,7 @@ export default new SimpleSchema([
     'socialMedia.linkedin.isEnabled': {
       type: Boolean,
       optional: true,
-      defaultValue: true,
+      defaultValue: false,
     },
     'socialMedia.linkedin.title': {
       type: String,
@@ -138,7 +138,7 @@ export default new SimpleSchema([
     'socialMedia.google.isEnabled': {
       type: Boolean,
       optional: true,
-      defaultValue: true,
+      defaultValue: false,
     },
     'socialMedia.google.title': {
       type: String,
@@ -164,13 +164,40 @@ export default new SimpleSchema([
     'socialMedia.youtube.isEnabled': {
       type: Boolean,
       optional: true,
-      defaultValue: true,
+      defaultValue: false,
       label: 'Show youtube button',
     },
     'socialMedia.youtube.title': {
       type: String,
       optional: true,
       defaultValue: 'Youtube',
+    },
+    'socialMedia.instagram': {
+      type: Object,
+      optional: true,
+      label: 'Instagram',
+    },
+    'socialMedia.instagram.url': {
+      type: String,
+      optional: true,
+      defaultValue: '',
+      label: 'Instagram Link',
+    },
+    'socialMedia.instagram.icon': {
+      type: String,
+      optional: true,
+      defaultValue: 'fa-instagram ',
+    },
+    'socialMedia.instagram.isEnabled': {
+      type: Boolean,
+      optional: true,
+      defaultValue: true,
+      label: 'Show instagram button',
+    },
+    'socialMedia.instagram.title': {
+      type: String,
+      optional: true,
+      defaultValue: 'Instagram',
     },
   },
 ]);
