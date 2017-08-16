@@ -17,8 +17,8 @@ export function loginRequestStarted(loggingIn) {
  * Sets the authentication state of the application
  * @param {boolean} newState True means a user is logged in, false means no user is logged in
  */
-export function setAuthState(newState, error) {
-  return { type: SET_AUTH, newState, error };
+export function setAuthState(newState) {
+  return { type: SET_AUTH, newState };
 }
 
 
@@ -27,18 +27,19 @@ export function setAuthState(newState, error) {
  * @param  {string} email The email of the user to be logged in
  * @param  {string} password The password of the user to be logged in
  */
-export function login(email, password) {
-  return (dispatch) => {
-    dispatch(loginRequestStarted(true));
 
+export function login(email, password) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch(loginRequestStarted(true));
     Meteor.loginWithPassword(email, password, (err) => {
+      dispatch(loginRequestStarted(false));
       if (err) {
-        dispatch(loginRequestStarted(false));
-        dispatch(setAuthState(false, err.error));
+        dispatch(setAuthState(false));
+        reject(err);
       } else {
-        dispatch(loginRequestStarted(false));
-        dispatch(setAuthState(true, 0));
+        dispatch(setAuthState(true));
+        resolve('success');
       }
     });
-  };
+  });
 }

@@ -9,7 +9,6 @@ const user = Meteor.userId();
 const INITIAL_STATE = {
   loggedIn: !!user,
   loggingIn: false,
-  error: 0,
   currentUser: user,
 };
 
@@ -19,8 +18,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         loggedIn: action.newState,
-        error: action.error,
-        currentUser: user,
+        currentUser: Meteor.userId(),
       };
     case LOGIN_IN:
       return { ...state, loggingIn: action.loggingIn };
