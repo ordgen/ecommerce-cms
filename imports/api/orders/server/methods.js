@@ -2,6 +2,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import Products from '../../products/products';
 import CartItems from '../../cart-items/cart-items';
+import SiteConfig from '../../site-config/site-config';
 import Orders from '../orders';
 
 export const createOrder = new ValidatedMethod({
@@ -136,6 +137,7 @@ export const getOrder = new ValidatedMethod({
     return {
       ...order,
       cartItems: CartItems.find({}).fetch().filter(item => order.cartItemIds.includes(item._id)), // eslint-disable-line
+      currency: SiteConfig.findOne().currency,
     };
   },
 });

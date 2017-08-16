@@ -7,6 +7,7 @@ import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
+import { Meteor } from 'meteor/meteor';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -21,6 +22,20 @@ import MobileDrawer from './MobileDrawer';
 import { CartItemsSelector } from '../../models/selectors/cartItems';
 import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategories';
 import './Header.css';
+
+const getSiteConfig = () =>
+  new Promise((resolve, reject) =>
+    Meteor.call('SiteConfig.methods.getSiteConfig',
+      {},
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
 
 const styles = {
   cartCount: {
@@ -47,6 +62,7 @@ class Header extends PureComponent {
     getProductCategoryChildren: PropTypes.func.isRequired,
     appState: PropTypes.object.isRequired,
     cartItems: PropTypes.array.isRequired,
+    siteConfig: null,
   }
   constructor(props) {
     super(props);
@@ -62,7 +78,24 @@ class Header extends PureComponent {
   }
 
   componentWillMount() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
     window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  componentWillReceiveProps() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -116,7 +149,7 @@ class Header extends PureComponent {
 
   render() {
     const menuItems = this.productCategoriesWithChildren();
-    const { width, navDrawerOpen } = this.state;
+    const { width, navDrawerOpen, siteConfig } = this.state;
     const isMobile = width <= 500;
     const paddingLeftDrawerOpen = 236;
 
@@ -136,7 +169,13 @@ class Header extends PureComponent {
         {isMobile
           ? <div style={style.header}>
             <AppBar
-              title={<img className="ecommerce-cms-site-mobilelogo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />}
+              title={
+                <img
+                  className="ecommerce-cms-site-mobilelogo"
+                  src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                  alt="logo"
+                />
+              }
               style={{ backgroundColor: white }}
               iconElementLeft={
                 <IconButton
@@ -215,7 +254,11 @@ class Header extends PureComponent {
                             className="col-md-2 col-lg-2 col-sm-2"
                             style={{ display: 'flex', justifyContent: 'center' }}
                           >
-                            <img className="ecommerce-cms-header-billboard-logo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />
+                            <img
+                              className="ecommerce-cms-header-billboard-logo"
+                              src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                              alt="logo"
+                            />
                           </div>
                           <div
                             className="col-md-8 col-lg-8 col-sm-8"

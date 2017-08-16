@@ -148,7 +148,7 @@ class EditProduct extends Component {
 
   render() {
     const { match, productCategories, getProduct } = this.props;
-    const { categoryValue, images, openSnackBar, snackMessage } = this.state;
+    const { categoryValue, images, openSnackBar, snackMessage, formError } = this.state; // eslint-disable-line
     const { numericError } = this.errorMessages;
     const product = getProduct(match.params.productId);
     return (
@@ -200,6 +200,7 @@ class EditProduct extends Component {
                           hintText="What is this product about?"
                           style={styles.formElement}
                           value={product.description}
+                          multiLine
                         />
                         <div
                           style={{ marginTop: 20 }}

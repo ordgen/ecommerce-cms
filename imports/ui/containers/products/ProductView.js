@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
+import { Meteor } from 'meteor/meteor';
 import { pinkA400 } from 'material-ui/styles/colors';
 import Subheader from 'material-ui/Subheader';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -18,12 +19,27 @@ import { addCartItem } from '../../actions/action-creators/CartItems';
 import Header from '../shared/Header';
 import './ProductView.css';
 
+const getSiteConfig = () =>
+  new Promise((resolve, reject) =>
+    Meteor.call('SiteConfig.methods.getSiteConfig',
+      {},
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
+
 class ProductView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedPicture: '',
       cartBtnLabel: 'ADD TO CART',
+      siteConfig: null,
     };
     this.renderThumbnails = this.renderThumbnails.bind(this);
     this.handleCartBtnTap = this.handleCartBtnTap.bind(this);
@@ -44,6 +60,13 @@ class ProductView extends Component {
         cartBtnLabel: 'GO TO CART',
       });
     }
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,6 +84,13 @@ class ProductView extends Component {
         cartBtnLabel: 'GO TO CART',
       });
     }
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
   }
 
   handleCartBtnTap(event) {
@@ -113,7 +143,7 @@ class ProductView extends Component {
 
   render() {
     const { getProduct, match } = this.props;
-    const { selectedPicture, cartBtnLabel } = this.state;
+    const { selectedPicture, cartBtnLabel, siteConfig } = this.state;
     const product = getProduct(match.params.productId);
     return (
       <div className="ecommerce-cms-wrapper">
@@ -122,7 +152,7 @@ class ProductView extends Component {
           <article className="ecommerce-cms-article">
             <article className="ecommerce-cms-article-inner">
               <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
-                {product &&
+                {(siteConfig && product) &&
                   <div className="container">
                     <div className="row">
                       <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -169,7 +199,7 @@ class ProductView extends Component {
                           <p
                             style={{ color: pinkA400, fontWeight: 'bold' }}
                           >
-                            {`$${product.price}`}
+                            {`${siteConfig.currency} ${product.price}`}
                           </p>
                         </div>
 
@@ -187,7 +217,9 @@ class ProductView extends Component {
                           />
                         </div>
 
-                        <MobileTearSheet>
+                        <MobileTearSheet
+                          height="100%"
+                        >
                           <List>
                             <Subheader inset={true}>Description</Subheader>
                             <ListItem
@@ -217,7 +249,7 @@ ProductView.propTypes = {
   getProduct: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
   addCartItem: PropTypes.func.isRequired,
-  getCartItem:  PropTypes.func.isRequired,
+  getCartItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -171,6 +171,7 @@ class NewProduct extends Component {
                         floatingLabelText="Product Description"
                         hintText="What is this product about?"
                         style={styles.formElement}
+                        multiLine
                       />
                       <div
                         style={{ marginTop: 20 }}

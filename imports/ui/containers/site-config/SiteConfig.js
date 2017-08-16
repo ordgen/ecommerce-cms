@@ -7,11 +7,12 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
-import DropzoneComponent from '../../components/dropzone/Dropzone';
-import { SubmitField, AutoField } from 'uniforms-material';
 import Snackbar from 'material-ui/Snackbar';
+import { SubmitField, AutoField, SelectField } from 'uniforms-material';
+import DropzoneComponent from '../../components/dropzone/Dropzone';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import SiteConfigSchema from '../../../api/site-config/schema';
+import { Currencies } from '../../site-config';
 import './SiteConfig.css';
 
 const styles = {
@@ -70,19 +71,26 @@ class SiteConfig extends Component {
       snackMessage: '',
       primaryLogo: '',
       secondaryLogo: '',
+      currency: '',
     };
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePrimaryLogoImageUploaded = this.handlePrimaryLogoImageUploaded.bind(this);
     this.handleSecondaryLogoImageUploaded = this.handleSecondaryLogoImageUploaded.bind(this);
     this.handleImageUploadError = this.handleImageUploadError.bind(this);
+    this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
   }
 
   componentWillMount() {
     getSiteConfig().then(
       (siteConfig) => {
-        const { primaryLogo, secondaryLogo } = siteConfig;
-        this.setState({ siteConfig, primaryLogo, secondaryLogo });
+        const { primaryLogo, secondaryLogo, currency: siteCurrency } = siteConfig;
+        this.setState({
+          siteConfig,
+          primaryLogo,
+          secondaryLogo,
+          currency: (Currencies.find(currency => currency.symbol_native === siteCurrency)).name, // eslint-disable-line
+        });
       },
     );
   }
@@ -90,10 +98,19 @@ class SiteConfig extends Component {
   componentWillReceiveProps() {
     getSiteConfig().then(
       (siteConfig) => {
-        const { primaryLogo, secondaryLogo } = siteConfig;
-        this.setState({ siteConfig, primaryLogo, secondaryLogo });
+        const { primaryLogo, secondaryLogo, currency: siteCurrency } = siteConfig;
+        this.setState({
+          siteConfig,
+          primaryLogo,
+          secondaryLogo,
+          currency: (Currencies.find(currency => currency.symbol_native === siteCurrency)).name, // eslint-disable-line
+        });
       },
     );
+  }
+
+  handleCurrencyChange(currency) {
+    this.setState({ currency });
   }
 
   handlePrimaryLogoImageUploaded(files) {
@@ -127,7 +144,7 @@ class SiteConfig extends Component {
 
   handleSubmit(doc) {
     const { _id, siteName, companyPhones, companyEmails, socialMedia } = doc; // eslint-disable-line
-    const { primaryLogo, secondaryLogo } = this.state;
+    const { primaryLogo, secondaryLogo, currency: siteCurrency } = this.state;
     updateSiteConfig(
       {
         _id,
@@ -137,6 +154,7 @@ class SiteConfig extends Component {
         companyPhones,
         companyEmails,
         socialMedia,
+        currency: (Currencies.find(currency => currency.name === siteCurrency)).symbol_native,
       }).then(
       () => {
         this.setState({
@@ -156,7 +174,7 @@ class SiteConfig extends Component {
 
   render() {
     const { match } = this.props;
-    const { openSnackBar, siteConfig, snackMessage, primaryLogo, secondaryLogo } = this.state;
+    const { openSnackBar, siteConfig, snackMessage, primaryLogo, secondaryLogo, currency } = this.state;
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="Site Information" />
@@ -177,6 +195,12 @@ class SiteConfig extends Component {
                           <AutoField name="siteName" />
                           <AutoField name="companyPhones" />
                           <AutoField name="companyEmails" />
+                          <SelectField
+                            name="currency"
+                            allowedValues={['US Dollar', 'Ghanaian Cedi']}
+                            onChange={this.handleCurrencyChange}
+                            value={currency}
+                          />
 
                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <Subheader

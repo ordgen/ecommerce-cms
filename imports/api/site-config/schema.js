@@ -13,6 +13,11 @@ export default new SimpleSchema([
       label: 'Site Name',
       defaultValue: 'WallVille Decor',
     },
+    currency: {
+      type: String,
+      label: 'Currency',
+      defaultValue: 'GH₵',
+    },
     primaryLogo: {
       type: String,
       label: 'Primary Logo',

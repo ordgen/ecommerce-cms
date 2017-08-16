@@ -28,6 +28,9 @@ export const updateSiteConfig = new ValidatedMethod({
     secondaryLogo: {
       type: String,
     },
+    currency: {
+      type: String,
+    },
     companyPhones: {
       type: [String],
     },
@@ -143,11 +146,11 @@ export const updateSiteConfig = new ValidatedMethod({
     },
   }).validator(),
 
-  async run({ _id, siteName, primaryLogo, secondaryLogo, companyPhones, companyEmails, socialMedia }) { // eslint-disable-line
+  async run({ _id, siteName, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia }) { // eslint-disable-line
     const siteConfig = await new Promise(resolve =>
       SiteConfig.update(
         { _id },
-        { $set: { siteName, primaryLogo, secondaryLogo, companyPhones, companyEmails, socialMedia } }, // eslint-disable-line
+        { $set: { siteName, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia } }, // eslint-disable-line
         () => resolve(SiteConfig.findOne(_id)),
       ),
     );

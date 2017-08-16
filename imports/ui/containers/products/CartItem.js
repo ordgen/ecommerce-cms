@@ -175,7 +175,7 @@ class CartItem extends React.Component {
 
 
   render() {
-    const { cartItem } = this.props;
+    const { cartItem, currency } = this.props;
     const { canDecrement, canIncrement, inputValue, openDialog } = this.state;
     const actions = [
       <FlatButton
@@ -196,7 +196,7 @@ class CartItem extends React.Component {
         >
           <CardHeader
             title={cartItem.name}
-            subtitle={cartItem.price}
+            subtitle={`${currency} ${cartItem.price}`}
             avatar={
               <Avatar
                 src={cartItem.image}
@@ -275,6 +275,7 @@ CartItem.propTypes = {
   cartItem: PropTypes.object.isRequired,
   removeCartItem: PropTypes.func.isRequired,
   updateCartItem: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

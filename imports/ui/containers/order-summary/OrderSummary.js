@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Divider from 'material-ui/Divider';
 import Formsy from 'formsy-react';
+import { Meteor } from 'meteor/meteor';
 import { FormsyText } from 'formsy-material-ui/lib';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
@@ -20,14 +21,26 @@ import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './OrderSummary.css';
 
+const getSiteConfig = () =>
+  new Promise((resolve, reject) =>
+    Meteor.call('SiteConfig.methods.getSiteConfig',
+      {},
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
+
 Formsy.addValidationRule('isPhoneNumber', (values, value) => {
   try {
     const phoneUtil = PhoneNumberUtil.getInstance();
-    const phoneNumber = phoneUtil.parse(value);
-    console.log(phoneNumber);
+    const phoneNumber = phoneUtil.parse(value); // eslint-disable-line
     return true;
   } catch (e) {
-    console.log(e.message);
     return false;
   }
 });
@@ -44,6 +57,7 @@ class OrderSummary extends Component {
       address: '',
       canSubmit: false,
       dataSource: [],
+      siteConfig: null,
     };
     this.renderCartItems = this.renderCartItems.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -61,6 +75,26 @@ class OrderSummary extends Component {
         width: '100%',
       },
     };
+  }
+
+  componentWillMount() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
+  }
+
+  componentWillReceiveProps() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
   }
 
   onSubmit(data) {
@@ -123,6 +157,7 @@ class OrderSummary extends Component {
       height: '100%',
       width: '100%',
     };
+    const { siteConfig: { currency } } = this.state;
 
     if (cartItems.length === 0) {
       return (
@@ -162,6 +197,7 @@ class OrderSummary extends Component {
                     <CartItem
                       key={item.id}
                       cartItem={item}
+                      currency={currency}
                     />
                   ))}
                 </div>
@@ -226,7 +262,7 @@ class OrderSummary extends Component {
                   <p
                     style={{ float: 'right' }}
                   >
-                    {totalPrice}
+                    {currency} {totalPrice}
                   </p>
                 </div>
                 <Divider />
@@ -241,7 +277,7 @@ class OrderSummary extends Component {
                   <p
                     style={{ float: 'right' }}
                   >
-                    {totalPrice}
+                    {currency} {totalPrice}
                   </p>
                 </div>
               </div>
@@ -255,7 +291,7 @@ class OrderSummary extends Component {
   render() {
     const { formElement } = this.styles;
     const { cartItems } = this.props;
-    const { openDialog, canSubmit, openSuccessDialog, formError } = this.state;
+    const { openDialog, canSubmit, openSuccessDialog, formError, siteConfig } = this.state; // eslint-disable-line
     const actions = [
       <FlatButton
         label="Cancel"
@@ -282,19 +318,20 @@ class OrderSummary extends Component {
         onClick={this.handleSuccessDialogCloseWithPositive}
       />,
     ];
-    console.log(formError)
     return (
       <div className="ecommerce-cms-wrapper">
         <MiniHeader />
         <div className="ecommerce-cms-main-content clearfix">
           <article className="ecommerce-cms-article">
             <article className="ecommerce-cms-article-inner">
-              <section
-                className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey"
-                style={{ marginBottom: 100 }}
-              >
-                {this.renderCartItems(cartItems)}
-              </section>
+              {siteConfig &&
+                <section
+                  className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey"
+                  style={{ marginBottom: 100 }}
+                >
+                  {this.renderCartItems(cartItems)}
+                </section>
+              }
             </article>
           </article>
         </div>

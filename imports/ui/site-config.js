@@ -126,6 +126,20 @@ const Products = [
   },
 ];
 
+const Currencies = [
+  {
+    symbol: '$',
+    name: 'US Dollar',
+    symbol_native: '$',
+  },
+  {
+    symbol: '₵',
+    name: 'Ghanaian Cedi',
+    symbol_native: 'GH₵',
+  },
+];
+
 export default SiteConfig;
 export { DashboardMenus };
 export { Products };
+export { Currencies };

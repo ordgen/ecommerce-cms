@@ -121,7 +121,7 @@ class OrderView extends Component {
         >
           <TableRow>
             <TableHeaderColumn colSpan="5" tooltip="Order Details" style={{ textAlign: 'center' }}>
-              Order Details (Total Order Cost = {tc})
+              Order Details (Total Order Cost = {order.currency} {tc})
             </TableHeaderColumn>
           </TableRow>
           <TableRow>
@@ -129,8 +129,8 @@ class OrderView extends Component {
               Product
             </TableHeaderColumn>
             <TableHeaderColumn tooltip="Product">Quantity</TableHeaderColumn>
-            <TableHeaderColumn tooltip="Price">Price</TableHeaderColumn>
-            <TableHeaderColumn tooltip="Price">Total Price</TableHeaderColumn>
+            <TableHeaderColumn tooltip="Price">Price ({order.currency})</TableHeaderColumn>
+            <TableHeaderColumn tooltip="Price">Total Price ({order.currency})</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody

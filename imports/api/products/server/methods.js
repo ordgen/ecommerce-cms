@@ -20,11 +20,11 @@ export const createProduct = new ValidatedMethod({
       optional: true,
     },
     price: {
-      type: String,
+      type: Number,
       decimal: true,
     },
     discount: {
-      type: String,
+      type: Number,
       optional: true,
     },
   }).validator(),
@@ -65,11 +65,11 @@ export const editProduct = new ValidatedMethod({
       optional: true,
     },
     price: {
-      type: String,
+      type: Number,
       decimal: true,
     },
     discount: {
-      type: String,
+      type: Number,
       optional: true,
     },
   }).validator(),
