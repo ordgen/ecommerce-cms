@@ -52,12 +52,7 @@ export const getAllOrders = new ValidatedMethod({
   validate: null,
 
   async run() {
-    return Orders.find({}).fetch().map(
-      order => ({
-        quantity: order.quantity,
-        product: Products.findOne({ _id: order.productId }),
-      }),
-    );
+    return Orders.find({}).fetch();
   },
 });
 

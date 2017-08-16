@@ -71,7 +71,7 @@ class MiniHeader extends PureComponent {
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({

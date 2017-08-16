@@ -188,3 +188,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.infobox a {
+  text-decoration: none;
+}

@@ -87,6 +87,13 @@ export const deleteCategory = new ValidatedMethod({
   }).validator(),
 
   async run({ categoryId }) {
+    Products.remove({ productCategoryId: categoryId });
+    ProductCategories.find({ parent: categoryId }).fetch().forEach(
+      (childCategory) => {
+        Products.remove({ productCategoryId: childCategory._id }); // eslint-disable-line
+        ProductCategories.remove({ _id: childCategory._id }); // eslint-disable-line
+      },
+    );
     return ProductCategories.remove({ _id: categoryId });
   },
 });

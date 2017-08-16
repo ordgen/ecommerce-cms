@@ -1,5 +1,6 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import Orders from '../../orders/orders';
 import Products from '../products';
 
 export const createProduct = new ValidatedMethod({
@@ -30,7 +31,13 @@ export const createProduct = new ValidatedMethod({
   }).validator(),
 
   async run(...args) {
-    return Products.insert(...args);
+    const product = await new Promise(resolve =>
+      Products.insert(
+        ...args,
+        (err, _id) => resolve(Products.findOne({ _id })),
+      ),
+    );
+    return product;
   },
 });
 
@@ -40,6 +47,20 @@ export const getAllProducts = new ValidatedMethod({
 
   async run() {
     return Products.find({}).fetch();
+  },
+});
+
+export const getInfoBoxStats = new ValidatedMethod({
+  name: 'Products.methods.getInfoBoxStats',
+  validate: null,
+
+  async run() {
+    const tp = Products.find({}).count();
+    const to = Orders.find({}).count();
+    return {
+      totalProducts: tp,
+      totalOrders: to,
+    };
   },
 });
 

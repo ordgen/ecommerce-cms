@@ -44,20 +44,39 @@ export function createProduct(data) {
       data,
       (err, res) => {
         dispatch(setIsLoadingState(IS_LOADING_PRODUCTS, false));
-        if (!err) {
+        if (err) {
+          reject(err);
+        } else {
+          const {
+            name,
+            description,
+            productCategoryId,
+            createdAt,
+            updatedAt,
+            pictures,
+            price,
+            discount,
+          } = res;
+
           const payload = {
-            ...data,
             id: res._id, // eslint-disable-line no-underscore-dangle,
+            name,
+            description,
+            productCategoryId,
+            pictures,
+            price,
+            discount,
+            createdAt,
+            updatedAt,
           };
+
           const payload2 = {
-            categoryId: data.productCategoryId,
+            categoryId: productCategoryId,
             productId: res._id, // eslint-disable-line no-underscore-dangle,
           };
           dispatch(addProduct(payload));
           dispatch(addProductToCategory(payload2));
           resolve(res);
-        } else {
-          reject(err);
         }
       },
     );

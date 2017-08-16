@@ -23,6 +23,8 @@ import { ProductCategoriesSelector } from '../../models/selectors/productCategor
 import Spinner from '../../components/Spinner';
 import './ProductCategories.css';
 
+/* eslint-disable max-len */
+
 const style = {
   margin: 12,
 };
@@ -181,7 +183,7 @@ export class ProductCategories extends Component {
           open={openDialog}
           onRequestClose={this.handleDialogClose}
         >
-          Are you sure? All products associated with this category will be deleted as well.
+          Are you sure? All products and sub-categories associated with this category will be deleted as well.
         </Dialog>
         <Snackbar
           open={openSnackBar}

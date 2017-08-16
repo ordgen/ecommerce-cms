@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
+import { Meteor } from 'meteor/meteor';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import FlatButton from 'material-ui/FlatButton';
@@ -18,7 +19,56 @@ import { OrdersSelector } from '../../models/selectors/orders';
 import Spinner from '../../components/Spinner';
 import './Orders.css';
 
-export class Orders extends Component {
+const getOrders = () =>
+  new Promise((resolve, reject) =>
+    Meteor.call('Orders.methods.getAllOrders',
+      {},
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
+
+class Orders extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      orders: [],
+      isLoading: false,
+    };
+  }
+
+  componentWillMount() {
+    this.state = {
+      isLoading: true,
+    };
+    getOrders().then(
+      (orders) => {
+        this.setState({
+          orders,
+          isLoading: false,
+        });
+      },
+    );
+  }
+
+  componentWillReceiveProps() {
+    this.state = {
+      isLoading: true,
+    };
+    getOrders().then(
+      (orders) => {
+        this.setState({
+          orders,
+          isLoading: false,
+        });
+      },
+    );
+  }
   renderOrders(orders) {
     if (orders.length === 0) {
       return (
@@ -53,7 +103,7 @@ export class Orders extends Component {
         >
           {orders.map(order => (
             <TableRow
-              key={order.id}
+              key={order._id} // eslint-disable-line
             >
               <TableRowColumn>{order.firstName} {order.lastName}</TableRowColumn>
               <TableRowColumn>{order.phoneNumber}</TableRowColumn>
@@ -66,7 +116,7 @@ export class Orders extends Component {
                 <FlatButton
                   label="View"
                   primary={true}
-                  onTouchTap={() => this.props.changePage(`/dashboard/orders/${order.id}`)} // eslint-disable-line max-len
+                  onTouchTap={() => this.props.changePage(`/dashboard/orders/${order._id}`)} // eslint-disable-line
                 />
               </TableRowColumn>
             </TableRow>
@@ -77,7 +127,8 @@ export class Orders extends Component {
   }
 
   render() {
-    const { match, orders, isLoading } = this.props;
+    const { match } = this.props;
+    const { orders, isLoading } = this.state;
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="Orders" />
@@ -101,18 +152,11 @@ export class Orders extends Component {
 
 Orders.propTypes = {
   match: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  orders: PropTypes.array.isRequired,
   changePage: PropTypes.func.isRequired,
 };
-
-const mapStateToProps = state => ({
-  orders: OrdersSelector(state),
-  isLoading: state.isLoading.isLoadingOrders,
-});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   changePage: path => push(path),
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default connect(null, mapDispatchToProps)(Orders);

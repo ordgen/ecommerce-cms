@@ -59,7 +59,7 @@ export default class PrimaryFooter extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -70,7 +70,7 @@ export default class PrimaryFooter extends Component {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
-  componentWillReceiveProps() {
+  /*componentWillReceiveProps() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -78,7 +78,7 @@ export default class PrimaryFooter extends Component {
         });
       },
     );
-  }
+  }*/
 
   render() {
     const { siteConfig } = this.state;

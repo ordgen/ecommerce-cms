@@ -77,7 +77,7 @@ class Header extends PureComponent {
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -88,7 +88,7 @@ class Header extends PureComponent {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
-  componentWillReceiveProps() {
+  /*componentWillReceiveProps() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -96,7 +96,7 @@ class Header extends PureComponent {
         });
       },
     );
-  }
+  }*/
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);

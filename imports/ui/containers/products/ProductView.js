@@ -217,9 +217,7 @@ class ProductView extends Component {
                           />
                         </div>
 
-                        <MobileTearSheet
-                          height="100%"
-                        >
+                        <MobileTearSheet>
                           <List>
                             <Subheader inset={true}>Description</Subheader>
                             <ListItem

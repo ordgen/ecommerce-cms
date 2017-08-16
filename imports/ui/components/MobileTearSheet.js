@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 class MobileTearSheet extends Component {
   static propTypes = {
     children: PropTypes.node, // eslint-disable-line
-    height: PropTypes.number.isRequired,
-  };
-
-  static defaultProps = {
-    height: 200,
+    height: PropTypes.number, // eslint-disable-line
   };
 
   static contextTypes = {
@@ -30,7 +26,7 @@ class MobileTearSheet extends Component {
       container: {
         border: 'solid 1px #d9d9d9',
         borderBottom: 'none',
-        height: this.props.height,
+        height: this.props.height || '100%',
         overflow: 'hidden',
       },
       bottomTear: {

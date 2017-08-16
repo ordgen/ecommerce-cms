@@ -23,7 +23,7 @@ export default function BreadCrumbs({ match, pageTitle }) {
                   if (page === 'dashboard') {
                     return (
                       <li key={index}>
-                        <Link to="/dashboard/home">Dashboard</Link>
+                        <Link to="/dashboard">Dashboard</Link>
                       </li>
                     );
                   }
