@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { white, darkBlack, lime900, lime800, pinkA400 } from 'material-ui/styles/colors';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
+import { Meteor } from 'meteor/meteor';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,20 @@ import MobileDrawer from './MobileDrawer';
 import { CartItemsSelector } from '../../models/selectors/cartItems';
 import { ProductCategoriesSelector, ProductCategoryChildrenSelector } from '../../models/selectors/productCategories';
 import './Header.css';
+
+const getSiteConfig = () =>
+  new Promise((resolve, reject) =>
+    Meteor.call('SiteConfig.methods.getSiteConfig',
+      {},
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
 
 const styles = {
   cartCount: {
@@ -48,6 +63,7 @@ class MiniHeader extends PureComponent {
       width: window.innerWidth,
       open: false,
       navDrawerOpen: false,
+      siteConfig: null,
     };
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
@@ -56,7 +72,24 @@ class MiniHeader extends PureComponent {
   }
 
   componentWillMount() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
     window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  componentWillReceiveProps() {
+    getSiteConfig().then(
+      (siteConfig) => {
+        this.setState({
+          siteConfig,
+        });
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -110,7 +143,7 @@ class MiniHeader extends PureComponent {
 
   render() {
     const menuItems = this.productCategoriesWithChildren();
-    const { width, navDrawerOpen } = this.state;
+    const { width, navDrawerOpen, siteConfig } = this.state;
     const isMobile = width <= 500;
     const paddingLeftDrawerOpen = 236;
 
@@ -139,7 +172,13 @@ class MiniHeader extends PureComponent {
         {isMobile
           ? <div style={style.mobile.header}>
             <AppBar
-              title={<img className="ecommerce-cms-site-mobilelogo" src="https://s3.amazonaws.com/loystar/wallville-logo.jpeg" alt="logo" />}
+              title={
+                <img
+                  className="ecommerce-cms-site-mobilelogo"
+                  src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                  alt="logo"
+                />
+              }
               style={{ backgroundColor: white }}
               iconElementLeft={
                 <IconButton
@@ -220,7 +259,7 @@ class MiniHeader extends PureComponent {
                             <Link to="/">
                               <img
                                 className="ecommerce-cms-header-billboard-logo"
-                                src="https://s3.amazonaws.com/loystar/wallville-logo-mini.jpeg"
+                                src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
                                 alt="logo"
                               />
                             </Link>

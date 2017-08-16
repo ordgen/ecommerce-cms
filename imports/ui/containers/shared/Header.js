@@ -62,7 +62,6 @@ class Header extends PureComponent {
     getProductCategoryChildren: PropTypes.func.isRequired,
     appState: PropTypes.object.isRequired,
     cartItems: PropTypes.array.isRequired,
-    siteConfig: null,
   }
   constructor(props) {
     super(props);
@@ -70,6 +69,7 @@ class Header extends PureComponent {
       width: window.innerWidth,
       open: false,
       navDrawerOpen: false,
+      siteConfig: null,
     };
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
