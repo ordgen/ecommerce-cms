@@ -9,3 +9,4 @@ import '../../api/slider-images/server/publications';
 import '../../api/slider-images/server/methods';
 import '../../api/orders/server/methods';
 import '../../api/cart-items/server/methods';
+import '../../api/site-config/server/methods';

@@ -38,6 +38,12 @@ const DashboardMenus = [
     link: '/dashboard/slider-images',
     children: [],
   },
+  {
+    text: 'Site Info',
+    icon: <ActionToc />,
+    link: '/dashboard/site-information',
+    children: [],
+  },
 ];
 
 const Products = [

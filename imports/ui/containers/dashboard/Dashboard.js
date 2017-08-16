@@ -19,6 +19,7 @@ import NewSliderImage from '../slider-images/NewSliderImage';
 import EditSliderImage from '../slider-images/EditSliderImage';
 import Orders from '../orders/Orders';
 import OrderView from '../orders/OrderView';
+import SiteConfig from '../site-config/SiteConfig';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -129,6 +130,11 @@ class Dashboard extends React.Component {
             exact
             path={`${match.url}/orders/:orderId`}
             component={OrderView}
+          />
+          <Route
+            exact
+            path={`${match.url}/site-information`}
+            component={SiteConfig}
           />
         </div>
       </div>
