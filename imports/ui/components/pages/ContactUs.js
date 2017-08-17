@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../Header';
-import PrimaryFooter from '../../components/footer/PrimaryFooter';
-import SecondaryFooter from '../../components/footer/SecondaryFooter';
+import Header from '../../containers/Header';
+import PrimaryFooter from '../footer/PrimaryFooter';
+import SecondaryFooter from '../footer/SecondaryFooter';
 
 
 const ContactUs = function ContactUs() {

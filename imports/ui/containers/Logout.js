@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { setAuthState } from '../../actions/action-creators/Auth';
+import { setAuthState } from '../actions/action-creators/Auth';
 
 class Logout extends Component {
   componentWillMount() {

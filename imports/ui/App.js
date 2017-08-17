@@ -2,17 +2,17 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Route } from 'react-router-dom';
-import Home from './containers/home/Home';
-import ContactUs from './containers/contact-us';
-import Login from './containers/login/Login';
-import AboutUs from './containers/about-us';
+import Home from './containers/Home';
+import ContactUs from './components/pages/ContactUs';
+import Login from './containers/Login';
+import AboutUs from './containers/AboutUs';
 import Dashboard from './containers/dashboard/Dashboard';
 import ThemeDefault from './theme-default';
-import Logout from './containers/logout';
+import Logout from './containers/Logout';
 import Authenticated from './components/pages/Authenticated';
 import CategoryProductsView from './containers/CategoryProductsView';
 import ProductView from './containers/ProductView';
-import OrderSummary from './containers/order-summary/OrderSummary';
+import OrderSummary from './containers/OrderSummary';
 
 injectTapEventPlugin();
 

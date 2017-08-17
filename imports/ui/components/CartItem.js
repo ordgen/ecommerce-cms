@@ -8,8 +8,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
-import { updateCartItem, removeCartItem } from '../../actions/action-creators/CartItems';
-import './CartItem.css';
+import { updateCartItem, removeCartItem } from '../actions/action-creators/CartItems';
+import './styles/CartItem.css';
 
 /* eslint-disable jsx-a11y/href-no-hash, no-console */
 

@@ -8,7 +8,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { login } from '../../actions/action-creators/Auth';
+import { login } from '../actions/action-creators/Auth';
 
 const styles = {
   loginContainer: {

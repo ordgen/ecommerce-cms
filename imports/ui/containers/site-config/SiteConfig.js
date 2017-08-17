@@ -13,7 +13,6 @@ import DropzoneComponent from '../../components/dropzone/Dropzone';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import SiteConfigSchema from '../../../api/site-config/schema';
 import { Currencies } from '../../site-config';
-import './SiteConfig.css';
 
 const styles = {
   paperStyle: {
