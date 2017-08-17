@@ -23,13 +23,18 @@ export const ProductCategorySelector = createSelector(
   (session, categoryId) => {
     if (session.ProductCategory.hasId(categoryId)) {
       const category = session.ProductCategory.withId(categoryId).ref;
+      const products =  session.Product.all().toRefArray().filter(p => p.productCategoryId === categoryId); // eslint-disable-line
       if (category.parent && session.ProductCategory.hasId(category.parent)) {
         return {
           ...category,
           parent: session.ProductCategory.withId(category.parent).ref,
+          products,
         };
       }
-      return category;
+      return {
+        ...category,
+        products,
+      };
     }
     return null;
   },
@@ -38,10 +43,8 @@ export const ProductCategorySelector = createSelector(
 export const ProductCategoryProductsSelector = createSelector(
   orm,
   stateSelector,
-  (state, productCategory) => productCategory,
-  (session, productCategory) => session.Product.all().toRefArray().filter(
-    p => p.category === productCategory.id,
-  ),
+  (state, categoryId) => categoryId,
+  (session, categoryId) => session.Product.all().toRefArray().filter(p => p.productCategoryId === categoryId) // eslint-disable-line
 );
 
 export const ProductCategoryChildrenSelector = createSelector(

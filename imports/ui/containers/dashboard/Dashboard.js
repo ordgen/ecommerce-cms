@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getInfoBoxStats().then(
       (infoboxStats) => {
         this.setState({
@@ -65,13 +65,6 @@ class Dashboard extends React.Component {
     if (this.props.width !== nextProps.width) {
       this.setState({ navDrawerOpen: nextProps.width === LARGE });
     }
-    getInfoBoxStats().then(
-      (infoboxStats) => {
-        this.setState({
-          infoboxStats,
-        });
-      },
-    );
   }
 
   handleChangeRequestNavDrawer() {

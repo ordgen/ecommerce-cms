@@ -9,7 +9,7 @@ export const ProductsSelector = createSelector(
   session => session.Product.all().toRefArray().map(
     product => ({
       ...product,
-      category: session.ProductCategory.hasId(product.category) ? session.ProductCategory.withId(product.category).ref.name : '' }), // eslint-disable-line max-len
+      category: session.ProductCategory.hasId(product.productCategoryId) ? session.ProductCategory.withId(product.productCategoryId).ref.name : '' }), // eslint-disable-line max-len
   ),
 );
 
@@ -22,7 +22,8 @@ export const ProductSelector = createSelector(
       const product = session.Product.withId(productId).ref;
       return {
         ...product,
-        category: session.ProductCategory.withId(product.category),
+        category: session.ProductCategory.withId(product.productCategoryId),
+        isInCart: !!session.CartItem.all().toRefArray().find(item => item.productId === productId),
       };
     }
     return null;

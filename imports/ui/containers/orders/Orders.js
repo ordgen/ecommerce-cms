@@ -42,7 +42,7 @@ class Orders extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.state = {
       isLoading: true,
     };
@@ -56,19 +56,6 @@ class Orders extends Component {
     );
   }
 
-  componentWillReceiveProps() {
-    this.state = {
-      isLoading: true,
-    };
-    getOrders().then(
-      (orders) => {
-        this.setState({
-          orders,
-          isLoading: false,
-        });
-      },
-    );
-  }
   renderOrders(orders) {
     if (orders.length === 0) {
       return (

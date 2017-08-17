@@ -70,10 +70,18 @@ class CartItem extends React.Component {
       this.setState({
         canIncrement: true,
       });
+    } else {
+      this.setState({
+        canIncrement: false,
+      });
     }
     if (quantity > 1) {
       this.setState({
         canDecrement: true,
+      });
+    } else {
+      this.setState({
+        canDecrement: false,
       });
     }
   }

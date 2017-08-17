@@ -13,7 +13,6 @@ import FontIcon from 'material-ui/FontIcon';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import { ProductSelector } from '../../models/selectors/products';
-import { cartItemSelector } from '../../models/selectors/cartItems';
 import MobileTearSheet from '../../components/MobileTearSheet';
 import { addCartItem } from '../../actions/action-creators/CartItems';
 import Header from '../shared/Header';
@@ -40,26 +39,29 @@ class ProductView extends Component {
       selectedPicture: '',
       cartBtnLabel: 'ADD TO CART',
       siteConfig: null,
+      isInCart: false,
+      product: null,
     };
     this.renderThumbnails = this.renderThumbnails.bind(this);
     this.handleCartBtnTap = this.handleCartBtnTap.bind(this);
   }
 
   componentWillMount() {
-    const { getProduct, match, getCartItem } = this.props;
+    const { getProduct, match } = this.props;
     const productId = match.params.productId;
-    const cartItem = getCartItem(productId);
     const product = getProduct(productId);
+    console.log(product);
     if (product) {
       this.setState({
         selectedPicture: product.pictures[0],
+        cartBtnLabel: product.isInCart ? 'GO TO CART' : 'ADD TO CART',
+        isInCart: product.isInCart,
+        product,
       });
     }
-    if (cartItem) {
-      this.setState({
-        cartBtnLabel: 'GO TO CART',
-      });
-    }
+  }
+
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -70,54 +72,40 @@ class ProductView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getProduct, match, getCartItem } = nextProps;
+    const { getProduct, match } = nextProps;
     const productId = match.params.productId;
-    const cartItem = getCartItem(productId);
     const product = getProduct(productId);
     if (product) {
       this.setState({
         selectedPicture: product.pictures[0],
+        cartBtnLabel: product.isInCart ? 'GO TO CART' : 'ADD TO CART',
+        isInCart: product.isInCart,
+        product,
       });
     }
-    if (cartItem) {
-      this.setState({
-        cartBtnLabel: 'GO TO CART',
-      });
-    }
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
   }
 
   handleCartBtnTap(event) {
     event.preventDefault();
-    const { getProduct, match, getCartItem, changePage, addCartItem: addItem } = this.props;
-    const productId = match.params.productId;
-    const cartItem = getCartItem(productId);
-    if (cartItem) {
+    const { match, changePage, addCartItem: addItem } = this.props;
+    const { isInCart, product } = this.state;
+    if (isInCart) {
       changePage('/order-summary');
     } else {
-      const product = getProduct(productId);
-      if (product) {
-        const { name, price, discount } = product;
-        addItem({
-          productId,
-          name,
-          price: parseFloat(price, 10),
-          discount: discount ? parseFloat(discount, 10) : 0,
-          quantity: 1,
-          image: product.pictures[0],
-        }).then(
-          () => {
-            changePage('/order-summary');
-            this.setState({ cartBtnLabel: 'GO TO CART' });
-          },
-        );
-      }
+      const { name, price, discount } = product;
+      addItem({
+        productId: match.params.productId,
+        name,
+        price: parseFloat(price, 10),
+        discount: discount ? parseFloat(discount, 10) : 0,
+        quantity: 1,
+        image: product.pictures[0],
+      }).then(
+        () => {
+          changePage('/order-summary');
+          this.setState({ cartBtnLabel: 'GO TO CART' });
+        },
+      );
     }
   }
 
@@ -142,9 +130,7 @@ class ProductView extends Component {
   }
 
   render() {
-    const { getProduct, match } = this.props;
-    const { selectedPicture, cartBtnLabel, siteConfig } = this.state;
-    const product = getProduct(match.params.productId);
+    const { selectedPicture, cartBtnLabel, siteConfig, product } = this.state;
     return (
       <div className="ecommerce-cms-wrapper">
         <Header />
@@ -247,12 +233,10 @@ ProductView.propTypes = {
   getProduct: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
   addCartItem: PropTypes.func.isRequired,
-  getCartItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   getProduct: productId => ProductSelector(state, productId),
-  getCartItem: productId => cartItemSelector(state, productId),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

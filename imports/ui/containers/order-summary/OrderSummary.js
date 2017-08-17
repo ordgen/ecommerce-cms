@@ -77,17 +77,7 @@ class OrderSummary extends Component {
     };
   }
 
-  componentWillMount() {
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
-  }
-
-  componentWillReceiveProps() {
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({

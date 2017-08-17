@@ -89,7 +89,7 @@ export function fetchAndCreateProductCategories() {
                   name: product.name,
                   price: product.price,
                   pictures: product.pictures,
-                  category: product.productCategoryId,
+                  productCategoryId: product.productCategoryId,
                   description: product.description,
                   createdAt: product.createdAt,
                   updatedAt: product.updatedAt,

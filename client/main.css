@@ -192,3 +192,41 @@ body {
 .infobox a {
   text-decoration: none;
 }
+
+/* Product View Presentational Componenet CSS */
+.text-xs-center {
+  text-align: center!important;
+}
+
+.m-b-1 {
+  margin-bottom: 1rem!important;
+}
+
+input.image-gallery-effect {
+  -webkit-animation-name: image-gallery-effect;
+  animation-name: image-gallery-effect;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+input.image-gallery-main {
+  cursor: zoom-in;
+  max-height: 250px;
+}
+
+.m-x-auto {
+  margin-right: auto!important;
+  margin-left: auto!important;
+}
+
+.d-block {
+  display: block!important;
+}
+
+input.image-gallery-selected {
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+/* Product View Presentational Componenet CSS END*/

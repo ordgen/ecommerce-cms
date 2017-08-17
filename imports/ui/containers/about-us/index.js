@@ -27,7 +27,7 @@ export default class AboutUs extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
         this.setState({
@@ -36,16 +36,6 @@ export default class AboutUs extends Component {
       },
     );
     window.addEventListener('resize', this.handleWindowSizeChange);
-  }
-
-  componentWillReceiveProps() {
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
   }
 
   render() {

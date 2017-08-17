@@ -49,30 +49,11 @@ class OrderView extends Component {
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       isLoading: true,
     });
     const { match: { params: { orderId } } } = this.props;
-    getOrder(orderId).then(
-      (order) => {
-        this.setState({ order, isLoading: false });
-      },
-    ).catch(
-      (error) => {
-        this.setState({
-          isLoading: false,
-        });
-        console.log(error);
-      },
-    );
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      isLoading: true,
-    });
-    const { match: { params: { orderId } } } = nextProps;
     getOrder(orderId).then(
       (order) => {
         this.setState({ order, isLoading: false });

@@ -1,6 +1,5 @@
 import { Model, attr } from 'redux-orm';
 import { PropTypes } from 'prop-types';
-import ProductCategory from './ProductCategory';
 
 export default class Product extends Model {
   static get fields() {
@@ -11,7 +10,7 @@ export default class Product extends Model {
       description: attr(),
       price: attr(),
       discount: attr(),
-      category: attr(),
+      productCategoryId: attr(),
       createdAt: attr(),
       updatedAt: attr(),
     };
@@ -24,10 +23,7 @@ export default class Product extends Model {
   static propTypes = {
     name: PropTypes.string.isRequired,
     pictures: PropTypes.array.isRequired,
-    category: PropTypes.oneOfType([
-      PropTypes.instanceOf(ProductCategory),
-      PropTypes.string,
-    ]).isRequired,
+    productCategoryId: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     discount: PropTypes.number,

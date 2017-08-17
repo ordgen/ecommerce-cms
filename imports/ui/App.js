@@ -11,7 +11,7 @@ import ThemeDefault from './theme-default';
 import Logout from './containers/logout';
 import Authenticated from './components/pages/Authenticated';
 import CategoryWithProducts from './containers/product-categories/CategoryWithProducts';
-import ProductView from './containers/products/ProductView';
+import ProductView from './containers/ProductView';
 import OrderSummary from './containers/order-summary/OrderSummary';
 
 injectTapEventPlugin();

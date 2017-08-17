@@ -8,7 +8,7 @@ import Header from '../shared/Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import { trim } from '../../utils';
-import { ProductCategoryProductsSelector, ProductCategorySelector } from '../../models/selectors/productCategories';
+import { ProductCategorySelector } from '../../models/selectors/productCategories';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -24,7 +24,8 @@ const getSiteConfig = () =>
     ),
   );
 
-const renderProductWithCategories = (siteConfig, products, productCategory) => {
+const renderProductWithCategories = (siteConfig, productCategory) => {
+  const products = productCategory.products;
   if (products.length === 0) {
     return (
       <h5 className="text-center">Sorry! There are no products for this category!</h5>
@@ -60,7 +61,27 @@ const renderProductWithCategories = (siteConfig, products, productCategory) => {
             className="col-md-6 col-lg-6 col-sm-12 col-xs-12"
             style={{ marginBottom: 20 }}
           >
-            <img className="img-fluid" src={products[products.length - 1].pictures[0]} alt="" />
+            <div
+              className="pk-bloc"
+              style={{
+                width: 'auto',
+                height: 375,
+                minWidth: 290,
+                marginBottom: 10,
+                textAlign: 'center',
+              }}
+            >
+              <img
+                className="rounded img-fluid"
+                src={products[products.length - 1].pictures[0]}
+                alt=""
+                style={{
+                  display: 'inline-block',
+                  maxWidth: '100%',
+                  maxHeight: 375,
+                }}
+              />
+            </div>
           </div>
           <div
             className="col-md-6 col-lg-6 col-sm-12 col-xs-12"
@@ -85,8 +106,25 @@ const renderProductWithCategories = (siteConfig, products, productCategory) => {
                 <Card
                   style={{ marginBottom: 30 }}
                 >
-                  <CardMedia>
-                    <img src={product.pictures[0]} alt="" />
+                  <CardMedia
+                    style={{
+                      width: 'auto',
+                      height: 250,
+                      minWidth: 200,
+                      marginBottom: 10,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <img
+                      className="img-fluid"
+                      src={product.pictures[0]}
+                      alt=""
+                      style={{
+                        display: 'inline-block',
+                        maxWidth: '100%',
+                        maxHeight: 225,
+                      }}
+                    />
                   </CardMedia>
                   <CardTitle title={product.name} subtitle={`${siteConfig.currency} ${product.price}`} />
                   <CardText>
@@ -121,21 +159,11 @@ class CategoryWithProducts extends Component {
     );
   }
 
-  /*componentWillReceiveProps() {
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
-  }*/
-
   render() {
-    const { getCategory, getCategoryProducts, match } = this.props;
-    const productCategory = getCategory(match.params.categoryId);
+    const { getCategory, match } = this.props;
+    const productCategoryId = match.params.categoryId;
+    const productCategory = getCategory(productCategoryId);
     const { siteConfig } = this.state;
-    const products = getCategoryProducts(productCategory);
     return (
       <div className="ecommerce-cms-wrapper">
         <Header />
@@ -145,7 +173,7 @@ class CategoryWithProducts extends Component {
               <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
                 {(siteConfig && productCategory) &&
                   <div className="container">
-                    {renderProductWithCategories(siteConfig, products, productCategory)}
+                    {renderProductWithCategories(siteConfig, productCategory)}
                   </div>
                 }
               </section>
@@ -161,12 +189,10 @@ class CategoryWithProducts extends Component {
 
 CategoryWithProducts.propTypes = {
   match: PropTypes.object.isRequired,
-  getCategoryProducts: PropTypes.func.isRequired,
   getCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  getCategoryProducts: productCategory => ProductCategoryProductsSelector(state, productCategory),
   getCategory: categoryId => ProductCategorySelector(state, categoryId),
 });
 

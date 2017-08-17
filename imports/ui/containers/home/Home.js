@@ -51,8 +51,25 @@ const Home = function Home({ categoriesWithProduct, sliderImages }) {
                         <Card
                           style={{ marginBottom: 30 }}
                         >
-                          <CardMedia>
-                            <img src={category.product.pictures[0]} alt="" />
+                          <CardMedia
+                            style={{
+                              width: 'auto',
+                              height: 250,
+                              minWidth: 200,
+                              marginBottom: 10,
+                              textAlign: 'center',
+                            }}
+                          >
+                            <img
+                              className="img-fluid"
+                              src={category.product.pictures[0]}
+                              alt=""
+                              style={{
+                                display: 'inline-block',
+                                maxWidth: '100%',
+                                maxHeight: 225,
+                              }}
+                            />
                           </CardMedia>
                           <CardTitle title={category.name} subtitle={category.product.name} />
                           <CardText>
