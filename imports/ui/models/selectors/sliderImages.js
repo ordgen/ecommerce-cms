@@ -6,7 +6,7 @@ const stateSelector = state => state.entities;
 export const AllSliderImagesSelector = createSelector(
   orm,
   stateSelector,
-  session => session.SliderImage.all().toRefArray(),
+  session => session.SliderImage.all().toRefArray().reverse(),
 );
 
 export const SliderImageSelector = createSelector(

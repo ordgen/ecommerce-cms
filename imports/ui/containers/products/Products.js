@@ -74,7 +74,7 @@ class Products extends Component {
         >
           <TableRow>
             <TableHeaderColumn colSpan="4" tooltip="All Products" style={{ textAlign: 'center' }}>
-              All Categories
+              All Products
             </TableHeaderColumn>
           </TableRow>
           <TableRow>

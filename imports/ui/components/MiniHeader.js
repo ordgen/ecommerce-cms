@@ -171,6 +171,7 @@ export default function MiniHeader({
                       </div>
                       <div
                         className="col-md-8 col-lg-8 col-sm-8"
+                        style={styles.centerColumn}
                       >
                         <Autocomplete
                           getItemValue={item => item.value}

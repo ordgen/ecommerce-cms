@@ -4,7 +4,7 @@ import ActionToc from 'material-ui/svg-icons/action/toc';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 
 const SiteConfig = {
-  name: 'Ordgen',
+  name: 'Wallville Decor',
 };
 
 const DashboardMenus = [

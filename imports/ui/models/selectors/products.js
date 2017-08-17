@@ -6,7 +6,7 @@ const stateSelector = state => state.entities;
 export const ProductsSelector = createSelector(
   orm,
   stateSelector,
-  session => session.Product.all().toRefArray().map(
+  session => session.Product.all().toRefArray().reverse().map(
     product => ({
       ...product,
       category: session.ProductCategory.hasId(product.productCategoryId) ? session.ProductCategory.withId(product.productCategoryId).ref.name : '' }), // eslint-disable-line max-len

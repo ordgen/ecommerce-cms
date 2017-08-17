@@ -164,7 +164,6 @@ class HeaderContainer extends Component {
     } = this.state;
     const { menuItems, cartSize } = this.props;
     const isMobile = windowWidth <= 500;
-    console.log(dataSource);
     return (
       <Header
         isMobile={isMobile}

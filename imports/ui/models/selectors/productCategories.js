@@ -13,7 +13,7 @@ export const userSelector = createSelector(
 export const ProductCategoriesSelector = createSelector(
   orm,
   stateSelector,
-  session => session.ProductCategory.all().toRefArray(),
+  session => session.ProductCategory.all().toRefArray().reverse(),
 );
 
 export const ProductCategorySelector = createSelector(

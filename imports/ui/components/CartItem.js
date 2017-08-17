@@ -176,9 +176,7 @@ class CartItem extends React.Component {
   handleDialogCloseWithPositive() {
     this.setState({ openDialog: false });
     const { cartItem, removeCartItem: removeItem } = this.props;
-    removeItem({
-      id: cartItem.id,
-    });
+    removeItem(cartItem.id);
   }
 
 

@@ -6,7 +6,7 @@ const stateSelector = state => state.entities;
 export const CartItemsSelector = createSelector(
   orm,
   stateSelector,
-  session => session.CartItem.all().toRefArray(),
+  session => session.CartItem.all().toRefArray().reverse(),
 );
 
 export const cartItemSelector = createSelector(

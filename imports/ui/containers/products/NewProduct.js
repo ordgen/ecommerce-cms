@@ -172,6 +172,7 @@ class NewProduct extends Component {
                         hintText="What is this product about?"
                         style={styles.formElement}
                         multiLine
+                        required
                       />
                       <div
                         style={{ marginTop: 20 }}
