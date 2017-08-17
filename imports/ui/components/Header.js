@@ -8,11 +8,9 @@ import FlatButton from 'material-ui/FlatButton';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import RaisedButton from 'material-ui/RaisedButton';
-import SearchBar from 'material-ui-search-bar';
 import FontIcon from 'material-ui/FontIcon';
+import Autocomplete from 'react-autocomplete';
 import AppBar from 'material-ui/AppBar';
-import ActionSearch from 'material-ui/svg-icons/action/search';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Menu from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
@@ -32,6 +30,10 @@ export default function Header({
   popOverAnchorElem,
   handlePopoverlose,
   handleProductsMenuClick,
+  onUpdateInput,
+  handleSearchRequest,
+  dataSource,
+  inputValue,
 }) {
   const paddingLeftDrawerOpen = 236;
   const styles = {
@@ -53,6 +55,19 @@ export default function Header({
       display: 'flex',
       flexDirection: navDrawerOpen ? 'inherit' : 'column',
       justifyContent: 'center',
+    },
+    item: {
+      padding: '2px 6px',
+      cursor: 'pointer',
+    },
+    highlightedItem: {
+      color: 'white',
+      background: lime800,
+      padding: '2px 6px',
+      cursor: 'pointer',
+    },
+    menu: {
+      border: 'solid 1px #ccc',
     },
   };
 
@@ -110,12 +125,19 @@ export default function Header({
                             className="col-xs-12 col-sm-12"
                             style={styles.centerColumn}
                           >
-                            <SearchBar
-                              onChange={() => console.log('onChange')}
-                              onRequestSearch={() => console.log('onRequestSearch')}
-                              closeIcon={<NavigationClose color={lime800} />}
-                              searchIcon={<ActionSearch color={lime800} />}
-                              hintText={navDrawerOpen ? '' : 'Search Products'}
+                            <Autocomplete
+                              getItemValue={item => item.value}
+                              inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
+                              items={dataSource}
+                              value={inputValue}
+                              onChange={onUpdateInput}
+                              onSelect={handleSearchRequest}
+                              renderItem={(item, isHighlighted) => (
+                                <div
+                                  style={isHighlighted ? styles.highlightedItem : styles.item}
+                                  key={item.value}
+                                >{item.text}</div>
+                              )}
                             />
                           </div>
                         </div>
@@ -160,12 +182,19 @@ export default function Header({
                         className="col-md-8 col-lg-8 col-sm-8"
                         style={styles.centerColumn}
                       >
-                        <SearchBar
-                          onChange={() => console.log('onChange')}
-                          onRequestSearch={() => console.log('onRequestSearch')}
-                          closeIcon={<NavigationClose color={lime800} />}
-                          searchIcon={<ActionSearch color={lime800} />}
-                          hintText="Search Products"
+                        <Autocomplete
+                          getItemValue={item => item.value}
+                          inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
+                          items={dataSource}
+                          value={inputValue}
+                          onChange={onUpdateInput}
+                          onSelect={handleSearchRequest}
+                          renderItem={(item, isHighlighted) => (
+                            <div
+                              style={isHighlighted ? styles.highlightedItem : styles.item}
+                              key={item.value}
+                            >{item.text}</div>
+                          )}
                         />
                       </div>
                       <div
@@ -282,6 +311,10 @@ Header.propTypes = {
   handlePopoverlose: PropTypes.func.isRequired,
   handleChangeRequestNavDrawer: PropTypes.func.isRequired,
   handleProductsMenuClick: PropTypes.func.isRequired,
+  onUpdateInput: PropTypes.func.isRequired,
+  handleSearchRequest: PropTypes.func.isRequired,
+  dataSource: PropTypes.array.isRequired,
+  inputValue: PropTypes.string.isRequired,
 };
 
 Header.defaultProps = {

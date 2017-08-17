@@ -7,3 +7,4 @@ export const trim = (msg, noChars = 300) => {
   }
   return `${msg.slice(0, noChars)}...`;
 };
+

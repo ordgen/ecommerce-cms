@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Meteor } from 'meteor/meteor';
+import debounce from 'es6-promise-debounce';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import Header from '../components/Header';
 import { selectEntities } from '../models/selectors/selectEntities';
 import orm from '../models/orm';
@@ -22,6 +25,20 @@ const getSiteConfig = () =>
     ),
   );
 
+const searchCategories = (searchQuery) =>
+  new Promise((resolve, reject) =>
+    Meteor.call('ProductCategories.methods.searchCategories',
+      { ...searchQuery },
+      (err, res) => {
+        if (!err) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      },
+    ),
+  );
+
 class HeaderContainer extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +48,15 @@ class HeaderContainer extends Component {
       navDrawerOpen: false,
       siteConfig: null,
       popOverAnchorElem: null,
+      dataSource: [],
+      inputValue: '',
     };
     this.handleChangeRequestNavDrawer = this.handleChangeRequestNavDrawer.bind(this);
     this.handlePopoverlose = this.handlePopoverlose.bind(this);
     this.handleProductsMenuClick = this.handleProductsMenuClick.bind(this);
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
+    this.onUpdateInput = this.onUpdateInput.bind(this);
+    this.handleSearchRequest = this.handleSearchRequest.bind(this);
   }
 
   componentWillMount() {
@@ -56,20 +77,17 @@ class HeaderContainer extends Component {
     window.removeEventListener('resize', this.handleWindowSizeChange);
   }
 
-  handleWindowSizeChange() {
-    this.setState({ windowWidth: window.innerWidth });
-  }
-
-  handleChangeRequestNavDrawer() {
+  onUpdateInput(e) {
+    const inputValue = e.target.value;
     this.setState({
-      navDrawerOpen: !this.state.navDrawerOpen,
+      inputValue,
+    }, () => {
+      this.performSearch();
     });
   }
 
-  handlePopoverlose() {
-    this.setState({
-      popOverOpen: false,
-    });
+  handleSearchRequest(value) {
+    setTimeout(() => this.props.changePage(`/category/${value}/products`), 1000);
   }
 
   handleProductsMenuClick(event) {
@@ -80,6 +98,60 @@ class HeaderContainer extends Component {
     });
   }
 
+  handlePopoverlose() {
+    this.setState({
+      popOverOpen: false,
+    });
+  }
+
+  handleChangeRequestNavDrawer() {
+    this.setState({
+      navDrawerOpen: !this.state.navDrawerOpen,
+    });
+  }
+
+  handleWindowSizeChange() {
+    this.setState({ windowWidth: window.innerWidth });
+  }
+
+  performSearch() {
+    const { inputValue } = this.state;
+    if (inputValue.length === 0) {
+      this.setState({
+        dataSource: [],
+      });
+      return;
+    }
+    const debouncedFunction = debounce(() =>
+      new Promise((resolve) => {
+        const searchQuery = {
+          $and: [
+            {
+              $or: [
+                {
+                  name: {
+                    $regex: inputValue,
+                    $options: 'i',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+        searchCategories({ searchQuery }).then(
+          (res) => {
+            resolve(res);
+          },
+        );
+      }),
+    );
+    debouncedFunction().then((categories) => {
+      this.setState({
+        dataSource: categories.map(c => ({ text: c.name, value: c._id })), // eslint-disable-line
+      });
+    });
+  }
+
   render() {
     const {
       siteConfig,
@@ -87,9 +159,12 @@ class HeaderContainer extends Component {
       navDrawerOpen,
       popOverOpen,
       popOverAnchorElem,
+      dataSource,
+      inputValue,
     } = this.state;
     const { menuItems, cartSize } = this.props;
     const isMobile = windowWidth <= 500;
+    console.log(dataSource);
     return (
       <Header
         isMobile={isMobile}
@@ -102,6 +177,10 @@ class HeaderContainer extends Component {
         popOverAnchorElem={popOverAnchorElem}
         handlePopoverlose={this.handlePopoverlose}
         handleProductsMenuClick={this.handleProductsMenuClick}
+        dataSource={dataSource}
+        handleSearchRequest={this.handleSearchRequest}
+        onUpdateInput={this.onUpdateInput}
+        inputValue={inputValue}
       />
     );
   }
@@ -110,6 +189,7 @@ class HeaderContainer extends Component {
 HeaderContainer.propTypes = {
   cartSize: PropTypes.number,
   menuItems: PropTypes.array,
+  changePage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -141,4 +221,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(HeaderContainer);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  changePage: path => push(path),
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

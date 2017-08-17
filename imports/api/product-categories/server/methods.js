@@ -97,3 +97,17 @@ export const deleteCategory = new ValidatedMethod({
     return ProductCategories.remove({ _id: categoryId });
   },
 });
+
+export const searchCategories = new ValidatedMethod({
+  name: 'ProductCategories.methods.searchCategories',
+  validate: new SimpleSchema({
+    searchQuery: {
+      type: Object,
+      blackbox: true,
+    },
+  }).validator(),
+
+  async run({ searchQuery }) {
+    return ProductCategories.find(searchQuery, { limit: 20 }).fetch();
+  },
+});

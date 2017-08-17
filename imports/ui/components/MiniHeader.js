@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
+import Autocomplete from 'react-autocomplete';
 import FlatButton from 'material-ui/FlatButton';
-import SearchBar from 'material-ui-search-bar';
 import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
-import ActionSearch from 'material-ui/svg-icons/action/search';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import MobileDrawer from './MobileDrawer';
 import './styles/Header.css';
 
@@ -22,6 +20,10 @@ export default function MiniHeader({
   cartSize,
   siteConfig,
   handleChangeRequestNavDrawer,
+  onUpdateInput,
+  handleSearchRequest,
+  dataSource,
+  inputValue,
 }) {
   const paddingLeftDrawerOpen = 236;
   const styles = {
@@ -43,6 +45,19 @@ export default function MiniHeader({
       display: 'flex',
       flexDirection: navDrawerOpen ? 'inherit' : 'column',
       justifyContent: 'center',
+    },
+    item: {
+      padding: '2px 6px',
+      cursor: 'pointer',
+    },
+    highlightedItem: {
+      color: 'white',
+      background: lime800,
+      padding: '2px 6px',
+      cursor: 'pointer',
+    },
+    menu: {
+      border: 'solid 1px #ccc',
     },
   };
 
@@ -100,12 +115,19 @@ export default function MiniHeader({
                             className="col-xs-12 col-sm-12"
                             style={styles.centerColumn}
                           >
-                            <SearchBar
-                              onChange={() => console.log('onChange')}
-                              onRequestSearch={() => console.log('onRequestSearch')}
-                              closeIcon={<NavigationClose color={lime800} />}
-                              searchIcon={<ActionSearch color={lime800} />}
-                              hintText={navDrawerOpen ? '' : 'Search Products'}
+                            <Autocomplete
+                              getItemValue={item => item.value}
+                              inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
+                              items={dataSource}
+                              value={inputValue}
+                              onChange={onUpdateInput}
+                              onSelect={handleSearchRequest}
+                              renderItem={(item, isHighlighted) => (
+                                <div
+                                  style={isHighlighted ? styles.highlightedItem : styles.item}
+                                  key={item.value}
+                                >{item.text}</div>
+                              )}
                             />
                           </div>
                         </div>
@@ -150,12 +172,19 @@ export default function MiniHeader({
                       <div
                         className="col-md-8 col-lg-8 col-sm-8"
                       >
-                        <SearchBar
-                          onChange={() => console.log('onChange')}
-                          onRequestSearch={() => console.log('onRequestSearch')}
-                          closeIcon={<NavigationClose color={lime800} />}
-                          searchIcon={<ActionSearch color={lime800} />}
-                          hintText="Search Products"
+                        <Autocomplete
+                          getItemValue={item => item.value}
+                          inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
+                          items={dataSource}
+                          value={inputValue}
+                          onChange={onUpdateInput}
+                          onSelect={handleSearchRequest}
+                          renderItem={(item, isHighlighted) => (
+                            <div
+                              style={isHighlighted ? styles.highlightedItem : styles.item}
+                              key={item.value}
+                            >{item.text}</div>
+                          )}
                         />
                       </div>
                     </div>
@@ -183,6 +212,10 @@ MiniHeader.propTypes = {
   cartSize: PropTypes.number,
   siteConfig: PropTypes.object,
   handleChangeRequestNavDrawer: PropTypes.func.isRequired,
+  onUpdateInput: PropTypes.func.isRequired,
+  handleSearchRequest: PropTypes.func.isRequired,
+  dataSource: PropTypes.array.isRequired,
+  inputValue: PropTypes.string.isRequired,
 };
 
 MiniHeader.defaultProps = {

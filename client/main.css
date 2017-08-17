@@ -230,3 +230,12 @@ input.image-gallery-selected {
 }
 
 /* Product View Presentational Componenet CSS END*/
+
+#search-autocomplete {
+  padding: 11px 16px;
+  border-radius: 2px;
+  border: 0 none;
+  outline: 0 none;
+  font-size: 15px;
+  width: 100%;
+}
