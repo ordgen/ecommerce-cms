@@ -1,30 +1,15 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Header from '../shared/Header';
-import PrimaryFooter from '../../components/footer/PrimaryFooter';
-import SecondaryFooter from '../../components/footer/SecondaryFooter';
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Header from '../../containers/shared/Header';
+import PrimaryFooter from '../footer/PrimaryFooter';
+import SecondaryFooter from '../footer/SecondaryFooter';
 import { trim } from '../../utils';
-import { ProductCategorySelector } from '../../models/selectors/productCategories';
 
-const getSiteConfig = () =>
-  new Promise((resolve, reject) =>
-    Meteor.call('SiteConfig.methods.getSiteConfig',
-      {},
-      (err, res) => {
-        if (!err) {
-          resolve(res);
-        } else {
-          reject(err);
-        }
-      },
-    ),
-  );
+/* eslint-disable react/require-default-props */
 
-const renderProductWithCategories = (siteConfig, productCategory) => {
+const renderProductWithCategories = (currency, productCategory) => {
   const products = productCategory.products;
   if (products.length === 0) {
     return (
@@ -126,7 +111,7 @@ const renderProductWithCategories = (siteConfig, productCategory) => {
                       }}
                     />
                   </CardMedia>
-                  <CardTitle title={product.name} subtitle={`${siteConfig.currency} ${product.price}`} />
+                  <CardTitle title={product.name} subtitle={`${currency} ${product.price}`} />
                   <CardText>
                     {trim(product.description, 100)}
                   </CardText>
@@ -141,59 +126,30 @@ const renderProductWithCategories = (siteConfig, productCategory) => {
   );
 };
 
-class CategoryWithProducts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      siteConfig: null,
-    };
-  }
-
-  componentDidMount() {
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
-  }
-
-  render() {
-    const { getCategory, match } = this.props;
-    const productCategoryId = match.params.categoryId;
-    const productCategory = getCategory(productCategoryId);
-    const { siteConfig } = this.state;
-    return (
-      <div className="ecommerce-cms-wrapper">
-        <Header />
-        <div className="ecommerce-cms-main-content clearfix">
-          <article className="ecommerce-cms-article">
-            <article className="ecommerce-cms-article-inner">
-              <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
-                {(siteConfig && productCategory) &&
-                  <div className="container">
-                    {renderProductWithCategories(siteConfig, productCategory)}
-                  </div>
-                }
-              </section>
-            </article>
+export default function CategoryProductsView({ currency, productCategory }) {
+  return (
+    <div className="ecommerce-cms-wrapper">
+      <Header />
+      <div className="ecommerce-cms-main-content clearfix">
+        <article className="ecommerce-cms-article">
+          <article className="ecommerce-cms-article-inner">
+            <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
+              {(currency && productCategory) &&
+                <div className="container">
+                  {renderProductWithCategories(currency, productCategory)}
+                </div>
+              }
+            </section>
           </article>
-        </div>
-        <PrimaryFooter />
-        <SecondaryFooter />
+        </article>
       </div>
-    );
-  }
+      <PrimaryFooter />
+      <SecondaryFooter />
+    </div>
+  );
 }
 
-CategoryWithProducts.propTypes = {
-  match: PropTypes.object.isRequired,
-  getCategory: PropTypes.func.isRequired,
+CategoryProductsView.propTypes = {
+  currency: PropTypes.string,
+  productCategory: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  getCategory: categoryId => ProductCategorySelector(state, categoryId),
-});
-
-export default connect(mapStateToProps, null)(CategoryWithProducts);

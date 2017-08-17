@@ -6,7 +6,7 @@ import Glide from 'react-glide';
 import { Link } from 'react-router-dom';
 import { ProductCategoriesWithProductSelector } from '../../models/selectors/productCategories';
 import { AllSliderImagesSelector } from '../../models/selectors/sliderImages';
-import Header from '../shared/Header';
+import Header from '../Header';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
 import './Home.css';

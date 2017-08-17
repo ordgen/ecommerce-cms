@@ -10,7 +10,7 @@ import Dashboard from './containers/dashboard/Dashboard';
 import ThemeDefault from './theme-default';
 import Logout from './containers/logout';
 import Authenticated from './components/pages/Authenticated';
-import CategoryWithProducts from './containers/product-categories/CategoryWithProducts';
+import CategoryProductsView from './containers/CategoryProductsView';
 import ProductView from './containers/ProductView';
 import OrderSummary from './containers/order-summary/OrderSummary';
 
@@ -22,7 +22,7 @@ const App = () => (
       <main>
         <Route exact path="/" component={Home} />
         <Route exact path="/contact-us" component={ContactUs} />
-        <Route exact path="/category/:categoryId/products" component={CategoryWithProducts} />
+        <Route exact path="/category/:categoryId/products" component={CategoryProductsView} />
         <Route exact path="/product/:productId" component={ProductView} />
         <Route exact path="/about-us" component={AboutUs} />
         <Route exact path="/order-summary" component={OrderSummary} />
