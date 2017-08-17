@@ -19,7 +19,7 @@ import EditProductCategory from './product-categories/EditProductCategory';
 import SliderImages from './slider-images/SliderImages';
 import NewSliderImage from './slider-images/NewSliderImage';
 import EditSliderImage from './slider-images/EditSliderImage';
-import Orders from './orders/Orders';
+import OrdersList from './OrdersList';
 import BreadCrumbs from '../components/BreadCrumbs';
 import OrderView from './orders/OrderView';
 import InfoBox from '../components/InfoBox';
@@ -185,7 +185,7 @@ class Dashboard extends React.Component {
             <Route
               exact
               path={`${match.url}/orders`}
-              component={Orders}
+              component={OrdersList}
             />
             <Route
               exact
