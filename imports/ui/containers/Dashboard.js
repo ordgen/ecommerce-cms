@@ -21,7 +21,7 @@ import NewSliderImage from './slider-images/NewSliderImage';
 import EditSliderImage from './slider-images/EditSliderImage';
 import OrdersList from './OrdersList';
 import BreadCrumbs from '../components/BreadCrumbs';
-import OrderView from './orders/OrderView';
+import OrderView from './OrderView';
 import InfoBox from '../components/InfoBox';
 import SiteConfigView from './SiteConfigView';
 import Header from '../components/DashboardHeader';
