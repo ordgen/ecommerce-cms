@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import { List, ListItem } from 'material-ui/List';
-import Header from '../../containers/shared/Header';
+import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
 import MobileTearSheet from '../MobileTearSheet';

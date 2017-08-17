@@ -15,7 +15,7 @@ import Dialog from 'material-ui/Dialog';
 import { push } from 'react-router-redux';
 import { CartItemsSelector } from '../../models/selectors/cartItems';
 import { createOrder } from '../../actions/action-creators/Orders';
-import MiniHeader from '../shared/MiniHeader';
+import MiniHeader from '../MiniHeader';
 import CartItem from '../products/CartItem';
 import PrimaryFooter from '../../components/footer/PrimaryFooter';
 import SecondaryFooter from '../../components/footer/SecondaryFooter';
