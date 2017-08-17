@@ -12,7 +12,7 @@ import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
 import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
 import { ProductSelector } from '../../models/selectors/products';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
 import { editProduct } from '../../actions/action-creators/Products';
 

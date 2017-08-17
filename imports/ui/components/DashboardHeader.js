@@ -29,7 +29,7 @@ const style = {
   },
 };
 
-export default function Header({ styles, handleChangeRequestNavDrawer }) {
+export default function DashboardHeader({ styles, handleChangeRequestNavDrawer }) {
   return (
     <div>
       <AppBar
@@ -60,11 +60,11 @@ export default function Header({ styles, handleChangeRequestNavDrawer }) {
   );
 }
 
-Header.defaultProps = {
+DashboardHeader.defaultProps = {
   styles: {},
 };
 
-Header.propTypes = {
+DashboardHeader.propTypes = {
   styles: PropTypes.object,
   handleChangeRequestNavDrawer: PropTypes.func.isRequired,
 };

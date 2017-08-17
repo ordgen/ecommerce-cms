@@ -17,7 +17,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { deleteProductCategory } from '../../actions/action-creators/ProductCategories';
 import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
 import Spinner from '../../components/Spinner';

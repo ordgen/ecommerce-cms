@@ -6,10 +6,10 @@ import { white } from 'material-ui/styles/colors';
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
-import ThemeDefault from '../../theme-default';
-import SiteConfig from '../../site-config';
+import ThemeDefault from '../theme-default';
+import SiteConfig from '../site-config';
 
-const LeftDrawer = (props) => {
+const DashboardDrawer = (props) => {
   const { navDrawerOpen } = props;
 
   const styles = {
@@ -94,15 +94,15 @@ const LeftDrawer = (props) => {
   );
 };
 
-LeftDrawer.defaultProps = {
+DashboardDrawer.defaultProps = {
   navDrawerOpen: true,
   username: '',
 };
 
-LeftDrawer.propTypes = {
+DashboardDrawer.propTypes = {
   navDrawerOpen: PropTypes.bool,
   menus: PropTypes.array.isRequired,
   username: PropTypes.string,
 };
 
-export default LeftDrawer;
+export default DashboardDrawer;

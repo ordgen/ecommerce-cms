@@ -6,7 +6,7 @@ import Home from './containers/Home';
 import ContactUs from './components/pages/ContactUs';
 import Login from './containers/Login';
 import AboutUs from './containers/AboutUs';
-import Dashboard from './containers/dashboard/Dashboard';
+import Dashboard from './containers/Dashboard';
 import ThemeDefault from './theme-default';
 import Logout from './containers/Logout';
 import Authenticated from './components/pages/Authenticated';

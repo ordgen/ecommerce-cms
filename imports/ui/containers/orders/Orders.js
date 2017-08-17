@@ -14,10 +14,9 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { OrdersSelector } from '../../models/selectors/orders';
 import Spinner from '../../components/Spinner';
-import './Orders.css';
 
 const getOrders = () =>
   new Promise((resolve, reject) =>

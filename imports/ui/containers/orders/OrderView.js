@@ -16,7 +16,7 @@ import {
 } from 'material-ui/Table';
 import { connect } from 'react-redux';
 import Spinner from '../../components/Spinner';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { deleteOrder } from '../../actions/action-creators/Orders';
 
 /* eslint-disable jsx-a11y/href-no-hash, no-console */

@@ -9,23 +9,23 @@ import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
 import MapsLocalMall from 'material-ui/svg-icons/maps/local-mall';
 import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import { pink600, teal900 } from 'material-ui/styles/colors';
-import { DashboardMenus } from '../../site-config';
-import Products from '../products/Products';
-import NewProduct from '../products/NewProduct';
-import EditProduct from '../products/EditProduct';
-import ProductCategories from '../product-categories/ProductCategories';
-import NewProductCategory from '../product-categories/NewProductCategory';
-import EditProductCategory from '../product-categories/EditProductCategory';
-import SliderImages from '../slider-images/SliderImages';
-import NewSliderImage from '../slider-images/NewSliderImage';
-import EditSliderImage from '../slider-images/EditSliderImage';
-import Orders from '../orders/Orders';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import OrderView from '../orders/OrderView';
-import InfoBox from '../../components/InfoBox';
-import SiteConfig from '../site-config/SiteConfig';
-import Header from './DashboardHeader';
-import LeftDrawer from './LeftDrawer';
+import { DashboardMenus } from '../site-config';
+import Products from './products/Products';
+import NewProduct from './products/NewProduct';
+import EditProduct from './products/EditProduct';
+import ProductCategories from './product-categories/ProductCategories';
+import NewProductCategory from './product-categories/NewProductCategory';
+import EditProductCategory from './product-categories/EditProductCategory';
+import SliderImages from './slider-images/SliderImages';
+import NewSliderImage from './slider-images/NewSliderImage';
+import EditSliderImage from './slider-images/EditSliderImage';
+import Orders from './orders/Orders';
+import BreadCrumbs from '../components/BreadCrumbs';
+import OrderView from './orders/OrderView';
+import InfoBox from '../components/InfoBox';
+import SiteConfigView from './SiteConfigView';
+import Header from '../components/DashboardHeader';
+import DashboardDrawer from '../components/DashboardDrawer';
 
 const getInfoBoxStats = () =>
   new Promise((resolve, reject) =>
@@ -76,14 +76,14 @@ class Dashboard extends React.Component {
   render() {
     const { navDrawerOpen, infoboxStats } = this.state;
     const { match, location: { pathname } } = this.props; // eslint-disable-line react/prop-types
-    const paddingLeftDrawerOpen = 236;
+    const paddingDashboardDrawerOpen = 236;
     const styles = {
       header: {
-        paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
+        paddingLeft: navDrawerOpen ? paddingDashboardDrawerOpen : 0,
       },
       container: {
         margin: '80px 20px 20px 15px',
-        paddingLeft: navDrawerOpen && this.props.width !== SMALL ? paddingLeftDrawerOpen : 0,
+        paddingLeft: navDrawerOpen && this.props.width !== SMALL ? paddingDashboardDrawerOpen : 0,
       },
     };
 
@@ -94,7 +94,7 @@ class Dashboard extends React.Component {
           handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer}
           changePage={this.props.changePage}
         />
-        <LeftDrawer
+        <DashboardDrawer
           navDrawerOpen={navDrawerOpen}
           menus={DashboardMenus}
           username="User Admin"
@@ -195,7 +195,7 @@ class Dashboard extends React.Component {
             <Route
               exact
               path={`${match.url}/site-information`}
-              component={SiteConfig}
+              component={SiteConfigView}
             />
           </div>
         }

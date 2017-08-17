@@ -11,7 +11,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
 import { ProductCategoriesSelector, ProductCategorySelector } from '../../models/selectors/productCategories';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { editProductCategory } from '../../actions/action-creators/ProductCategories';
 
 const styles = {

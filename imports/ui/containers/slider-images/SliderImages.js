@@ -10,7 +10,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Spinner from '../../components/Spinner';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { deleteSliderImage } from '../../actions/action-creators/SliderImages';
 import { AllSliderImagesSelector } from '../../models/selectors/sliderImages';
 import './SliderImages.css';

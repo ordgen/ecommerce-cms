@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'underscore';
-import './BreadCrumbs.css';
+import './styles/BreadCrumbs.css';
 
 const getLink = (page, url) => url.substr(0, url.indexOf(page));
 

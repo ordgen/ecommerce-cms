@@ -10,7 +10,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import { FormsyText } from 'formsy-material-ui/lib';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { editSliderImage } from '../../actions/action-creators/SliderImages';
 import { SliderImageSelector } from '../../models/selectors/sliderImages';
 

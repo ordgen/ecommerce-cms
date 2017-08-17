@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
 import MenuItem from 'material-ui/MenuItem';
 import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { createProductCategory } from '../../actions/action-creators/ProductCategories';
 
 const styles = {

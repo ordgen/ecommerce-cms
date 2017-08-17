@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import { SubmitField, AutoField, SelectField, TextField } from 'uniforms-material';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import SiteConfigSchema from '../../../api/site-config/schema';
 import { Currencies } from '../../site-config';
 

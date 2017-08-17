@@ -17,7 +17,7 @@ import {
 } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import { deleteProduct } from '../../actions/action-creators/Products';
 import { ProductsSelector } from '../../models/selectors/products';
 import Spinner from '../../components/Spinner';
