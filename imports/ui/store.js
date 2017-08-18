@@ -1,14 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import localForage from 'localforage';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import { _ } from 'underscore';
+import { autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from './reducers';
-import { fetchAndCreateProductCategories } from './actions/action-creators/ProductCategories';
-import { fetchAndCreateSliderImages } from './actions/action-creators/SliderImages';
+import rehydrationServices from './rehydrationServices';
 
 export const history = createHistory();
 
@@ -29,13 +26,6 @@ const store = createStore(
   ),
 );
 
-persistStore(store, { storage: localForage }, () => {
-  if (_.isEmpty(store.getState().entities.ProductCategory.items)) {
-    store.dispatch(fetchAndCreateProductCategories());
-  }
-  if (_.isEmpty(store.getState().entities.SliderImage.items)) {
-    store.dispatch(fetchAndCreateSliderImages());
-  }
-});
+rehydrationServices(store);
 
 export default store;
