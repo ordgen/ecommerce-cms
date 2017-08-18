@@ -85,11 +85,11 @@ class OrderSummaryContainer extends Component {
     ).then(
       () => {
         this.setState({
-          openDialog: false,
+          openFormDialog: false,
           openSuccessDialog: true,
         });
       },
-    ).catch(reason => this.setState({ formError: reason, openDialog: false }));
+    ).catch(reason => this.setState({ formError: reason, openFormDialog: false }));
   }
 
   enableSubmitButton() {

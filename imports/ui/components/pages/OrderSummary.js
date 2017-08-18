@@ -188,6 +188,7 @@ export default function OrderSummary({
       primary={true}
       disabled={!canSubmit}
       onTouchTap={() => this.form.submit()}
+      style={{ marginLeft: 10 }}
     />,
   ];
 

@@ -106,7 +106,6 @@ class SiteConfigViewContainer extends Component {
     const { _id, siteName, companyPhones, companyEmails, socialMedia, aboutUs } = doc; // eslint-disable-line
     const { primaryLogo, secondaryLogo, currency: siteCurrency } = this.state;
     const currency = Currencies.find(c => c.name === siteCurrency);
-    console.log(currency);
     updateSiteConfig(
       {
         _id,
@@ -127,7 +126,6 @@ class SiteConfigViewContainer extends Component {
       },
     ).catch(
       (formError) => {
-        console.log(formError);
         this.setState({
           openSnackBar: true,
           snackMessage: 'Oops! Update Failed!! Please try again.',
