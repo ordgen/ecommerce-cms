@@ -1,7 +1,7 @@
 import localForage from 'localforage';
 
 const REDUX_PERSIST = {
-  reducerVersion: '1',
+  reducerVersion: '4',
   storeConfig: {
     storage: localForage,
   },
