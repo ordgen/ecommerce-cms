@@ -2,7 +2,7 @@
   "name": "ecommerce-cms",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings.json"
+    "start": "meteor -p 4000 --settings settings.json"
   },
   "dependencies": {
     "aws-sdk": "^2.95.0",

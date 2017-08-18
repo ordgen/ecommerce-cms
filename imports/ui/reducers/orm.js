@@ -39,7 +39,6 @@ export default function ormReducer(dbState = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case ADD_PRODUCT:
-      console.log(payload);
       Product.create(payload);
       break;
     case UPDATE_PRODUCT: {

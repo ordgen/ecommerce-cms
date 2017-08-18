@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
 import PropTypes from 'prop-types';
+import Subheader from 'material-ui/Subheader';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -122,6 +123,11 @@ class NewSliderImage extends Component {
                       onValid={this.enableSubmitButton}
                       onInvalid={this.disableSubmitButton}
                     >
+                      <Subheader
+                        style={{ paddingLeft: 0 }}
+                      >
+                        Slide Image (Recommended size = 3376 x 560)
+                      </Subheader>
                       <DropzoneComponent
                         onChange={this.handleImageUploaded}
                         accept="image/jpeg,image/jpg,image/tiff,image/gif"
@@ -131,6 +137,11 @@ class NewSliderImage extends Component {
                         dropzoneText="Drag an image here"
                         dropBtnText="Select image"
                       />
+                      <Subheader
+                        style={{ paddingLeft: 0 }}
+                      >
+                        Page Link (eg. /contact-us)
+                      </Subheader>
                       <FormsyText
                         name="page_link"
                         hintText="Does this image link to a page?"

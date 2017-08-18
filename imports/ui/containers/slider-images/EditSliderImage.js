@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Snackbar from 'material-ui/Snackbar';
+import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import { FormsyText } from 'formsy-material-ui/lib';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
@@ -146,6 +147,11 @@ class EditSliderImage extends Component {
                         onValid={this.enableSubmitButton}
                         onInvalid={this.disableSubmitButton}
                       >
+                        <Subheader
+                          style={{ paddingLeft: 0 }}
+                        >
+                          Slide Image (Recommended size = 3376 x 560)
+                        </Subheader>
                         <DropzoneComponent
                           files={[sliderImage.url]}
                           onChange={this.handleImageUploaded}
@@ -156,6 +162,11 @@ class EditSliderImage extends Component {
                           dropzoneText="Drag an image here"
                           dropBtnText="Select image"
                         />
+                        <Subheader
+                          style={{ paddingLeft: 0 }}
+                        >
+                          Page Link (eg. /contact-us)
+                        </Subheader>
                         <FormsyText
                           name="page_link"
                           hintText="Does this image link to a page?"
