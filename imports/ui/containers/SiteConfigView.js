@@ -105,6 +105,8 @@ class SiteConfigViewContainer extends Component {
   handleSubmit(doc) {
     const { _id, siteName, companyPhones, companyEmails, socialMedia, aboutUs } = doc; // eslint-disable-line
     const { primaryLogo, secondaryLogo, currency: siteCurrency } = this.state;
+    const currency = Currencies.find(c => c.name === siteCurrency);
+    console.log(currency);
     updateSiteConfig(
       {
         _id,
@@ -115,7 +117,7 @@ class SiteConfigViewContainer extends Component {
         companyEmails,
         socialMedia,
         aboutUs,
-        currency: (Currencies.find(currency => currency.name === siteCurrency)).symbol_native,
+        currency: currency ? currency.symbol_native : '',
       }).then(
       () => {
         this.setState({
