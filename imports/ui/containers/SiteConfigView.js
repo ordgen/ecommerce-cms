@@ -58,11 +58,12 @@ class SiteConfigViewContainer extends Component {
     getSiteConfig().then(
       (siteConfig) => {
         const { primaryLogo, secondaryLogo, currency: siteCurrency } = siteConfig;
+        const currency = Currencies.find(c => c.symbol_native === siteCurrency);
         this.setState({
           siteConfig,
           primaryLogo,
           secondaryLogo,
-          currency: (Currencies.find(currency => currency.symbol_native === siteCurrency)).name, // eslint-disable-line
+          currency: currency ? currency.name : '',
         });
       },
     );
