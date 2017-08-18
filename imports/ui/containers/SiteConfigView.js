@@ -127,6 +127,7 @@ class SiteConfigViewContainer extends Component {
       },
     ).catch(
       (formError) => {
+        console.log(formError);
         this.setState({
           openSnackBar: true,
           snackMessage: 'Oops! Update Failed!! Please try again.',
