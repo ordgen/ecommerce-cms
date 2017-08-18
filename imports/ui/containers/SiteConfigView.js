@@ -75,9 +75,9 @@ class SiteConfigViewContainer extends Component {
 
   handlePrimaryLogoImageUploaded(files) {
     if (files[0] && files[0].url) {
-      this.setState({ secondaryLogo: files[0].url });
+      this.setState({ primaryLogo: files[0].url });
     } else {
-      this.setState({ secondaryLogo: '' });
+      this.setState({ primaryLogo: '' });
     }
   }
 
