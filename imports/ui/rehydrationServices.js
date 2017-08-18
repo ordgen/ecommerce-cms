@@ -22,7 +22,6 @@ const updateReducers = (store) => {
 
   // check to ensure latest reducer version
   localForage.getItem('reducerVersion').then((localVersion) => {
-    console.log('localVersion', localVersion);
     if (localVersion !== reducerVersion) {
       // Purge store and refresh
       persistStore(store, config, () => {
@@ -32,8 +31,7 @@ const updateReducers = (store) => {
       // Update reducer to current version number
       localForage.setItem('reducerVersion', reducerVersion);
     }
-  }).catch((err) => {
-    console.log('localVersion not found', err);
+  }).catch(() => {
     localForage.setItem('reducerVersion', reducerVersion);
   });
 };
