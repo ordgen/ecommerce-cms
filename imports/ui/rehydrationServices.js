@@ -32,7 +32,8 @@ const updateReducers = (store) => {
       // Update reducer to current version number
       localForage.setItem('reducerVersion', reducerVersion);
     }
-  }).catch(() => {
+  }).catch((err) => {
+    console.log(err);
     localForage.setItem('reducerVersion', reducerVersion);
   });
 };
