@@ -6,6 +6,7 @@ import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
 import { trim } from '../../utils';
+import ProductBox from '../ProductBox';
 
 /* eslint-disable react/require-default-props */
 
@@ -85,38 +86,7 @@ const renderProductWithCategories = (currency, productCategory) => {
               className="col-md-4 col-lg-4 col-xs-12 col-sm-6 product-card"
               key={product.id}
             >
-              <Link
-                to={`/product/${product.id}`}
-              >
-                <Card
-                  style={{ marginBottom: 30 }}
-                >
-                  <CardMedia
-                    mediaStyle={{
-                      width: 'auto',
-                      height: 300,
-                      minWidth: 250,
-                      marginBottom: 10,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <img
-                      className="img-fluid"
-                      src={product.pictures[0]}
-                      alt=""
-                      style={{
-                        display: 'inline-block',
-                        maxWidth: '100%',
-                        maxHeight: 300,
-                      }}
-                    />
-                  </CardMedia>
-                  <CardTitle title={product.name} subtitle={`${currency} ${product.price}`} />
-                  <CardText>
-                    {trim(product.description, 100)}
-                  </CardText>
-                </Card>
-              </Link>
+              <ProductBox product={product} currency={currency} />
             </div>
           ))
           }

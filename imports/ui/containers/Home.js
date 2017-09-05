@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
 import Glide from 'react-glide';
 import { Link } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { AllSliderImagesSelector } from '../models/selectors/sliderImages';
 import Header from './Header';
 import PrimaryFooter from '../components/footer/PrimaryFooter';
 import SecondaryFooter from '../components/footer/SecondaryFooter';
+import CategoryProductBox from '../components/CategoryProductBox';
 
 const Home = function Home({ categoriesWithProduct, sliderImages }) {
   return (
@@ -44,38 +44,7 @@ const Home = function Home({ categoriesWithProduct, sliderImages }) {
                       className="col-md-4 col-lg-4 col-xs-12 col-sm-6 product-card"
                       key={category.id}
                     >
-                      <Link
-                        to={`/category/${category.id}/products`}
-                      >
-                        <Card
-                          style={{ marginBottom: 30 }}
-                        >
-                          <CardMedia
-                            style={{
-                              width: 'auto',
-                              height: 300,
-                              minWidth: 300,
-                              marginBottom: 10,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <img
-                              className="img-fluid"
-                              src={category.product.pictures[0]}
-                              alt=""
-                              style={{
-                                display: 'inline-block',
-                                maxWidth: '100%',
-                                maxHeight: 300,
-                              }}
-                            />
-                          </CardMedia>
-                          <CardTitle title={category.name} subtitle={category.product.name} />
-                          <CardText>
-                            {category.description}
-                          </CardText>
-                        </Card>
-                      </Link>
+                      <CategoryProductBox category={category} />
                     </div>
                   ))
                   }
