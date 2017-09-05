@@ -30,6 +30,50 @@ export function updateOrder(payload) {
   };
 }
 
+export function fetchAndCreateOrders() {
+  return (dispatch) => {
+    dispatch(setIsLoadingState(IS_LOADING_ORDERS, true));
+    return new Promise((resolve, reject) =>
+      Meteor.call('Orders.methods.getAllOrders',
+        (err, res) => {
+          dispatch(setIsLoadingState(IS_LOADING_ORDERS, true));
+          if (err) {
+            reject(err);
+          } else {
+            res.forEach((order) => {
+              const {
+                cartItems,
+                createdAt,
+                updatedAt,
+                firstName,
+                lastName,
+                phoneNumber,
+                address,
+                lat,
+                lng,
+              } = order;
+              const payload = {
+                id: order._id, // eslint-disable-line
+                cartItems,
+                firstName,
+                lastName,
+                phoneNumber,
+                address,
+                lat,
+                lng,
+                createdAt,
+                updatedAt,
+              };
+              dispatch(addOrder(payload));
+            });
+            resolve(res);
+          }
+        },
+      ),
+    );
+  };
+}
+
 export function createOrder(data) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch(setIsLoadingState(IS_LOADING_ORDERS, true));
@@ -39,7 +83,7 @@ export function createOrder(data) {
         dispatch(setIsLoadingState(IS_LOADING_ORDERS, false));
         if (!err) {
           const {
-            cartItemIds,
+            cartItems,
             createdAt,
             updatedAt,
             firstName,
@@ -51,7 +95,7 @@ export function createOrder(data) {
           } = res;
           const payload = {
             id: res._id, // eslint-disable-line
-            cartItemIds,
+            cartItems,
             firstName,
             lastName,
             phoneNumber,
@@ -83,7 +127,7 @@ export function editOrder(data) {
             reject(err);
           } else {
             const {
-              cartItemIds,
+              cartItems,
               createdAt,
               updatedAt,
               firstName,
@@ -95,7 +139,7 @@ export function editOrder(data) {
             } = res;
             const payload = {
               id: data.orderId,
-              cartItemIds,
+              cartItems,
               firstName,
               lastName,
               phoneNumber,

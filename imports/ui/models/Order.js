@@ -5,7 +5,7 @@ export default class Order extends Model {
   static get fields() {
     return {
       id: attr(),
-      cartItemIds: attr(),
+      cartItems: attr(),
       firstName: attr(),
       lastName: attr(),
       phoneNumber: attr(),
@@ -22,7 +22,7 @@ export default class Order extends Model {
   }
 
   static propTypes = {
-    cartItemIds: PropTypes.array.isRequired,
+    cartItems: PropTypes.array.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
     updatedAt: PropTypes.instanceOf(Date).isRequired,
     firstName: PropTypes.string.isRequired,

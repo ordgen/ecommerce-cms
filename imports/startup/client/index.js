@@ -8,6 +8,7 @@ import loadScript from './loadScript';
 import App from '../../ui/App';
 
 Meteor.startup(() => {
+  Meteor.subscribe('siteConfig');
   const url = `https://maps.googleapis.com/maps/api/js?key=${Meteor.settings.public.GOOGLE_MAPS_API_KEY}&libraries=places,geometry`; //eslint-disable-line
   loadScript(url, () => {
     console.log('script has loaded');

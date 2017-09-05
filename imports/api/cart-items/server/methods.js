@@ -1,6 +1,5 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import Products from '../../products/products';
 import CartItems from '../cart-items';
 
 export const createCartItem = new ValidatedMethod({
@@ -9,6 +8,11 @@ export const createCartItem = new ValidatedMethod({
     productId: {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
+    },
+    orderId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
     },
     quantity: {
       type: Number,
@@ -49,12 +53,7 @@ export const getAllCartItems = new ValidatedMethod({
   validate: null,
 
   async run() {
-    return CartItems.find({}).fetch().map(
-      cartItem => ({
-        quantity: cartItem.quantity,
-        product: Products.findOne({ _id: cartItem.productId }),
-      }),
-    );
+    return CartItems.find({}).fetch();
   },
 });
 

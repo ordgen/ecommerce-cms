@@ -51,7 +51,7 @@ const renderOrder = (order) => {
       >
         {order.cartItems.map(item => (
           <TableRow
-            key={item._id} // eslint-disable-line
+            key={item.id} // eslint-disable-line
           >
             <TableRowColumn
               colSpan="2"

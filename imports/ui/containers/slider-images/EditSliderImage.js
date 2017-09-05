@@ -170,7 +170,7 @@ class EditSliderImage extends Component {
                         <FormsyText
                           name="page_link"
                           hintText="Does this image link to a page?"
-                          floatingLabelText="Page Link"
+                          floatingLabelText="Page Link (optional)"
                           style={styles.formElement}
                           value={sliderImage.pageLink}
                         />

@@ -22,6 +22,11 @@ CartItems.schema = new SimpleSchema([
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
+    orderId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
+    },
     quantity: {
       type: Number,
     },

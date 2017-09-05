@@ -80,7 +80,7 @@ class OrderSummaryContainer extends Component {
     create(
       {
         ...data,
-        cartItemIds: cartItems.map(item => item.id),
+        cartItems,
       },
     ).then(
       () => {
@@ -110,7 +110,9 @@ class OrderSummaryContainer extends Component {
       openFormDialog,
       canSubmit,
       openSuccessDialog,
+      formError,
     } = this.state;
+    console.log(formError);
     const { cartItems } = this.props;
     return (
       <OrderSummary
@@ -141,9 +143,8 @@ const mapStateToProps = (state) => {
   const entities = selectEntities(state);
   const session = orm.session(entities);
   const { CartItem } = session;
-  const cartItems = CartItem.all().toRefArray();
   return {
-    cartItems,
+    cartItems: CartItem.all().toRefArray(),
   };
 };
 

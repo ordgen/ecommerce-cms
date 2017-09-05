@@ -1,45 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
+import { connect } from 'react-redux';
 import OrderView from '../components/pages/OrderView';
+import { selectEntities } from '../models/selectors/selectEntities';
+import orm from '../models/orm';
+import SiteConfig from '../../api/site-config/site-config';
 
 /* eslint-disable react/require-default-props, no-console */
 
-const getOrder = orderId =>
-  new Promise((resolve, reject) =>
-    Meteor.call('Orders.methods.getOrder',
-      { orderId },
-      (err, res) => {
-        if (!err) {
-          resolve(res);
-        } else {
-          reject(err);
-        }
-      },
-    ),
-  );
-
-export default class OrderViewContainer extends Component {
+class OrderViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       openSnackBar: false,
       openDialog: false,
-      order: null,
     };
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDialogCloseWithPositive = this.handleDialogCloseWithPositive.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
-  }
-
-  componentDidMount() {
-    getOrder(this.props.match.params.orderId).then(
-      (order) => {
-        this.setState({
-          order,
-        });
-      },
-    );
   }
 
   handleDialogClose() {
@@ -58,8 +36,8 @@ export default class OrderViewContainer extends Component {
   }
 
   render() {
-    const { openSnackBar, order, openDialog } = this.state;
-    const { match } = this.props;
+    const { openSnackBar, openDialog } = this.state;
+    const { match, order } = this.props;
     return (
       <OrderView
         match={match}
@@ -74,6 +52,26 @@ export default class OrderViewContainer extends Component {
   }
 }
 
+const mapStateToProps = (state, routeParams) => {
+  const { match: { params: { orderId } } } = routeParams;
+  const entities = selectEntities(state);
+  const session = orm.session(entities);
+  const { Order } = session;
+  let order;
+  if (Order.hasId(orderId)) {
+    order = {
+      ...Order.withId(orderId).ref,
+      currency: SiteConfig.findOne().currency,
+    };
+  }
+  return {
+    order,
+  };
+};
+
 OrderViewContainer.propTypes = {
   match: PropTypes.object.isRequired,
+  order: PropTypes.object, // eslint-disable-line
 };
+
+export default connect(mapStateToProps, null)(OrderViewContainer);

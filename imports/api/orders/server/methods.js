@@ -1,6 +1,5 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import Products from '../../products/products';
 import CartItems from '../../cart-items/cart-items';
 import SiteConfig from '../../site-config/site-config';
 import Orders from '../orders';
@@ -8,9 +7,34 @@ import Orders from '../orders';
 export const createOrder = new ValidatedMethod({
   name: 'Orders.methods.createOrder',
   validate: new SimpleSchema({
-    cartItemIds: {
-      type: [String],
+    cartItems: {
+      type: [Object],
+    },
+    'cartItems.$.id': {
+      type: String,
       regEx: SimpleSchema.RegEx.Id,
+    },
+    'cartItems.$.productId': {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+    'cartItems.$.name': {
+      type: String,
+    },
+    'cartItems.$.price': {
+      type: Number,
+      decimal: true,
+    },
+    'cartItems.$.quantity': {
+      type: Number,
+    },
+    'cartItems.$.image': {
+      type: String,
+    },
+    'cartItems.$.discount': {
+      type: Number,
+      decimal: true,
+      optional: true,
     },
     firstName: {
       type: String,
@@ -36,12 +60,37 @@ export const createOrder = new ValidatedMethod({
     },
   }).validator(),
 
-  async run(...args) {
+  async run({
+    cartItems,
+    firstName,
+    lastName,
+    phoneNumber,
+    address,
+    lat,
+    lng,
+  }) {
     const order = await new Promise(resolve =>
       Orders.insert(
-        ...args,
-        (err, _id) => resolve(Orders.findOne({ _id })),
+        {
+          firstName,
+          lastName,
+          phoneNumber,
+          address,
+          lat,
+          lng,
+        },
+        (err, _id) => {
+          if (err) {
+            console.log(err);
+          } else {
+            resolve(Orders.findOne({ _id }));
+          }
+        },
       ),
+    );
+    Orders.update({ _id: order._id }, { $push: { cartItems: { $each: cartItems } } }); // eslint-disable-line
+    cartItems.forEach(cartItem =>
+      CartItems.remove({ _id: cartItem.id }),
     );
     return order;
   },
@@ -131,7 +180,6 @@ export const getOrder = new ValidatedMethod({
     const order = Orders.findOne({ _id: orderId });
     return {
       ...order,
-      cartItems: CartItems.find({}).fetch().filter(item => order.cartItemIds.includes(item._id)), // eslint-disable-line
       currency: SiteConfig.findOne().currency,
     };
   },

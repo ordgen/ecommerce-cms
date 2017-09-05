@@ -18,9 +18,35 @@ Orders.schema = new SimpleSchema([
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    cartItemIds: {
-      type: [String],
+    cartItems: {
+      type: [Object],
+      optional: true,
+    },
+    'cartItems.$.id': {
+      type: String,
       regEx: SimpleSchema.RegEx.Id,
+    },
+    'cartItems.$.productId': {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+    'cartItems.$.name': {
+      type: String,
+    },
+    'cartItems.$.price': {
+      type: Number,
+      decimal: true,
+    },
+    'cartItems.$.quantity': {
+      type: Number,
+    },
+    'cartItems.$.image': {
+      type: String,
+    },
+    'cartItems.$.discount': {
+      type: Number,
+      decimal: true,
+      optional: true,
     },
     firstName: {
       type: String,

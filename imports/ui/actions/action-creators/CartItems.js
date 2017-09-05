@@ -28,6 +28,46 @@ export function addCartItem(data) {
   });
 }
 
+export function fetchAndCreateCartItems() {
+  return dispatch =>
+    new Promise((resolve, reject) =>
+      Meteor.call('CartItems.methods.getAllCartItems',
+        (err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            res.forEach((cartItem) => {
+              const {
+                productId,
+                name,
+                orderId,
+                price,
+                discount,
+                quantity,
+                image,
+              } = cartItem;
+              const payload = {
+                id: cartItem._id, // eslint-disable-line
+                productId,
+                name,
+                orderId,
+                price,
+                discount,
+                quantity,
+                image,
+              };
+              dispatch({
+                type: ADD_CART_ITEM,
+                payload,
+              });
+            });
+            resolve(res);
+          }
+        },
+      ),
+    );
+}
+
 export function updateCartItem(data) {
   return dispatch => new Promise((resolve, reject) =>
     Meteor.call('CartItems.methods.editCartItem',
