@@ -18,6 +18,8 @@ import Header from './Header';
 import PrimaryFooter from '../components/footer/PrimaryFooter';
 import SecondaryFooter from '../components/footer/SecondaryFooter';
 import MobileTearSheet from '../components/MobileTearSheet';
+import { selectCartItems } from '../models/selectors/selectCartItems';
+import cartItemOrm from '../models/cartItemOrm';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -277,10 +279,13 @@ ProductViewContainer.propTypes = {
 };
 
 const mapStateToProps = (state, routeParams) => {
+  const cartItemEntities = selectCartItems(state);
+  const cartItemsSession = cartItemOrm.session(cartItemEntities);
+  const { CartItem } = cartItemsSession;
   const { match: { params: { productId } } } = routeParams;
   const entities = selectEntities(state);
   const session = orm.session(entities);
-  const { Product, ProductCategory, CartItem } = session;
+  const { Product, ProductCategory } = session;
   let product;
   if (Product.hasId(productId)) {
     product = Product.withId(productId).ref;

@@ -6,8 +6,8 @@ import { push } from 'react-router-redux';
 import { Meteor } from 'meteor/meteor';
 import { createOrder } from '../actions/action-creators/Orders';
 import OrderSummary from '../components/pages/OrderSummary';
-import { selectEntities } from '../models/selectors/selectEntities';
-import orm from '../models/orm';
+import { selectCartItems } from '../models/selectors/selectCartItems';
+import cartItemOrm from '../models/cartItemOrm';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -138,9 +138,9 @@ OrderSummaryContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const entities = selectEntities(state);
-  const session = orm.session(entities);
-  const { CartItem } = session;
+  const cartItemEntities = selectCartItems(state);
+  const cartItemsSession = cartItemOrm.session(cartItemEntities);
+  const { CartItem } = cartItemsSession;
   return {
     cartItems: CartItem.all().toRefArray(),
   };

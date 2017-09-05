@@ -67,11 +67,13 @@ export default function MiniHeader({
         <div style={styles.header}>
           <AppBar
             title={
-              <img
-                className="ecommerce-cms-site-mobilelogo"
-                src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
-                alt="logo"
-              />
+              <Link to="/">
+                <img
+                  className="ecommerce-cms-site-mobilelogo"
+                  src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                  alt="logo"
+                />
+              </Link>
             }
             style={{ backgroundColor: white }}
             iconElementLeft={

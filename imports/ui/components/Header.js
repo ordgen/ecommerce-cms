@@ -77,11 +77,13 @@ export default function Header({
         <div style={styles.header}>
           <AppBar
             title={
-              <img
-                className="ecommerce-cms-site-mobilelogo"
-                src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
-                alt="logo"
-              />
+              <Link to="/">
+                <img
+                  className="ecommerce-cms-site-mobilelogo"
+                  src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                  alt="logo"
+                />
+              </Link>
             }
             style={{ backgroundColor: white }}
             iconElementLeft={
@@ -172,11 +174,13 @@ export default function Header({
                         className="col-md-2 col-lg-2 col-sm-2"
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
-                        <img
-                          className="ecommerce-cms-header-billboard-logo"
-                          src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
-                          alt="logo"
-                        />
+                        <Link to="/">
+                          <img
+                            className="ecommerce-cms-header-billboard-logo"
+                            src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                            alt="logo"
+                          />
+                        </Link>
                       </div>
                       <div
                         className="col-md-8 col-lg-8 col-sm-8"

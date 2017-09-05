@@ -1,7 +1,7 @@
 import { createSelector } from 'redux-orm';
-import orm from '../orm';
+import orm from '../cartItemOrm';
 
-const stateSelector = state => state.entities;
+const stateSelector = state => state.cartItems;
 
 export const CartItemsSelector = createSelector(
   orm,

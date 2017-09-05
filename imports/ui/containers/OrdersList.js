@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
   const session = orm.session(entities);
   const { Order } = session;
   return {
-    orders: Order.all().toRefArray(),
+    orders: Order.all().toRefArray().reverse(),
   };
 };
 

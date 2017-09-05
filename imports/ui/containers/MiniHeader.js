@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import debounce from 'es6-promise-debounce';
 import { Meteor } from 'meteor/meteor';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { selectEntities } from '../models/selectors/selectEntities';
 import MiniHeader from '../components/MiniHeader';
+import { selectCartItems } from '../models/selectors/selectCartItems';
+import cartItemOrm from '../models/cartItemOrm';
 import orm from '../models/orm';
 
 /* eslint-disable react/require-default-props, no-console */
@@ -24,7 +27,7 @@ const getSiteConfig = () =>
     ),
   );
 
-const searchCategories = (searchQuery) =>
+const searchCategories = searchQuery =>
   new Promise((resolve, reject) =>
     Meteor.call('ProductCategories.methods.searchCategories',
       { ...searchQuery },
@@ -167,9 +170,12 @@ MiniHeaderContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const cartItemEntities = selectCartItems(state);
+  const cartItemsSession = cartItemOrm.session(cartItemEntities);
+  const { CartItem } = cartItemsSession;
   const entities = selectEntities(state);
   const session = orm.session(entities);
-  const { ProductCategory, CartItem } = session;
+  const { ProductCategory } = session;
   const cartSize = CartItem.all().count();
   const getChildren = categoryId => ProductCategory.all().toRefArray().filter(c => c.parent === categoryId); // eslint-disable-line
   const extractChildren = (category) => {

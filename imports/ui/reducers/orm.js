@@ -10,9 +10,6 @@ import {
   ADD_SLIDER_IMAGE,
   REMOVE_SLIDER_IMAGE,
   UPDATE_SLIDER_IMAGE,
-  ADD_CART_ITEM,
-  REMOVE_CART_ITEM,
-  UPDATE_CART_ITEM,
   ADD_ORDER,
   REMOVE_ORDER,
   UPDATE_ORDER,
@@ -35,7 +32,7 @@ export default function ormReducer(dbState = initialState, action) {
 
   /* Session-specific Models are available
   as properties on the Session instance. */
-  const { Product, ProductCategory, SliderImage, CartItem, Order } = sess;
+  const { Product, ProductCategory, SliderImage, Order } = sess;
   const { payload, type } = action;
   switch (type) {
     case ADD_PRODUCT:
@@ -79,18 +76,8 @@ export default function ormReducer(dbState = initialState, action) {
     case UPDATE_SLIDER_IMAGE:
       SliderImage.withId(payload.id).update(payload);
       break;
-    case ADD_CART_ITEM:
-      CartItem.create(payload);
-      break;
-    case REMOVE_CART_ITEM:
-      CartItem.withId(payload.id).delete();
-      break;
-    case UPDATE_CART_ITEM:
-      CartItem.withId(payload.id).update(payload);
-      break;
     case ADD_ORDER:
       Order.create(payload);
-      CartItem.all().toModelArray().forEach(item => item.delete());
       break;
     case REMOVE_ORDER:
       Order.withId(payload.id).delete();

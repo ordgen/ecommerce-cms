@@ -4,6 +4,7 @@ import {
   REMOVE_ORDER,
   UPDATE_ORDER,
   IS_LOADING_ORDERS,
+  CLEAR_CART_ITEMS,
 } from '../types';
 
 import setIsLoadingState from './IsLoading';
@@ -15,6 +16,12 @@ export function addOrder(payload) {
   };
 }
 
+export function clearCartItems(payload) {
+  return {
+    type: CLEAR_CART_ITEMS,
+    payload,
+  };
+}
 
 export function removeOrder(payload) {
   return {
@@ -106,6 +113,7 @@ export function createOrder(data) {
             updatedAt,
           };
           dispatch(addOrder(payload));
+          dispatch(clearCartItems({}));
           resolve(res);
         } else {
           reject(err);

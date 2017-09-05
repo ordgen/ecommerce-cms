@@ -2,6 +2,7 @@ import {
   ADD_CART_ITEM,
   REMOVE_CART_ITEM,
   UPDATE_CART_ITEM,
+  CLEAR_CART_ITEMS,
 } from '../actions/types';
 import orm from '../models/cartItemOrm';
 
@@ -30,6 +31,9 @@ export default function cartItemReducer(dbState = initialState, action) {
       break;
     case UPDATE_CART_ITEM:
       CartItem.withId(payload.id).update(payload);
+      break;
+    case CLEAR_CART_ITEMS:
+      CartItem.all().toModelArray().forEach(item => item.delete());
       break;
     default:
       break;

@@ -7,7 +7,9 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import Header from '../components/Header';
 import { selectEntities } from '../models/selectors/selectEntities';
+import { selectCartItems } from '../models/selectors/selectCartItems';
 import orm from '../models/orm';
+import cartItemOrm from '../models/cartItemOrm';
 
 /* eslint-disable react/require-default-props, no-console */
 
@@ -192,9 +194,12 @@ HeaderContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const cartItemEntities = selectCartItems(state);
+  const cartItemsSession = cartItemOrm.session(cartItemEntities);
+  const { CartItem } = cartItemsSession;
   const entities = selectEntities(state);
   const session = orm.session(entities);
-  const { ProductCategory, CartItem } = session;
+  const { ProductCategory } = session;
   const cartSize = CartItem.all().count();
   const getChildren = categoryId => ProductCategory.all().toRefArray().filter(c => c.parent === categoryId); // eslint-disable-line
   const extractChildren = (category) => {
