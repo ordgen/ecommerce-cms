@@ -215,7 +215,7 @@ class ProductViewContainer extends Component {
                           className="col-md-4 col-lg-4 col-xs-12 col-sm-4"
                           style={{ marginBottom: 20 }}
                         >
-                          <h4>{product.name}</h4>
+                          <h6>{product.name}</h6>
                           <div
                             className="product-price"
                             style={{ marginBottom: 20 }}
