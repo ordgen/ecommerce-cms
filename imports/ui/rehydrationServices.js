@@ -4,7 +4,6 @@ import ReduxPersist from './config/ReduxPersist';
 import { fetchAndCreateProductCategories } from './actions/action-creators/ProductCategories';
 import { fetchAndCreateSliderImages } from './actions/action-creators/SliderImages';
 import { fetchAndCreateOrders } from './actions/action-creators/Orders';
-import { fetchAndCreateCartItems } from './actions/action-creators/CartItems';
 
 const updateReducers = (store) => {
   const reducerVersion = ReduxPersist.reducerVersion;
@@ -16,7 +15,6 @@ const updateReducers = (store) => {
     store.dispatch(fetchAndCreateProductCategories());
     store.dispatch(fetchAndCreateSliderImages());
     store.dispatch(fetchAndCreateOrders());
-    store.dispatch(fetchAndCreateCartItems());
   });
 
   // check to ensure latest reducer version
