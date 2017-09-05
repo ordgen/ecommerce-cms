@@ -1,6 +1,5 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import CartItems from '../../cart-items/cart-items';
 import SiteConfig from '../../site-config/site-config';
 import Orders from '../orders';
 
@@ -89,9 +88,6 @@ export const createOrder = new ValidatedMethod({
       ),
     );
     Orders.update({ _id: order._id }, { $push: { cartItems: { $each: cartItems } } }); // eslint-disable-line
-    cartItems.forEach(cartItem =>
-      CartItems.remove({ _id: cartItem.id }),
-    );
     return order;
   },
 });

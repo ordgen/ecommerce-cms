@@ -110,9 +110,7 @@ class OrderSummaryContainer extends Component {
       openFormDialog,
       canSubmit,
       openSuccessDialog,
-      formError,
     } = this.state;
-    console.log(formError);
     const { cartItems } = this.props;
     return (
       <OrderSummary
