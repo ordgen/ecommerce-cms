@@ -13,6 +13,7 @@ import { Currencies as currencies } from '../site-config';
 import DropzoneComponent from '../components/dropzone/Dropzone';
 import BreadCrumbs from '../components/BreadCrumbs';
 import SiteConfigSchema from '../../api/site-config/schema';
+import Spinner from '../components/Spinner';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -191,8 +192,8 @@ class SiteConfigViewContainer extends Component {
                 <Paper style={styles.paperStyle}>
                   <div className="row">
                     <div className="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                      {siteConfig &&
-                        <AutoForm
+                      {siteConfig
+                        ? <AutoForm
                           schema={SiteConfigSchema}
                           onSubmit={this.handleSubmit}
                           model={siteConfig}
@@ -286,6 +287,7 @@ class SiteConfigViewContainer extends Component {
                             />
                           </div>
                         </AutoForm>
+                        : <Spinner />
                       }
                     </div>
                   </div>

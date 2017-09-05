@@ -92,10 +92,10 @@ const renderProductWithCategories = (currency, productCategory) => {
                   style={{ marginBottom: 30 }}
                 >
                   <CardMedia
-                    style={{
+                    mediaStyle={{
                       width: 'auto',
                       height: 300,
-                      minWidth: 300,
+                      minWidth: 250,
                       marginBottom: 10,
                       textAlign: 'center',
                     }}
