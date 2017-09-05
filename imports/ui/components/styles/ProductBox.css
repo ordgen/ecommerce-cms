@@ -178,8 +178,7 @@ h2{
 
 .subdescription{
 	font-size:0.8em;
-	font-weight:400;
-	color:#7d7d7d;
+	font-weight:800;
 }
 
 /*product price*/
@@ -190,7 +189,7 @@ h2{
 	position:relative;
 	font-family:'helvetica neue'
 }
-.item-product-price .subdescription{
+.item-product-price{
 	color:#7d7d7d;
 }
 .old-price{
