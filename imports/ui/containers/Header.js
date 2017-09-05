@@ -25,7 +25,7 @@ const getSiteConfig = () =>
     ),
   );
 
-const searchCategories = (searchQuery) =>
+const searchCategories = searchQuery =>
   new Promise((resolve, reject) =>
     Meteor.call('ProductCategories.methods.searchCategories',
       { ...searchQuery },

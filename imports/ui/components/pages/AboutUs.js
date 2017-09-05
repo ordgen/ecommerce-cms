@@ -23,7 +23,7 @@ export default function AboutUs({ siteConfig }) {
                     >
                       <img
                         className="ecommerce-cms-about-logo img-fluid"
-                        src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
+                        src={siteConfig.aboutUsLogo}
                         alt="logo"
                       />
                     </div>

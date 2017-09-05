@@ -26,6 +26,10 @@ export const updateSiteConfig = new ValidatedMethod({
       type: String,
       label: 'About Company',
     },
+    aboutUsLogo: {
+      type: String,
+      label: 'About Us Logo',
+    },
     primaryLogo: {
       type: String,
     },
@@ -175,13 +179,21 @@ export const updateSiteConfig = new ValidatedMethod({
       optional: true,
       defaultValue: 'Instagram',
     },
+    createdAt: {
+      type: Date,
+      optional: true,
+    },
+    updatedAt: {
+      type: Date,
+      optional: true,
+    },
   }).validator(),
 
-  async run({ _id, siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia }) { // eslint-disable-line
+  async run({ _id, siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia, aboutUsLogo }) { // eslint-disable-line
     const siteConfig = await new Promise(resolve =>
       SiteConfig.update(
         { _id },
-        { $set: { siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia } }, // eslint-disable-line
+        { $set: { siteName, aboutUs, primaryLogo, secondaryLogo, currency, companyPhones, companyEmails, socialMedia, aboutUsLogo } }, // eslint-disable-line
         () => resolve(SiteConfig.findOne(_id)),
       ),
     );

@@ -18,6 +18,10 @@ export default new SimpleSchema([
       label: 'About Company',
       defaultValue: "Welcome to Wallvilledecor, a contemporary interior decor company. Serving our customers unique and elegant decorative pieces sourced from all corners of the globe. We pride ourselves with giving our customers (wallvillers) a tailor made and yet affordable designs to suit their taste. Our buying teams circle the globe to bring you a wide choice of inspirational furniture, homewares and all interior accessories. Our easy-to-use website allows you to shop by style or department and search by colour, material, or product. The more you shop, the more we'll get to know you and can improve your shopping experience by handpicking products we think you may also like. This is evolution...This is unique styling... This is Wallvilledecor.", // eslint-disable-line
     },
+    aboutUsLogo: {
+      type: String,
+      label: 'About Us Logo',
+    },
     currency: {
       type: String,
       label: 'Currency',

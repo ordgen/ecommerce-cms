@@ -4,8 +4,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Meteor } from 'meteor/meteor';
-import SiteConfigView from '../components/pages/SiteConfigView';
-import { Currencies } from '../site-config';
+import AutoForm from 'uniforms-material/AutoForm';
+import Subheader from 'material-ui/Subheader';
+import Paper from 'material-ui/Paper';
+import Snackbar from 'material-ui/Snackbar';
+import { SubmitField, AutoField, SelectField, TextField } from 'uniforms-material';
+import { Currencies as currencies } from '../site-config';
+import DropzoneComponent from '../components/dropzone/Dropzone';
+import BreadCrumbs from '../components/BreadCrumbs';
+import SiteConfigSchema from '../../api/site-config/schema';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -35,6 +42,25 @@ const updateSiteConfig = doc =>
     ),
   );
 
+const styles = {
+  paperStyle: {
+    padding: 20,
+    marginTop: 15,
+    minHeight: 500,
+  },
+  switchStyle: {
+    marginBottom: 16,
+  },
+  submitStyle: {
+    marginTop: 32,
+    width: '100%',
+  },
+  formElement: {
+    display: 'block',
+    width: '100%',
+  },
+};
+
 class SiteConfigViewContainer extends Component {
   constructor(props) {
     super(props);
@@ -42,51 +68,63 @@ class SiteConfigViewContainer extends Component {
       siteConfig: null,
       openSnackBar: false,
       snackMessage: '',
-      primaryLogo: '',
-      secondaryLogo: '',
-      currency: '',
     };
-    this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePrimaryLogoImageUploaded = this.handlePrimaryLogoImageUploaded.bind(this);
     this.handleSecondaryLogoImageUploaded = this.handleSecondaryLogoImageUploaded.bind(this);
     this.handleImageUploadError = this.handleImageUploadError.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
+    this.handleAboutUsLogoUploaded = this.handleAboutUsLogoUploaded.bind(this);
   }
 
   componentDidMount() {
     getSiteConfig().then(
       (siteConfig) => {
-        const { primaryLogo, secondaryLogo, currency: siteCurrency } = siteConfig;
-        const currency = Currencies.find(c => c.symbol_native === siteCurrency);
-        this.setState({
-          siteConfig,
-          primaryLogo,
-          secondaryLogo,
-          currency: currency ? currency.name : '',
-        });
+        if (!siteConfig.aboutUsLogo) {
+          const config = {
+            ...siteConfig,
+            aboutUsLogo: '',
+          };
+          this.setState({ siteConfig: config });
+        } else {
+          this.setState({
+            siteConfig,
+          });
+        }
       },
     );
   }
 
-  handleCurrencyChange(currency) {
-    this.setState({ currency });
-  }
-
   handlePrimaryLogoImageUploaded(files) {
+    let siteConfig = this.form.getModel();
     if (files[0] && files[0].url) {
-      this.setState({ primaryLogo: files[0].url });
+      siteConfig = {
+        ...siteConfig,
+        primaryLogo: files[0].url,
+      };
     } else {
-      this.setState({ primaryLogo: '' });
+      siteConfig = {
+        ...siteConfig,
+        primaryLogo: '',
+      };
     }
+    this.setState({ siteConfig });
   }
 
   handleSecondaryLogoImageUploaded(files) {
+    let siteConfig = this.form.getModel();
     if (files[0] && files[0].url) {
-      this.setState({ secondaryLogo: files[0].url });
+      siteConfig = {
+        ...siteConfig,
+        secondaryLogo: files[0].url,
+      };
     } else {
-      this.setState({ secondaryLogo: '' });
+      siteConfig = {
+        ...siteConfig,
+        secondaryLogo: '',
+      };
     }
+    this.setState({ siteConfig });
   }
 
   handleImageUploadError(error) {
@@ -103,21 +141,7 @@ class SiteConfigViewContainer extends Component {
   }
 
   handleSubmit(doc) {
-    const { _id, siteName, companyPhones, companyEmails, socialMedia, aboutUs } = doc; // eslint-disable-line
-    const { primaryLogo, secondaryLogo, currency: siteCurrency } = this.state;
-    const currency = Currencies.find(c => c.name === siteCurrency);
-    updateSiteConfig(
-      {
-        _id,
-        siteName,
-        primaryLogo,
-        secondaryLogo,
-        companyPhones,
-        companyEmails,
-        socialMedia,
-        aboutUs,
-        currency: currency ? currency.symbol_native : '',
-      }).then(
+    updateSiteConfig(doc).then(
       () => {
         this.setState({
           openSnackBar: true,
@@ -125,42 +149,158 @@ class SiteConfigViewContainer extends Component {
         });
       },
     ).catch(
-      (formError) => {
+      (error) => {
         this.setState({
           openSnackBar: true,
-          snackMessage: 'Oops! Update Failed!! Please try again.',
-          formError,
+          snackMessage: error.message,
         });
       },
     );
+  }
+
+  handleAboutUsLogoUploaded(files) {
+    let siteConfig = this.form.getModel();
+    if (files[0] && files[0].url) {
+      siteConfig = {
+        ...siteConfig,
+        aboutUsLogo: files[0].url,
+      };
+    } else {
+      siteConfig = {
+        ...siteConfig,
+        aboutUsLogo: '',
+      };
+    }
+    this.setState({ siteConfig });
   }
 
   render() {
     const {
       siteConfig,
       openSnackBar,
-      primaryLogo,
       snackMessage,
-      secondaryLogo,
-      currency,
     } = this.state;
     const { match } = this.props;
     return (
-      <SiteConfigView
-        siteConfig={siteConfig}
-        match={match}
-        openSnackBar={openSnackBar}
-        snackMessage={snackMessage}
-        primaryLogo={primaryLogo}
-        secondaryLogo={secondaryLogo}
-        currency={currency}
-        handleCurrencyChange={this.handleCurrencyChange}
-        handleSubmit={this.handleSubmit}
-        handlePrimaryLogoImageUploaded={this.handlePrimaryLogoImageUploaded}
-        handleSecondaryLogoImageUploaded={this.handleSecondaryLogoImageUploaded}
-        handleImageUploadError={this.handleImageUploadError}
-        handleSnackRequestClose={this.handleSnackRequestClose}
-      />
+      <div>
+        <BreadCrumbs match={match} pageTitle="Site Information" />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <div className="page-content">
+                <Paper style={styles.paperStyle}>
+                  <div className="row">
+                    <div className="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                      {siteConfig &&
+                        <AutoForm
+                          schema={SiteConfigSchema}
+                          onSubmit={this.handleSubmit}
+                          model={siteConfig}
+                          showInlineError
+                          ref={(ref) => { this.form = ref; }}
+                        >
+                          <AutoField name="siteName" />
+                          <TextField
+                            name="aboutUs"
+                            multiLine
+                            rows={5}
+                          />
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Subheader
+                              style={{ paddingLeft: 0 }}
+                            >
+                              About Us Logo
+                            </Subheader>
+                            <DropzoneComponent
+                              files={siteConfig.aboutUsLogo ? [siteConfig.aboutUsLogo] : []}
+                              onChange={this.handleAboutUsLogoUploaded}
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              multiple={false}
+                              maxFiles={1}
+                              onError={this.handleImageUploadError}
+                              dropzoneText="Drag an image here"
+                              dropBtnText="Select image"
+                            />
+                          </div>
+                          <AutoField name="companyPhones" />
+                          <AutoField name="companyEmails" />
+                          <SelectField
+                            name="currency"
+                            allowedValues={currencies.map(c => c.symbol_native)}
+                            transform={val => (currencies.find(c => c.symbol_native === val)).name}
+                          />
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Subheader
+                              style={{ paddingLeft: 0 }}
+                            >
+                              Social Media Buttons
+                            </Subheader>
+                            <AutoField name="socialMedia.facebook.url" />
+                            <AutoField name="socialMedia.facebook.isEnabled" />
+                            <AutoField name="socialMedia.twitter.url" />
+                            <AutoField name="socialMedia.twitter.isEnabled" />
+                            <AutoField name="socialMedia.youtube.url" />
+                            <AutoField name="socialMedia.youtube.isEnabled" />
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Subheader
+                              style={{ paddingLeft: 0 }}
+                            >
+                              Primary Logo
+                            </Subheader>
+                            <DropzoneComponent
+                              files={[siteConfig.primaryLogo]}
+                              onChange={this.handlePrimaryLogoImageUploaded}
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              multiple={false}
+                              maxFiles={1}
+                              onError={this.handleImageUploadError}
+                              dropzoneText="Drag an image here"
+                              dropBtnText="Select image"
+                            />
+                          </div>
+
+                          <div>
+                            <Subheader
+                              style={{ paddingLeft: 0 }}
+                            >
+                              Secondary Logo
+                            </Subheader>
+                            <DropzoneComponent
+                              files={[siteConfig.secondaryLogo]}
+                              onChange={this.handleSecondaryLogoImageUploaded}
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              multiple={false}
+                              maxFiles={1}
+                              onError={this.handleImageUploadError}
+                              dropzoneText="Drag an image here"
+                              dropBtnText="Select image"
+                            />
+                          </div>
+
+                          <div>
+                            <SubmitField
+                              primary
+                              style={styles.submitStyle}
+                            />
+                          </div>
+                        </AutoForm>
+                      }
+                    </div>
+                  </div>
+                </Paper>
+              </div>
+            </div>
+          </div>
+          <Snackbar
+            open={openSnackBar}
+            message={snackMessage}
+            autoHideDuration={4000}
+            onRequestClose={this.handleSnackRequestClose}
+          />
+        </div>
+      </div>
     );
   }
 }

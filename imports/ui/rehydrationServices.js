@@ -1,6 +1,5 @@
 import { persistStore } from 'redux-persist';
 import localForage from 'localforage';
-import { _ } from 'underscore';
 import ReduxPersist from './config/ReduxPersist';
 import { fetchAndCreateProductCategories } from './actions/action-creators/ProductCategories';
 import { fetchAndCreateSliderImages } from './actions/action-creators/SliderImages';
@@ -12,12 +11,8 @@ const updateReducers = (store) => {
   // begin a fresh store
   persistStore(store, config, () => {
     // seed store with initial data from async
-    if (_.isEmpty(store.getState().entities.ProductCategory.items)) {
-      store.dispatch(fetchAndCreateProductCategories());
-    }
-    if (_.isEmpty(store.getState().entities.SliderImage.items)) {
-      store.dispatch(fetchAndCreateSliderImages());
-    }
+    store.dispatch(fetchAndCreateProductCategories());
+    store.dispatch(fetchAndCreateSliderImages());
   });
 
   // check to ensure latest reducer version

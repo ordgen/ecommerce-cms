@@ -94,8 +94,8 @@ const renderProductWithCategories = (currency, productCategory) => {
                   <CardMedia
                     style={{
                       width: 'auto',
-                      height: 250,
-                      minWidth: 200,
+                      height: 300,
+                      minWidth: 300,
                       marginBottom: 10,
                       textAlign: 'center',
                     }}
@@ -107,7 +107,7 @@ const renderProductWithCategories = (currency, productCategory) => {
                       style={{
                         display: 'inline-block',
                         maxWidth: '100%',
-                        maxHeight: 225,
+                        maxHeight: 300,
                       }}
                     />
                   </CardMedia>

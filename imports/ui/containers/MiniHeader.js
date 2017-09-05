@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Meteor } from 'meteor/meteor';
-import MiniHeader from '../components/MiniHeader';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { selectEntities } from '../models/selectors/selectEntities';
+import MiniHeader from '../components/MiniHeader';
 import orm from '../models/orm';
 
 /* eslint-disable react/require-default-props, no-console */

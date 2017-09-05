@@ -4,6 +4,7 @@ const REDUX_PERSIST = {
   reducerVersion: '8',
   storeConfig: {
     storage: localForage,
+    blacklist: ['entities'],
   },
 };
 
