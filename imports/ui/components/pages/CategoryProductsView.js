@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
-import { trim } from '../../utils';
 import ProductBox from '../ProductBox';
 
 /* eslint-disable react/require-default-props */

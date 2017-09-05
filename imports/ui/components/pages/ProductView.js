@@ -5,6 +5,7 @@ import Subheader from 'material-ui/Subheader';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
+import Lightbox from 'react-image-lightbox';
 import { List, ListItem } from 'material-ui/List';
 import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
@@ -13,16 +14,54 @@ import MobileTearSheet from '../MobileTearSheet';
 
 /* eslint-disable react/require-default-props */
 
+const renderLightbox = (
+  product,
+  photoIndex,
+  handleLightboxNextRequest,
+  handleLightboxPrevRequest,
+  handleLightboxClose,
+) => {
+  const images = product.pictures;
+  return (
+    <Lightbox
+      mainSrc={images[photoIndex]}
+      nextSrc={images[(photoIndex + 1) % images.length]}
+      prevSrc={images[((photoIndex + images.length) - 1) % images.length]}
+      onCloseRequest={() => console.log("CLOSE ME")}
+      onMovePrevRequest={handleLightboxPrevRequest}
+      onMoveNextRequest={handleLightboxNextRequest}
+    />
+  );
+};
+
 export default function ProductView({
   product,
   currency,
   selectedPicture,
   addProductToCart,
   setSelectedPicture,
+  handleLightboxOpen,
+  photoIndex,
+  lightboxIsOpen,
+  handleLightboxNextRequest,
+  handleLightboxClose,
+  handleLightboxPrevRequest,
 }) {
   const cartBtnLabel = (product && product.isInCart) ? 'GO TO CART' : 'ADD TO CART';
   return (
     <div>
+      {(product && lightboxIsOpen) &&
+        <div>
+          {renderLightbox(
+            product,
+            photoIndex,
+            handleLightboxNextRequest,
+            handleLightboxClose,
+            handleLightboxPrevRequest,
+            handleLightboxPrevRequest,
+          )}
+        </div>
+      }
       <div className="ecommerce-cms-wrapper">
         <Header />
         <div className="ecommerce-cms-main-content clearfix">
@@ -58,6 +97,7 @@ export default function ProductView({
                               type="image"
                               src={selectedPicture}
                               className="image-gallery-main img-fluid m-x-auto d-block image-gallery-effect"
+                              onClick={() => handleLightboxOpen()}
                               alt=""
                             />
                           </div>
@@ -143,4 +183,10 @@ ProductView.propTypes = {
   selectedPicture: PropTypes.string,
   addProductToCart: PropTypes.func.isRequired,
   setSelectedPicture: PropTypes.func.isRequired,
+  photoIndex: PropTypes.node.isRequired,
+  lightboxIsOpen: PropTypes.bool.isRequired,
+  handleLightboxClose: PropTypes.func.isRequired,
+  handleLightboxNextRequest: PropTypes.func.isRequired,
+  handleLightboxPrevRequest: PropTypes.func.isRequired,
+  handleLightboxOpen: PropTypes.func.isRequired,
 };
