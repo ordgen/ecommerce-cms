@@ -40,11 +40,12 @@ export function createProductCategory(data) {
           if (err) {
             reject(err);
           } else {
-            const { name, description, createdAt, updatedAt, parent, picture } = res;
+            const { name, description, createdAt, updatedAt, parent, picture, shortDescription } = res; // eslint-disable-line
             const payload = {
               id: res._id, // eslint-disable-line no-underscore-dangle
               name,
               description,
+              shortDescription,
               createdAt,
               picture,
               updatedAt,
@@ -70,11 +71,12 @@ export function fetchAndCreateProductCategories() {
             reject(err);
           } else {
             res.forEach((category) => {
-              const { name, description, createdAt, updatedAt, parent, picture } = category;
+              const { name, description, createdAt, updatedAt, parent, picture, shortDescription } = category; // eslint-disable-line
               const categoryPayload = {
                 id: category._id, // eslint-disable-line no-underscore-dangle
                 name,
                 description,
+                shortDescription,
                 picture,
                 createdAt,
                 updatedAt,
@@ -120,11 +122,12 @@ export function editProductCategory(data) {
           if (err) {
             reject(err);
           } else {
-            const { name, description, createdAt, updatedAt, parent, picture } = res;
+            const { name, description, createdAt, updatedAt, parent, picture, shortDescription } = res; // eslint-disable-line
             const payload = {
               id: data.categoryId,
               name,
               description,
+              shortDescription,
               picture,
               createdAt,
               updatedAt,

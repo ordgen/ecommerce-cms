@@ -161,6 +161,11 @@ class NewProductCategory extends Component {
 
                         <TextField name="name" />
                         <TextField
+                          name="shortDescription"
+                          multiLine
+                          rows={2}
+                        />
+                        <TextField
                           name="description"
                           multiLine
                           rows={5}
@@ -225,11 +230,12 @@ const mapStateToProps = (state, routeParams) => {
   let category;
   if (ProductCategory.hasId(categoryId)) {
     const pc = ProductCategory.withId(categoryId).ref;
-    const { name, picture, description, parent } = pc;
+    const { name, picture, description, parent, shortDescription } = pc;
     category = {
       name,
       picture,
       description,
+      shortDescription,
       parent,
     };
   }

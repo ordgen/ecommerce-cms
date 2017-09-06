@@ -42,6 +42,7 @@ class NewProductCategory extends Component {
       category: {
         name: '',
         description: '',
+        shortDescription: '',
         picture: '',
         parent: '',
       },
@@ -144,6 +145,11 @@ class NewProductCategory extends Component {
                       />
 
                       <TextField name="name" />
+                      <TextField
+                        name="shortDescription"
+                        multiLine
+                        rows={2}
+                      />
                       <TextField
                         name="description"
                         multiLine

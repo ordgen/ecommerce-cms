@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Glide from 'react-glide';
 import { Link } from 'react-router-dom';
-import { ProductCategoriesWithProductSelector } from '../models/selectors/productCategories';
+import { ProductCategoriesSelector } from '../models/selectors/productCategories';
 import { AllSliderImagesSelector } from '../models/selectors/sliderImages';
 import Header from './Header';
 import PrimaryFooter from '../components/footer/PrimaryFooter';
@@ -66,7 +66,7 @@ Home.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  categoriesWithProduct: ProductCategoriesWithProductSelector(state),
+  categoriesWithProduct: ProductCategoriesSelector(state),
   sliderImages: AllSliderImagesSelector(state),
 });
 

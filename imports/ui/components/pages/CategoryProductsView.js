@@ -57,7 +57,7 @@ const renderProductWithCategories = (currency, productCategory) => {
             >
               <img
                 className="rounded img-fluid"
-                src={products[products.length - 1].pictures[0]}
+                src={productCategory.picture ? productCategory.picture : ''}
                 alt=""
                 style={{
                   display: 'inline-block',

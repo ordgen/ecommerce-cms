@@ -14,6 +14,11 @@ export const createProductCategory = new ValidatedMethod({
       regEx: SimpleSchema.RegEx.Id,
       optional: true,
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (160 Chars Maximum)',
+      max: 160,
+    },
     description: {
       type: String,
     },
@@ -65,16 +70,21 @@ export const editCategory = new ValidatedMethod({
     description: {
       type: String,
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (160 Chars Maximum)',
+      max: 160,
+    },
     picture: {
       type: String,
     },
   }).validator(),
 
-  async run({ categoryId, name, parent, description, picture }) {
+  async run({ categoryId, name, parent, description, picture, shortDescription }) {
     const productCategory = await new Promise(resolve =>
       ProductCategories.update(
         { _id: categoryId },
-        { $set: { name, parent, description, picture } },
+        { $set: { name, parent, description, picture, shortDescription } },
         () => resolve(ProductCategories.findOne(categoryId)),
       ),
     );

@@ -23,7 +23,7 @@ export default class CategoryProductBox extends Component {
         <div
           className="item"
           style={{
-            backgroundImage: `url(${category.product.pictures[0]})`,
+            backgroundImage: `url(${category.picture ? category.picture : ''})`,
           }}
         >
           <div className="item-overlay">
@@ -32,11 +32,11 @@ export default class CategoryProductBox extends Component {
           <div className="item-content">
             <div className="item-top-content">
               <div className="item-top-content-inner">
-                <div className="item-product">
+                <div className="item-product category">
                   <div className="item-top-title">
                     <h2>{category.name}</h2>
                     <p className="subdescription">
-                      {category.product.name}
+                      {category.shortDescription}
                     </p>
                   </div>
                 </div>

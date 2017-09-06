@@ -163,6 +163,9 @@
 	width:70%;
 	float:left;
 }
+.item-product.category{
+	width:100%;
+}
 .item-product-price{
 	width:30%;
 	float:right;

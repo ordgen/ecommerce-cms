@@ -8,9 +8,14 @@ export default new SimpleSchema([
       type: String,
       label: 'Name of Category',
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (80 Chars Maximum)',
+      max: 80,
+    },
     description: {
       type: String,
-      label: 'Description',
+      label: 'Long Description',
     },
     picture: {
       type: String,
