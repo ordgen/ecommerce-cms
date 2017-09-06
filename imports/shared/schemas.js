@@ -30,3 +30,15 @@ export const OwnerSchema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Id,
   },
 });
+
+
+export const LoginFormSchema = new SimpleSchema({
+  email: {
+    type: String,
+    label: 'Email',
+  },
+  password: {
+    type: String,
+    label: 'Password',
+  },
+});

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AutoForm from 'uniforms-material/AutoForm';
+import { SubmitField, TextField } from 'uniforms-material';
 import Paper from 'material-ui/Paper';
-import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui/lib';
-import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { login } from '../actions/action-creators/Auth';
+import { LoginFormSchema } from '../../shared/schemas';
 
 const styles = {
   loginContainer: {
@@ -39,15 +39,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSubmit: false,
-      formError: null,
       openSnackBar: false,
       snackMessage: '',
     };
     this.onSubmit = this.onSubmit.bind(this);
-    this.enableSubmitButton = this.enableSubmitButton.bind(this);
-    this.disableSubmitButton = this.disableSubmitButton.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
+    this.onValidate = this.onValidate.bind(this);
   }
 
   componentWillMount() {
@@ -64,10 +61,10 @@ class Login extends Component {
     }
   }
 
-  onSubmit(data) {
+  onSubmit(doc) {
     this.props.login(
-      data.email,
-      data.password,
+      doc.email,
+      doc.password,
     ).then(
       () => {
         this.setState({
@@ -80,21 +77,20 @@ class Login extends Component {
       this.setState({
         openSnackBar: true,
         snackMessage: error.message,
-        formError: error.message,
       });
     });
   }
 
-  disableSubmitButton() {
-    this.setState({
-      canSubmit: false,
-    });
-  }
+  onValidate(model, error, callback) {
+    if (error) {
+      this.setState({
+        openSnackBar: true,
+        snackMessage: error.message,
+      });
+      return callback();
+    }
 
-  enableSubmitButton() {
-    this.setState({
-      canSubmit: true,
-    });
+    return callback(null);
   }
 
   handleSnackRequestClose() {
@@ -104,42 +100,28 @@ class Login extends Component {
   }
 
   render() {
-    const { canSubmit, openSnackBar, snackMessage } = this.state;
-    const { loggingIn } = this.props;
+    const { openSnackBar, snackMessage } = this.state;
     return (
       <div>
         <div style={styles.loginContainer}>
           <Paper style={styles.paper}>
-            <Formsy.Form
-              onValidSubmit={this.onSubmit}
-              onValid={this.enableSubmitButton}
-              onInvalid={this.disableSubmitButton}
+            <AutoForm
+              schema={LoginFormSchema}
+              onSubmit={this.onSubmit}
+              onValidate={this.onValidate}
+              model={{}}
+              showInlineError
+              ref={(ref) => { this.form = ref; }}
             >
-              <FormsyText
-                name="email"
-                validations="isEmail"
-                required
-                hintText="Email"
-                validationError="This is not an email"
-                floatingLabelText="Email"
-                style={styles.formElement}
-              />
-              <FormsyText
-                name="password"
-                type="password"
-                required
-                hintText="Password"
-                floatingLabelText="Password"
-                style={styles.formElement}
-              />
-              <RaisedButton
-                style={styles.submitStyle}
-                type="submit"
-                label="Submit"
-                primary={true}
-                disabled={!canSubmit || loggingIn}
-              />
-            </Formsy.Form>
+              <TextField name="email" />
+              <TextField name="password" />
+              <div>
+                <SubmitField
+                  primary
+                  style={styles.submitStyle}
+                />
+              </div>
+            </AutoForm>
           </Paper>
         </div>
         <Snackbar
@@ -157,12 +139,10 @@ class Login extends Component {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
-  loggingIn: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  loggingIn: state.auth.loggingIn,
   loggedIn: state.auth.loggedIn,
 });
 
