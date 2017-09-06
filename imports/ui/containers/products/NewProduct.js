@@ -14,7 +14,6 @@ import DropzoneComponent from '../../components/dropzone/Dropzone';
 import { selectEntities } from '../../models/selectors/selectEntities';
 import orm from '../../models/orm';
 import ProductSchema from '../../../api/products/schema';
-import Spinner from '../../components/Spinner';
 import { createProduct } from '../../actions/action-creators/Products';
 
 const styles = {
@@ -128,62 +127,59 @@ class NewProduct extends Component {
     const { openSnackBar, snackMessage, product } = this.state;
     return (
       <div>
-        <BreadCrumbs match={match} pageTitle="Update Product" />
+        <BreadCrumbs match={match} pageTitle="New Product" />
         <div className="container">
           <div className="row">
             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <Paper style={styles.paperStyle}>
                 <div className="row">
                   <div className="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                    {product
-                      ? <AutoForm
-                        schema={ProductSchema}
-                        onSubmit={this.onSubmit}
-                        onValidate={this.onValidate}
-                        model={product}
-                        showInlineError
-                        ref={(ref) => { this.form = ref; }}
-                      >
-                        <SelectField
-                          name="productCategoryId"
-                          allowedValues={productCategories.map(p => p.id)}
-                          transform={val => (productCategories.find(p => p.id === val)).name}
-                        />
+                    <AutoForm
+                      schema={ProductSchema}
+                      onSubmit={this.onSubmit}
+                      onValidate={this.onValidate}
+                      model={product}
+                      showInlineError
+                      ref={(ref) => { this.form = ref; }}
+                    >
+                      <SelectField
+                        name="productCategoryId"
+                        allowedValues={productCategories.map(p => p.id)}
+                        transform={val => (productCategories.find(p => p.id === val)).name}
+                      />
 
-                        <TextField name="name" />
-                        <TextField name="price" />
-                        <TextField name="discount" />
-                        <TextField
-                          name="description"
-                          multiLine
-                          rows={5}
-                        />
+                      <TextField name="name" />
+                      <TextField name="price" />
+                      <TextField name="discount" />
+                      <TextField
+                        name="description"
+                        multiLine
+                        rows={5}
+                      />
 
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <Subheader
-                            style={{ paddingLeft: 0 }}
-                          >
-                            pictures
-                          </Subheader>
-                          <DropzoneComponent
-                            files={product.pictures}
-                            onChange={this.handleImageUploaded}
-                            accept="image/jpeg,image/jpg,image/tiff,image/gif"
-                            maxFiles={4}
-                            onError={this.handleImageUploadError}
-                            dropzoneText="Drag pictures here"
-                            dropBtnText="Select pictures"
-                          />
-                        </div>
-                        <div>
-                          <SubmitField
-                            primary
-                            style={styles.submitStyle}
-                          />
-                        </div>
-                      </AutoForm>
-                      : <Spinner />
-                    }
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <Subheader
+                          style={{ paddingLeft: 0 }}
+                        >
+                          pictures
+                        </Subheader>
+                        <DropzoneComponent
+                          files={product.pictures}
+                          onChange={this.handleImageUploaded}
+                          accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                          maxFiles={4}
+                          onError={this.handleImageUploadError}
+                          dropzoneText="Drag pictures here"
+                          dropBtnText="Select pictures"
+                        />
+                      </div>
+                      <div>
+                        <SubmitField
+                          primary
+                          style={styles.submitStyle}
+                        />
+                      </div>
+                    </AutoForm>
                   </div>
                 </div>
               </Paper>
@@ -206,7 +202,6 @@ NewProduct.propTypes = {
   changePage: PropTypes.func.isRequired,
   createProduct: PropTypes.func.isRequired,
   productCategories: PropTypes.array, // eslint-disable-line
-  product: PropTypes.object, // eslint-disable-line
 };
 
 const mapStateToProps = (state) => {

@@ -17,6 +17,9 @@ export const createProductCategory = new ValidatedMethod({
     description: {
       type: String,
     },
+    picture: {
+      type: String,
+    },
   }).validator(),
 
   async run(...args) {
@@ -62,13 +65,16 @@ export const editCategory = new ValidatedMethod({
     description: {
       type: String,
     },
+    picture: {
+      type: String,
+    },
   }).validator(),
 
-  async run({ categoryId, name, parent, description }) {
+  async run({ categoryId, name, parent, description, picture }) {
     const productCategory = await new Promise(resolve =>
       ProductCategories.update(
         { _id: categoryId },
-        { $set: { name, parent, description } },
+        { $set: { name, parent, description, picture } },
         () => resolve(ProductCategories.findOne(categoryId)),
       ),
     );

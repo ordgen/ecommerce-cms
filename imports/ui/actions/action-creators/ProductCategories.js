@@ -34,22 +34,19 @@ export function createProductCategory(data) {
     dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, true));
     return new Promise((resolve, reject) =>
       Meteor.call('ProductCategories.methods.createProductCategory',
-        {
-          name: data.name,
-          description: data.description,
-          parent: data.parent,
-        },
+        data,
         (err, res) => {
           dispatch(setIsLoadingState(IS_LOADING_PRODUCT_CATEGORIES, false));
           if (err) {
             reject(err);
           } else {
-            const { name, description, createdAt, updatedAt, parent } = res;
+            const { name, description, createdAt, updatedAt, parent, picture } = res;
             const payload = {
               id: res._id, // eslint-disable-line no-underscore-dangle
               name,
               description,
               createdAt,
+              picture,
               updatedAt,
               parent,
             };
@@ -73,11 +70,12 @@ export function fetchAndCreateProductCategories() {
             reject(err);
           } else {
             res.forEach((category) => {
-              const { name, description, createdAt, updatedAt, parent } = category;
+              const { name, description, createdAt, updatedAt, parent, picture } = category;
               const categoryPayload = {
                 id: category._id, // eslint-disable-line no-underscore-dangle
                 name,
                 description,
+                picture,
                 createdAt,
                 updatedAt,
                 parent,
@@ -122,11 +120,12 @@ export function editProductCategory(data) {
           if (err) {
             reject(err);
           } else {
-            const { name, description, createdAt, updatedAt, parent } = res;
+            const { name, description, createdAt, updatedAt, parent, picture } = res;
             const payload = {
               id: data.categoryId,
               name,
               description,
+              picture,
               createdAt,
               updatedAt,
               parent,
