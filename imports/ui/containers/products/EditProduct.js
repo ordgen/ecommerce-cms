@@ -1,20 +1,21 @@
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Formsy from 'formsy-react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Snackbar from 'material-ui/Snackbar';
+import AutoForm from 'uniforms-material/AutoForm';
+import Subheader from 'material-ui/Subheader';
+import { SubmitField, SelectField, TextField } from 'uniforms-material';
 import Paper from 'material-ui/Paper';
-import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
-import MenuItem from 'material-ui/MenuItem';
-import { ProductCategoriesSelector } from '../../models/selectors/productCategories';
-import { ProductSelector } from '../../models/selectors/products';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import DropzoneComponent from '../../components/dropzone/Dropzone';
 import { editProduct } from '../../actions/action-creators/Products';
+import { selectEntities } from '../../models/selectors/selectEntities';
+import orm from '../../models/orm';
+import ProductSchema from '../../../api/products/schema';
+import Spinner from '../../components/Spinner';
 
 const styles = {
   paperStyle: {
@@ -36,68 +37,49 @@ const styles = {
 };
 
 class EditProduct extends Component {
-  static ProductCategoryMenuItems(values, categoryItems) {
-    return categoryItems.map(categoryItem => (
-      <MenuItem
-        key={categoryItem.id}
-        insetChildren={true}
-        checked={values && values.indexOf(categoryItem.id) > -1}
-        value={categoryItem.id}
-        primaryText={categoryItem.name}
-      />
-    ));
-  }
-
   constructor(props) {
     super(props);
     this.state = {
-      canSubmit: false,
-      categoryValue: null,
-      formError: null,
-      images: [],
+      product: null,
       openSnackBar: false,
       snackMessage: '',
     };
     this.onSubmit = this.onSubmit.bind(this);
-    this.enableSubmitButton = this.enableSubmitButton.bind(this);
-    this.disableSubmitButton = this.disableSubmitButton.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleImageUploaded = this.handleImageUploaded.bind(this);
     this.handleImageUploadError = this.handleImageUploadError.bind(this);
     this.handleSnackRequestClose = this.handleSnackRequestClose.bind(this);
-    this.errorMessages = {
-      numericError: 'Please provide a number',
-    };
+    this.onValidate = this.onValidate.bind(this);
   }
 
   componentWillMount() {
-    const { match, getProduct } = this.props;
-    const product = getProduct(match.params.productId);
+    const { product } = this.props;
     if (product) {
       this.setState({
-        categoryValue: product.category.id,
-        images: product.pictures,
+        product,
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match, getProduct } = nextProps;
-    const product = getProduct(match.params.productId);
+    const { product } = nextProps;
     if (product) {
       this.setState({
-        categoryValue: product.category.id,
-        images: product.pictures,
+        product,
       });
     }
   }
 
-  onSubmit(data) {
+  onSubmit(doc) {
+    const { name, productCategoryId, pictures, description, price, discount } = doc;
     this.props.editProduct(
       {
-        ...data,
+        name,
+        productCategoryId,
+        pictures,
+        description,
+        price,
+        discount,
         productId: this.props.match.params.productId,
-        price: parseFloat(data.price, 10),
       },
     ).then(
       () => {
@@ -107,29 +89,43 @@ class EditProduct extends Component {
         });
         setTimeout(() => this.props.changePage('/dashboard/products'), 3000);
       },
-    ).catch(reason => this.setState({ formError: reason }));
-  }
-
-  enableSubmitButton() {
-    this.setState({
-      canSubmit: true,
+    ).catch((error) => {
+      this.setState({
+        openSnackBar: true,
+        snackMessage: error.message,
+      });
     });
   }
 
-  disableSubmitButton() {
-    this.setState({
-      canSubmit: false,
-    });
-  }
+  onValidate(model, error, callback) {
+    if (error) {
+      this.setState({
+        openSnackBar: true,
+        snackMessage: error.message,
+      });
+      return callback();
+    }
 
-  handleCategoryChange(event, value) {
-    this.setState({ categoryValue: value });
+    return callback(null);
   }
 
   handleImageUploaded(files) {
-    const images = [];
-    files.map(file => images.push(file.url));
-    this.setState({ images });
+    let product = this.form.getModel();
+    if (files.length > 0) {
+      const pictures = [];
+      files.map(file => pictures.push(file.url));
+      product = {
+        ...product,
+        pictures,
+      };
+      this.setState({ product });
+    } else {
+      product = {
+        ...product,
+        pictures: [],
+      };
+      this.setState({ product });
+    }
   }
 
   handleImageUploadError(error) {
@@ -139,7 +135,6 @@ class EditProduct extends Component {
     });
   }
 
-
   handleSnackRequestClose() {
     this.setState({
       openSnackBar: false,
@@ -147,10 +142,8 @@ class EditProduct extends Component {
   }
 
   render() {
-    const { match, productCategories, getProduct } = this.props;
-    const { categoryValue, images, openSnackBar, snackMessage, formError } = this.state; // eslint-disable-line
-    const { numericError } = this.errorMessages;
-    const product = getProduct(match.params.productId);
+    const { match, productCategories } = this.props;
+    const { openSnackBar, snackMessage, product } = this.state;
     return (
       <div>
         <BreadCrumbs match={match} pageTitle="Update Product" />
@@ -160,51 +153,36 @@ class EditProduct extends Component {
               <Paper style={styles.paperStyle}>
                 <div className="row">
                   <div className="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                    {product &&
-                      <Formsy.Form
-                        onValidSubmit={this.onSubmit}
-                        onValid={this.enableSubmitButton}
-                        onInvalid={this.disableSubmitButton}
+                    {product
+                      ? <AutoForm
+                        schema={ProductSchema}
+                        onSubmit={this.onSubmit}
+                        onValidate={this.onValidate}
+                        model={product}
+                        showInlineError
+                        ref={(ref) => { this.form = ref; }}
                       >
-                        <FormsySelect
+                        <SelectField
                           name="productCategoryId"
-                          hintText="Select product category"
-                          style={styles.formElement}
-                          onChange={this.handleCategoryChange}
-                          value={categoryValue}
-                          required
-                        >
-                          {EditProduct.ProductCategoryMenuItems([categoryValue], productCategories)}
-                        </FormsySelect>
-                        <FormsyText
-                          name="name"
-                          required
-                          hintText="What is the name of the product?"
-                          floatingLabelText="Name of Product"
-                          style={styles.formElement}
-                          value={product.name}
+                          allowedValues={productCategories.map(p => p.id)}
+                          transform={val => (productCategories.find(p => p.id === val)).name}
                         />
-                        <FormsyText
-                          name="price"
-                          validations="isNumeric"
-                          validationError={numericError}
-                          hintText="How much does the product cost?"
-                          floatingLabelText="Price of Product"
-                          required
-                          style={styles.formElement}
-                          value={product.price}
-                        />
-                        <FormsyText
+
+                        <TextField name="name" />
+                        <TextField name="price" />
+                        <TextField name="discount" />
+                        <TextField
                           name="description"
-                          floatingLabelText="Product Description"
-                          hintText="What is this product about?"
-                          style={styles.formElement}
-                          value={product.description}
                           multiLine
+                          rows={5}
                         />
-                        <div
-                          style={{ marginTop: 20 }}
-                        >
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <Subheader
+                            style={{ paddingLeft: 0 }}
+                          >
+                            pictures
+                          </Subheader>
                           <DropzoneComponent
                             files={product.pictures}
                             onChange={this.handleImageUploaded}
@@ -215,24 +193,14 @@ class EditProduct extends Component {
                             dropBtnText="Select pictures"
                           />
                         </div>
-                        <RaisedButton
-                          style={styles.submitStyle}
-                          type="submit"
-                          label="Submit"
-                          primary={true}
-                          disabled={!this.state.canSubmit}
-                        />
-                        <div
-                          style={{ display: 'none' }}
-                        >
-                          <FormsyText
-                            name="pictures"
-                            required
-                            validations="minLength:1"
-                            value={images}
+                        <div>
+                          <SubmitField
+                            primary
+                            style={styles.submitStyle}
                           />
                         </div>
-                      </Formsy.Form>
+                      </AutoForm>
+                      : <Spinner />
                     }
                   </div>
                 </div>
@@ -255,14 +223,33 @@ EditProduct.propTypes = {
   match: PropTypes.object.isRequired,
   changePage: PropTypes.func.isRequired,
   editProduct: PropTypes.func.isRequired,
-  productCategories: PropTypes.array.isRequired,
-  getProduct: PropTypes.func.isRequired,
+  productCategories: PropTypes.array, // eslint-disable-line
+  product: PropTypes.object, // eslint-disable-line
 };
 
-const mapStateToProps = state => ({
-  productCategories: ProductCategoriesSelector(state),
-  getProduct: productId => ProductSelector(state, productId),
-});
+const mapStateToProps = (state, routeParams) => {
+  const { match: { params: { productId } } } = routeParams;
+  const entities = selectEntities(state);
+  const session = orm.session(entities);
+  const { ProductCategory, Product } = session;
+  let product;
+  if (Product.hasId(productId)) {
+    const p = Product.withId(productId).ref;
+    const { name, productCategoryId, pictures, description, price, discount } = p;
+    product = {
+      name,
+      productCategoryId,
+      pictures,
+      description,
+      price,
+      discount,
+    };
+  }
+  return {
+    productCategories: ProductCategory.all().toRefArray().reverse(),
+    product,
+  };
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   editProduct,

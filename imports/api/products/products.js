@@ -1,6 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { BaseSchema } from '../../shared/schemas.js';
+import schema from './schema';
 
 const Products = new Mongo.Collection('products');
 
@@ -11,44 +10,6 @@ Products.deny({
   remove() { return true; },
 });
 
-Products.schema = new SimpleSchema([
-  BaseSchema,
-  {
-    _id: {
-      type: String,
-      regEx: SimpleSchema.RegEx.Id,
-    },
-    name: {
-      type: String,
-      label: 'Product Name',
-    },
-    productCategoryId: {
-      type: String,
-      regEx: SimpleSchema.RegEx.Id,
-    },
-    pictures: {
-      type: [String],
-      label: 'Pictures',
-    },
-    description: {
-      type: String,
-      label: 'Product Description',
-    },
-    price: {
-      type: Number,
-      label: 'Price',
-      decimal: true,
-    },
-    discount: {
-      type: Number,
-      label: 'Discount',
-      decimal: true,
-      optional: true,
-    },
-  },
-]);
-
-Products.attachSchema(Products.schema);
+Products.attachSchema(schema);
 
 export default Products;
-

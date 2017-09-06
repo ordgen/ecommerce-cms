@@ -3,6 +3,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 export const BaseSchema = new SimpleSchema({
   createdAt: {
     type: Date,
+    optional: true,
     autoValue() {
       if (this.isInsert) {
         return new Date();
