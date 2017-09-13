@@ -242,14 +242,10 @@ class ProductViewContainer extends Component {
                           </div>
 
                           <MobileTearSheet>
-                            <List>
-                              <Subheader inset={true}>Description</Subheader>
-                              <ListItem
-                                primaryText={product.description}
-                                hoverColor="inherit"
-                                style={{ cursor: 'auto' }}
-                              />
-                            </List>
+                            <Subheader inset={true}>Description</Subheader>
+                            <article style={{ padding: 10, whiteSpace: 'pre-wrap' }}>
+                              {product.description}
+                            </article>
                           </MobileTearSheet>
                         </div>
                       }
