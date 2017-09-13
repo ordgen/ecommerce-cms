@@ -7,7 +7,6 @@ import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Autocomplete from 'react-autocomplete';
 import AppBar from 'material-ui/AppBar';
@@ -47,6 +46,7 @@ export default function Header({
       display: 'inline-block',
       color: '#fff',
       lineHeight: '12px',
+      margin: 3,
     },
     header: {
       paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
@@ -171,50 +171,59 @@ export default function Header({
                   <div className="container">
                     <div className="row">
                       <div
-                        className="col-md-2 col-lg-2 col-sm-2"
+                        className="col-md-6 col-lg-6 col-sm-6 mx-auto"
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
-                        <Link to="/">
-                          <img
-                            className="ecommerce-cms-header-billboard-logo"
-                            src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
-                            alt="logo"
-                          />
-                        </Link>
+                        <p className="wallville-logo-text">
+                          <span className="wall-logo-text">wall</span>
+                          <span className="ville-logo-text">ville</span>
+                          &nbsp;
+                          <span className="decor-logo-text">decor</span>
+                        </p>
                       </div>
+                    </div>
+                    <div className="row">
                       <div
-                        className="col-md-8 col-lg-8 col-sm-8"
+                        className="col-md-8 col-lg-8 col-sm-8 mx-auto"
                         style={styles.centerColumn}
                       >
-                        <Autocomplete
-                          getItemValue={item => item.value}
-                          inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
-                          items={dataSource}
-                          value={inputValue}
-                          onChange={onUpdateInput}
-                          onSelect={handleSearchRequest}
-                          renderItem={(item, isHighlighted) => (
-                            <div
-                              style={isHighlighted ? styles.highlightedItem : styles.item}
-                              key={item.value}
-                            >{item.text}</div>
-                          )}
-                        />
-                      </div>
-                      <div
-                        className="col-md-2 col-lg-2 col-sm-2"
-                        style={styles.centerColumn}
-                      >
-                        <RaisedButton
-                          containerElement={<Link to="/order-summary" />}
-                          label="CART"
-                          primary={true}
-                          labelPosition="before"
-                          labelStyle={{ fontWeight: 600 }}
-                          icon={<FontIcon className="material-icons">shopping_cart</FontIcon>}
-                        >
-                          <span style={styles.cartCount}>{cartSize}</span>
-                        </RaisedButton>
+                        <div className="row">
+                          <div className="col-md-2 col-lg-2 col-sm-2">
+                            <FlatButton
+                              containerElement={<Link to="/order-summary" />}
+                              primary={true}
+                              labelPosition="before"
+                              labelStyle={{ fontWeight: 600 }}
+                              icon={
+                                <FontIcon
+                                  className="material-icons"
+                                  color={white}
+                                >
+                                  shopping_cart
+                                </FontIcon>
+                              }
+                            >
+                              <span style={styles.cartCount}>{cartSize}</span>
+                            </FlatButton>
+                          </div>
+                          <div className="col-md-10 col-lg-10 col-sm-10">
+                            <Autocomplete
+                              getItemValue={item => item.value}
+                              inputProps={{ id: 'search-autocomplete', placeholder: 'Search Products' }}
+                              items={dataSource}
+                              value={inputValue}
+                              onChange={onUpdateInput}
+                              onSelect={handleSearchRequest}
+                              wrapperProps={{ id: 'search-autocomplete-wrapper' }}
+                              renderItem={(item, isHighlighted) => (
+                                <div
+                                  style={isHighlighted ? styles.highlightedItem : styles.item}
+                                  key={item.value}
+                                >{item.text}</div>
+                              )}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

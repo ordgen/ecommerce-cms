@@ -9,7 +9,7 @@ import { FormsyText } from 'formsy-material-ui/lib';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
-import MiniHeader from '../../containers/MiniHeader';
+import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
 import CartItem from '../CartItem';
@@ -210,7 +210,7 @@ export default function OrderSummary({
   };
   return (
     <div className="ecommerce-cms-wrapper">
-      <MiniHeader />
+      <Header />
       <div className="ecommerce-cms-main-content clearfix">
         <article className="ecommerce-cms-article">
           <article className="ecommerce-cms-article-inner">
