@@ -19,6 +19,12 @@
 	        box-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
+@media (max-width:481px)  {
+  .item {
+    width: 100%;
+  }
+}
+
 .item-overlay{
 	position: absolute;
 	top: 0;
