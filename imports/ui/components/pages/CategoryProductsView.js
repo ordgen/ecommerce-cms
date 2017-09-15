@@ -5,6 +5,7 @@ import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
 import ProductBox from '../ProductBox';
+import { resize } from '../../utils';
 
 /* eslint-disable react/require-default-props */
 
@@ -57,7 +58,7 @@ const renderProductWithCategories = (currency, productCategory) => {
             >
               <img
                 className="rounded img-fluid"
-                src={productCategory.picture ? productCategory.picture : ''}
+                src={resize(productCategory.picture ? productCategory.picture : '', '500x500')}
                 alt=""
                 style={{
                   display: 'inline-block',

@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import './styles/ProductBox';
+import { resize } from '../utils';
 
 export default class CategoryProductBox extends Component {
   componentDidMount() {
@@ -23,7 +24,7 @@ export default class CategoryProductBox extends Component {
         <div
           className="item"
           style={{
-            backgroundImage: `url(${category.picture ? category.picture : ''})`,
+            backgroundImage: `url(${resize(category.picture ? category.picture : '', '300x300')})`,
           }}
         >
           <div className="item-overlay">

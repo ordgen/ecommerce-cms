@@ -10,7 +10,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import Lightbox from 'react-image-lightbox';
-import { List, ListItem } from 'material-ui/List';
 import { addCartItem } from '../actions/action-creators/CartItems';
 import { selectEntities } from '../models/selectors/selectEntities';
 import orm from '../models/orm';
@@ -20,6 +19,7 @@ import SecondaryFooter from '../components/footer/SecondaryFooter';
 import MobileTearSheet from '../components/MobileTearSheet';
 import { selectCartItems } from '../models/selectors/selectCartItems';
 import cartItemOrm from '../models/cartItemOrm';
+import { resize } from '../utils';
 
 const getSiteConfig = () =>
   new Promise((resolve, reject) =>
@@ -184,7 +184,7 @@ class ProductViewContainer extends Component {
                             <div className="text-xs-center m-b-1">
                               <input
                                 type="image"
-                                src={selectedPicture}
+                                src={resize(selectedPicture, '400x400')}
                                 className="image-gallery-main img-fluid m-x-auto d-block image-gallery-effect"
                                 onClick={() => this.handleLightboxOpen()}
                                 alt=""

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
+import { resize } from '../../utils';
 
 /* eslint-disable react/require-default-props */
 
@@ -23,7 +24,7 @@ export default function AboutUs({ siteConfig }) {
                     >
                       <img
                         className="ecommerce-cms-about-logo img-fluid"
-                        src={siteConfig.aboutUsLogo}
+                        src={resize(siteConfig.aboutUsLogo, '500x500')}
                         alt="logo"
                       />
                     </div>
