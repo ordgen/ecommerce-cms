@@ -166,7 +166,7 @@ class NewProduct extends Component {
                         <DropzoneComponent
                           files={product.pictures}
                           onChange={this.handleImageUploaded}
-                          accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                          accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                           maxFiles={4}
                           onError={this.handleImageUploadError}
                           dropzoneText="Drag pictures here"

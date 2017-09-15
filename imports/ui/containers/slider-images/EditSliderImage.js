@@ -155,7 +155,7 @@ class EditSliderImage extends Component {
                         <DropzoneComponent
                           files={[sliderImage.url]}
                           onChange={this.handleImageUploaded}
-                          accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                          accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                           multiple={false}
                           maxFiles={1}
                           onError={this.handleImageUploadError}

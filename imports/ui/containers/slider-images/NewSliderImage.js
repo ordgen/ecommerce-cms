@@ -130,7 +130,7 @@ class NewSliderImage extends Component {
                       </Subheader>
                       <DropzoneComponent
                         onChange={this.handleImageUploaded}
-                        accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                        accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                         multiple={false}
                         maxFiles={1}
                         onError={this.handleImageUploadError}

@@ -215,7 +215,7 @@ class SiteConfigViewContainer extends Component {
                             <DropzoneComponent
                               files={siteConfig.aboutUsLogo ? [siteConfig.aboutUsLogo] : []}
                               onChange={this.handleAboutUsLogoUploaded}
-                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                               multiple={false}
                               maxFiles={1}
                               onError={this.handleImageUploadError}
@@ -253,7 +253,7 @@ class SiteConfigViewContainer extends Component {
                             <DropzoneComponent
                               files={[siteConfig.primaryLogo]}
                               onChange={this.handlePrimaryLogoImageUploaded}
-                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                               multiple={false}
                               maxFiles={1}
                               onError={this.handleImageUploadError}
@@ -271,7 +271,7 @@ class SiteConfigViewContainer extends Component {
                             <DropzoneComponent
                               files={[siteConfig.secondaryLogo]}
                               onChange={this.handleSecondaryLogoImageUploaded}
-                              accept="image/jpeg,image/jpg,image/tiff,image/gif"
+                              accept="image/jpeg,image/jpg,image/tiff,image/gif,image/png"
                               multiple={false}
                               maxFiles={1}
                               onError={this.handleImageUploadError}

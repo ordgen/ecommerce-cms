@@ -150,7 +150,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  margin-top: 3px;
+  margin-top: 10px;
 }
 
 .ecommerce-cms-header-background {
@@ -193,7 +193,7 @@ img {
 
 .wall-logo-text {
   font-family: 'Bodoni';
-  color: #fff;
+  color: #49311C;
   font-weight: bold;
 }
 
@@ -203,13 +203,13 @@ img {
 
 .ville-logo-text {
   font-family: 'Kokila';
-  color: #fff;
+  color: #c3b323;
   font-weight: bold;
   font-style: italic;
 }
 
 .decor-logo-text {
   font-family: 'Century Gothic';
-  color: #fff;
+  color: #49311C;
   font-weight: bold;
 }

@@ -75,43 +75,45 @@ export default function Header({
     if (isMobile) {
       return (
         <div style={styles.header}>
-          <AppBar
-            title={
-              <Link to="/">
-                <img
-                  className="ecommerce-cms-site-mobilelogo"
-                  src={siteConfig ? siteConfig.primaryLogo : 'https://s3.amazonaws.com/loystar/wallville-logo.jpeg'}
-                  alt="logo"
-                />
-              </Link>
-            }
-            style={{ backgroundColor: white }}
-            iconElementLeft={
-              <IconButton
-                onClick={handleChangeRequestNavDrawer}
-              >
-                <NavigationMenu color={darkBlack} />
-              </IconButton>
-            }
-            iconElementRight={
-              <FlatButton
-                containerElement={<Link to="/order-summary" />}
-                primary={true}
-                labelPosition="before"
-                labelStyle={{ fontWeight: 600 }}
-                icon={
-                  <FontIcon
-                    className="material-icons"
-                    color={darkBlack}
-                  >
-                    shopping_cart
-                  </FontIcon>
-                }
-              >
-                <span style={styles.cartCount}>{cartSize}</span>
-              </FlatButton>
-            }
-          />
+          {siteConfig &&
+            <AppBar
+              title={
+                <Link to="/">
+                  <img
+                    className="ecommerce-cms-site-mobilelogo"
+                    src={siteConfig.secondaryLogo}
+                    alt="logo"
+                  />
+                </Link>
+              }
+              style={{ backgroundColor: white }}
+              iconElementLeft={
+                <IconButton
+                  onClick={handleChangeRequestNavDrawer}
+                >
+                  <NavigationMenu color={darkBlack} />
+                </IconButton>
+              }
+              iconElementRight={
+                <FlatButton
+                  containerElement={<Link to="/order-summary" />}
+                  primary={true}
+                  labelPosition="before"
+                  labelStyle={{ fontWeight: 600 }}
+                  icon={
+                    <FontIcon
+                      className="material-icons"
+                      color={darkBlack}
+                    >
+                      shopping_cart
+                    </FontIcon>
+                  }
+                >
+                  <span style={styles.cartCount}>{cartSize}</span>
+                </FlatButton>
+              }
+            />
+          }
           <div className="ecommerce-cms-top-section-wrapper">
             <header className="ecommerce-cms-top-section nocontent">
               <div className="ecommerce-cms-collapsible-section">
@@ -119,7 +121,7 @@ export default function Header({
                   <div className="ecommerce-cms-collapsible-section-wrapper">
                     <div
                       className="ecommerce-cms-header-billboard"
-                      style={{ backgroundColor: lime900 }}
+                      style={{ backgroundColor: white }}
                     >
                       <div className="container">
                         <div className="row">
@@ -166,26 +168,29 @@ export default function Header({
               <div className="ecommerce-cms-collapsible-section-wrapper">
                 <div
                   className="ecommerce-cms-header-billboard"
-                  style={{ backgroundColor: lime900 }}
+                  style={{ backgroundColor: white }}
                 >
                   <div className="container">
+                    {siteConfig &&
+                      <div className="row">
+                        <div
+                          className="col-md-6 col-lg-6 col-sm-6 mx-auto"
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Link to="/" >
+                            <img
+                              src={siteConfig.secondaryLogo}
+                              alt="logo"
+                              style={{ maxHeight: 50 }}
+                            />
+                          </Link>
+                        </div>
+                      </div>
+                    }
                     <div className="row">
                       <div
                         className="col-md-6 col-lg-6 col-sm-6 mx-auto"
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                      >
-                        <p className="wallville-logo-text">
-                          <span className="wall-logo-text">wall</span>
-                          <span className="ville-logo-text">ville</span>
-                          &nbsp;
-                          <span className="decor-logo-text">decor</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div
-                        className="col-md-8 col-lg-8 col-sm-8 mx-auto"
-                        style={styles.centerColumn}
+                        style={{ ...styles.centerColumn, paddingTop: 5 }}
                       >
                         <div className="row">
                           <div className="col-md-2 col-lg-2 col-sm-2">
@@ -197,7 +202,7 @@ export default function Header({
                               icon={
                                 <FontIcon
                                   className="material-icons"
-                                  color={white}
+                                  color={darkBlack}
                                 >
                                   shopping_cart
                                 </FontIcon>
