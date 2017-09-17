@@ -166,13 +166,19 @@ export default function Header({
           <div className="ecommerce-cms-collapsible-section">
             <div className="ecommerce-cms-header-background ecommerce-cms-full-site-width">
               <div className="ecommerce-cms-collapsible-section-wrapper">
-                <div
-                  className="ecommerce-cms-header-billboard"
-                  style={{ backgroundColor: white }}
-                >
-                  <div className="container">
+                <div className="ecommerce-cms-header-billboard">
+                  <div
+                    className="container-fluid no-gutters"
+                    style={{
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                    }}
+                  >
                     {siteConfig &&
-                      <div className="row">
+                      <div
+                        className="row no-gutters"
+                        style={{ backgroundColor: white }}
+                      >
                         <div
                           className="col-md-6 col-lg-6 col-sm-6 mx-auto"
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -187,7 +193,10 @@ export default function Header({
                         </div>
                       </div>
                     }
-                    <div className="row">
+                    <div
+                      className="row no-gutters"
+                      style={{ backgroundColor: '#af951f', paddingBottom: 5 }}
+                    >
                       <div
                         className="col-md-6 col-lg-6 col-sm-6 mx-auto"
                         style={{ ...styles.centerColumn, paddingTop: 5 }}
@@ -202,7 +211,7 @@ export default function Header({
                               icon={
                                 <FontIcon
                                   className="material-icons"
-                                  color={darkBlack}
+                                  color={white}
                                 >
                                   shopping_cart
                                 </FontIcon>

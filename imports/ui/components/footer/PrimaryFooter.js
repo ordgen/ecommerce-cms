@@ -70,16 +70,6 @@ export default class PrimaryFooter extends Component {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
-  /*componentWillReceiveProps() {
-    getSiteConfig().then(
-      (siteConfig) => {
-        this.setState({
-          siteConfig,
-        });
-      },
-    );
-  }*/
-
   render() {
     const { siteConfig } = this.state;
     return (
