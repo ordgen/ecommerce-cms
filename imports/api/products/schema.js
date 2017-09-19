@@ -18,6 +18,11 @@ export default new SimpleSchema([
       label: 'Pictures',
       minCount: 1,
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (80 Chars Maximum)',
+      max: 80,
+    },
     description: {
       type: String,
       label: 'Product Description',

@@ -36,9 +36,9 @@ export default class ProductBox extends Component {
                 <div className="item-product">
                   <div className="item-top-title">
                     <h2>{product.name}</h2>
-                    {/* <p className="subdescription">
-                      Low skateshoes - Grey
-                    </p> */}
+                    <p className="subdescription">
+                      {product.shortDescription}
+                    </p>
                   </div>
                 </div>
                 <div className="item-product-price">

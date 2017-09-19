@@ -16,6 +16,11 @@ export const createProduct = new ValidatedMethod({
     pictures: {
       type: [String],
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (80 Chars Maximum)',
+      max: 160,
+    },
     description: {
       type: String,
       optional: true,
@@ -81,6 +86,11 @@ export const editProduct = new ValidatedMethod({
     pictures: {
       type: [String],
     },
+    shortDescription: {
+      type: String,
+      label: 'Short Description (80 Chars Maximum)',
+      max: 160,
+    },
     description: {
       type: String,
       optional: true,
@@ -95,11 +105,11 @@ export const editProduct = new ValidatedMethod({
     },
   }).validator(),
 
-  async run({ productId, name, productCategoryId, pictures, description, price, discount }) {
+  async run({ productId, name, productCategoryId, pictures, description, shortDescription, price, discount }) { //eslint-disable-line
     const product = await new Promise(resolve =>
       Products.update(
         { _id: productId },
-        { $set: { name, productCategoryId, pictures, description, price, discount } },
+        { $set: { name, productCategoryId, pictures, description, price, discount, shortDescription } }, //eslint-disable-line
         () => resolve(Products.findOne(productId)),
       ),
     );

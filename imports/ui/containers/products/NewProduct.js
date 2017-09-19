@@ -43,6 +43,7 @@ class NewProduct extends Component {
         name: '',
         productCategoryId: '',
         pictures: [],
+        shortDescription: '',
         description: '',
         price: '',
         discount: '',
@@ -149,6 +150,11 @@ class NewProduct extends Component {
                       />
 
                       <TextField name="name" />
+                      <TextField
+                        name="shortDescription"
+                        multiLine
+                        rows={2}
+                      />
                       <TextField name="price" />
                       <TextField name="discount" />
                       <TextField

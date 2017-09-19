@@ -16,7 +16,7 @@ export const createProductCategory = new ValidatedMethod({
     },
     shortDescription: {
       type: String,
-      label: 'Short Description (160 Chars Maximum)',
+      label: 'Short Description (80 Chars Maximum)',
       max: 160,
     },
     description: {

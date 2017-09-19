@@ -50,6 +50,7 @@ export function createProduct(data) {
           const {
             name,
             description,
+            shortDescription,
             productCategoryId,
             createdAt,
             updatedAt,
@@ -62,6 +63,7 @@ export function createProduct(data) {
             id: res._id, // eslint-disable-line no-underscore-dangle,
             name,
             description,
+            shortDescription,
             productCategoryId,
             pictures,
             price,
@@ -97,6 +99,7 @@ export function editProduct(data) {
             const {
               name,
               description,
+              shortDescription,
               productCategoryId,
               createdAt,
               updatedAt,
@@ -108,6 +111,7 @@ export function editProduct(data) {
               id: data.productId,
               name,
               description,
+              shortDescription,
               productCategoryId,
               pictures,
               price,

@@ -70,13 +70,14 @@ class EditProduct extends Component {
   }
 
   onSubmit(doc) {
-    const { name, productCategoryId, pictures, description, price, discount } = doc;
+    const { name, productCategoryId, pictures, description, price, discount, shortDescription } = doc; // eslint-disable-line
     this.props.editProduct(
       {
         name,
         productCategoryId,
         pictures,
         description,
+        shortDescription,
         price,
         discount,
         productId: this.props.match.params.productId,
@@ -169,6 +170,11 @@ class EditProduct extends Component {
                         />
 
                         <TextField name="name" />
+                        <TextField
+                          name="shortDescription"
+                          multiLine
+                          rows={2}
+                        />
                         <TextField name="price" />
                         <TextField name="discount" />
                         <TextField
@@ -235,12 +241,13 @@ const mapStateToProps = (state, routeParams) => {
   let product;
   if (Product.hasId(productId)) {
     const p = Product.withId(productId).ref;
-    const { name, productCategoryId, pictures, description, price, discount } = p;
+    const { name, productCategoryId, pictures, description, shortDescription, price, discount } = p;
     product = {
       name,
       productCategoryId,
       pictures,
       description,
+      shortDescription,
       price,
       discount,
     };
