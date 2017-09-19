@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../../containers/Header';
 import PrimaryFooter from '../footer/PrimaryFooter';
 import SecondaryFooter from '../footer/SecondaryFooter';
+import { resize } from '../../utils';
 
+/* eslint-disable react/require-default-props */
 
-const ContactUs = function ContactUs() {
+export default function ContactUs({ siteConfig }) {
   return (
     <div className="ecommerce-cms-wrapper">
       <Header />
@@ -12,16 +15,25 @@ const ContactUs = function ContactUs() {
         <article className="ecommerce-cms-article">
           <article className="ecommerce-cms-article-inner">
             <section className="ecommerce-cms-landing-row ecommerce-cms-background ecommerce-cms-background-grey">
-              <div
-                className="container"
-                style={{ minHeight: 400 }}
-              >
+              <div className="container">
                 <div className="row">
-                  <div
-                    className="col-md-6 col-lg-6 col-xs-12 col-sm-12"
-                    style={{ marginBottom: 20, margin: '0 auto' }}
-                  >
-                    <img className="ecommerce-cms-about-logo img-fluid" src="https://s3.amazonaws.com/loystar/contact.jpg" alt="logo" />
+                  <div className="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                    {siteConfig &&
+                      <div>
+                        <h5>Call Us</h5>
+                        <p>{siteConfig.companyPhones.join(', ')}</p>
+                        <h5>Email Us</h5>
+                        <p>{siteConfig.companyEmails.join(', ')}</p>
+                        <h5>Company Details</h5>
+                        <p>Location: North Legon, Accra.</p>
+                      </div>
+                    }
+                  </div>
+                  <div className="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                    <img
+                      className="ecommerce-cms-about-logo img-fluid"
+                      src={resize('https://s3.amazonaws.com/wallville-live/contact.jpg', '500x500')}
+                    />
                   </div>
                 </div>
               </div>
@@ -33,6 +45,8 @@ const ContactUs = function ContactUs() {
       <SecondaryFooter />
     </div>
   );
-};
+}
 
-export default ContactUs;
+ContactUs.propTypes = {
+  siteConfig: PropTypes.object,
+};

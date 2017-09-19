@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Route } from 'react-router-dom';
 import Home from './containers/Home';
-import ContactUs from './components/pages/ContactUs';
+import ContactUs from './containers/ContactUs';
 import Login from './containers/Login';
 import AboutUs from './containers/AboutUs';
 import Dashboard from './containers/Dashboard';
