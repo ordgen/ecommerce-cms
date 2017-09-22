@@ -119,15 +119,12 @@ export default function Header({
               <div className="ecommerce-cms-collapsible-section">
                 <div className="ecommerce-cms-header-background ecommerce-cms-full-site-width">
                   <div className="ecommerce-cms-collapsible-section-wrapper">
-                    <div
-                      className="ecommerce-cms-header-billboard"
-                      style={{ backgroundColor: white }}
-                    >
+                    <div className="ecommerce-cms-header-billboard">
                       <div className="container">
                         <div className="row">
                           <div
                             className="col-xs-12 col-sm-12"
-                            style={styles.centerColumn}
+                            style={{ ...styles.centerColumn, padding: 5 }}
                           >
                             <Autocomplete
                               getItemValue={item => item.value}
